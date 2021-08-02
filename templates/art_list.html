@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
+            <div>
+                <h1 class="text-4xl text-gray-800">Art</h1>
+            </div>
+            <div>
+                <a class="text-gray-500 hover:text-blue-500" href="{% url 'portfolio:art-create' %}">Create new Art</a>
+            </div>
+        </div>
+        <div class="flex flex-wrap -m-4">
+            {% for item in art %}
+                <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
+                <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
+                    <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="https://dummyimage.com/420x260">
+                </a>
+                <div class="mt-4">
+                    <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
+                    <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
+                    <p class="mt-1">$16.00</p>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+  </section>
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
+            <div>
+                <h1 class="text-4xl text-gray-800">Artists</h1>
+            </div>
+            <div>
+                <a class="text-gray-500 hover:text-blue-500" href="#">Dummy Button</a>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-wrap -mx-4 -mb-10 text-center">
+        {% for portfolio in portfolios %}
+            <div class="sm:w-1/2 mb-10 px-4">
+            <div class="rounded-lg h-64 overflow-hidden">
+                <a href="{% url 'portfolio:portfolio-detail' portfolio.pk %}">
+                    <img alt="content" class="object-cover object-center h-full w-full" src="https://dummyimage.com/1201x501">
+                </a>
+            </div>
+            <h2 class="title-font text-2xl font-medium text-gray-900 mt-6 mb-3">{{ portfolio.artist.user.first_name }} {{ portfolio.artist.user.last_name }}</h2>
+            <p class="leading-relaxed text-base">{{ portfolio.artist.bio }}</p>
+            <!-- <button class="flex mx-auto mt-6 text-white bg-indigo-500 border-0 py-2 px-5 focus:outline-none hover:bg-indigo-600 rounded">
+                Button
+            </button> -->
+            </div>
+        {% endfor %}
+    </div>
+  </section>
+{% endblock content %}

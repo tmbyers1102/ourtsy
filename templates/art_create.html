@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <a href="{% url 'portfolio:art-list' %}">Go Home</a>
+    <hr />
+    <h1>Create a new Art</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock content %}
