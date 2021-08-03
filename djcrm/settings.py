@@ -37,9 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # local
     'leads',
     'portfolio',
-    'agents'
+    'agents',
+
+    # 3rd party
+    'taggit',
 ]
 
 MIDDLEWARE = [

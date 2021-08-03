@@ -2,26 +2,55 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView, CreateView
-from .models import Lead, Agent, User
+from .models import Lead, Agent, User, UserProfile
 from .forms import LeadForm, LeadModelForm
+from agents.mixins import OrganizerAndLoginRequiredMixin
+
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     template_name = "user_profile.html"
-    queryset = User.objects.all()
+    queryset = UserProfile.objects.all()
     context_object_name = "profile_object"
+
+    def get_context_data(self, **kwargs):
+        dashboard_user = self.request.user.userprofile.slug
+        dashboard_user_slug = str(dashboard_user).lower()
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+        }
+        return context
 
 
 class UserAnalyticsView(LoginRequiredMixin, DetailView):
     template_name = "user_analytics.html"
-    queryset = User.objects.all()
+    queryset = UserProfile.objects.all()
     context_object_name = "analytics_object"
+
+    def get_context_data(self, **kwargs):
+        dashboard_user = self.request.user.userprofile.slug
+        dashboard_user_slug = str(dashboard_user).lower()
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+        }
+        return context
 
 
 class FinancialSettingsView(LoginRequiredMixin, DetailView):
     template_name = "financial_settings.html"
-    queryset = User.objects.all()
+    queryset = UserProfile.objects.all()
     context_object_name = "financial_object"
+
+    def get_context_data(self, **kwargs):
+        dashboard_user = self.request.user.userprofile.slug
+        dashboard_user_slug = str(dashboard_user).lower()
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+        }
+        return context
 
 
 class LeadListView(LoginRequiredMixin, ListView):
@@ -52,7 +81,7 @@ def lead_detail(request, pk):
     return render(request, "lead_detail.html", context)
 
 
-class LeadCreateView(LoginRequiredMixin, CreateView):
+class LeadCreateView(OrganizerAndLoginRequiredMixin, CreateView):
     template_name = "lead_create.html"
     form_class = LeadModelForm
 
@@ -83,7 +112,7 @@ def lead_create(request):
     return render(request, "lead_create.html", context)
 
 
-class LeadUpdateView(LoginRequiredMixin, UpdateView):
+class LeadUpdateView(OrganizerAndLoginRequiredMixin, UpdateView):
     template_name = "lead_update.html"
     queryset = Lead.objects.all()
     form_class = LeadModelForm
@@ -108,7 +137,7 @@ def lead_update(request, pk):
     return render(request, "lead_update.html", context)
 
 
-class LeadDeleteView(LoginRequiredMixin, DeleteView):
+class LeadDeleteView(OrganizerAndLoginRequiredMixin, DeleteView):
     template_name = "lead_delete.html"
     queryset = Lead.objects.all()
 

@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import get_object_or_404, render, redirect, reverse
+from django.utils.text import slugify
 from .models import ArtItem, Artist, Portfolio
 from .forms import ArtForm, ArtModelForm, CustomUserCreationForm
 from django.views import generic
@@ -26,8 +27,28 @@ class ArtDashboardView(LoginRequiredMixin, generic.ListView):
     context_object_name = "art_items"
 
     def get_queryset(self):
-        artist = self.request.user.artist
+        artist = self.request.user.userprofile.slug
         return ArtItem.objects.filter(artist=artist)
+
+    def get_context_data(self, **kwargs):
+        dashboard_user = self.request.user.userprofile.slug
+        dashboard_user_slug = str(dashboard_user).lower()
+        artist_items = ArtItem.objects.filter(artist=dashboard_user)
+        artist_items_count = ArtItem.objects.filter(artist=dashboard_user).count()
+        user_art_price_total = sum([x.price for x in artist_items])
+        if user_art_price_total <= 1 or artist_items_count <= 1:
+            avg_price_per_piece = str('NA')
+        else:
+            avg_price_per_piece = float(user_art_price_total/artist_items_count)
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+            "artist_items": artist_items,
+            "artist_items_count": artist_items_count,
+            "user_art_price_total": user_art_price_total,
+            "avg_price_per_piece": avg_price_per_piece,
+        }
+        return context
 
 
 def art_list(request):
@@ -47,16 +68,36 @@ def art_page(request):
     return render(request, "art_page.html", context)
 
 
+class PortfolioDetailView(LoginRequiredMixin, generic.DetailView):
+    template_name = "portfolio_detail.html"
+    queryset = Portfolio.objects.all()
+    context_object_name = "portfolio_object"
+
+
 def portfolio_detail(request, pk):
-    portfolio = Portfolio.objects.get(id=pk)
+    portfolio = Portfolio.objects.get(slug=pk)
     context = {
         "portfolio": portfolio
     }
     return render(request, "portfolio_detail.html", context)
 
+class ArtDetailView(generic.DetailView):
+    template_name = "art_detail.html"
+    queryset = ArtItem.objects.all()
+    context_object_name = "art"
 
-def art_detail(request, pk):
-    art = ArtItem.objects.get(id=pk)
+    def get_context_data(self, **kwargs):
+        art_user = self.request.user.userprofile.slug
+        art_user_slug = str(art_user).lower()
+        context = {
+            "art_user": art_user,
+            "art_user_slug": art_user_slug,
+        }
+        return context
+
+
+def art_detail(request, slug):
+    art = ArtItem.objects.get(slug=slug)
     context = {
         "art": art
     }
@@ -68,13 +109,14 @@ class ArtCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = ArtModelForm
 
     def get_success_url(self):
-        return reverse("portfolio:art-list")
+        return reverse("portfolio:art-dashboard")
 
     def form_valid(self, form):
         art_item = form.save(commit=False)
         # that 'artist' down there refers to the 'Artist' which the 'artist'
         # ForeignKey references on the ArtItem model in portfolio.models
-        art_item.artist = self.request.user.artist
+        artist_slug = self.request.user.userprofile.slug
+        art_item.artist = Artist.objects.get(slug=artist_slug)
         art_item.save()
         return super(ArtCreateView, self).form_valid(form)
 
@@ -96,22 +138,31 @@ def art_create(request):
     }
     return render(request, "art_create.html", context)
 
-def art_update(request, pk):
-    art = ArtItem.objects.get(id=pk)
+def art_update(request, slug):
+    art = ArtItem.objects.get(slug=slug)
     form = ArtModelForm(instance=art)
     if request.method == "POST":
         print('Receiving post request')
         form = ArtModelForm(request.POST, instance=art)
         if form.is_valid():
             form.save()
-            return redirect("/")
+            return redirect("portfolio:art-dashboard")
     context = {
         "form": form,
         "art": art
     }
     return render(request, "art_update.html", context)
 
-def art_delete(request, pk):
-    art = ArtItem.objects.get(id=pk)
+
+class ArtDeleteView(LoginRequiredMixin, generic.DeleteView):
+    template_name = "art_delete.html"
+    queryset = ArtItem.objects.all()
+
+    def get_success_url(self):
+        return reverse("portfolio:art-dashboard")
+
+
+def art_delete(request, slug):
+    art = ArtItem.objects.get(slug=slug)
     art.delete()
     return redirect("/")

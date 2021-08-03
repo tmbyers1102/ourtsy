@@ -1,14 +1,23 @@
 from django.db import models
-from django.db.models.signals import post_save
-from leads.models import User
+from django.db.models.signals import post_save, pre_save
+from leads.models import User, UserProfile
+from django.utils.text import slugify
 
 
 class ArtItem(models.Model):
     title = models.CharField(max_length=50)
     artist = models.ForeignKey("Artist", on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=50)
+    slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(ArtItem, self).save(*args, **kwargs)
+
+        
 
 
 class Genres(models.Model):
@@ -28,25 +37,34 @@ class Artist(models.Model):
     twitter = models.URLField(blank=True)
     facebook = models.URLField(blank=True)
     bio = models.TextField(max_length=500, blank=True, null=True)
-
+    slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
 
     def __str__(self):
-        return self.user.username
+        return self.slug
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.user)
+        super(Artist, self).save(*args, **kwargs)
 
 
 # Whatever is added here has to be reconciled on the 'post_artist_created_signal' below
 class Portfolio(models.Model):
     artist = models.OneToOneField(Artist, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=50, primary_key=True)
 
     def __str__(self):
-        return self.artist.user.username
+        return self.slug
 
 
 
 def post_artist_created_signal(sender, instance, created, **kwargs):
     if created:
         print(sender, instance)
-        Portfolio.objects.create(artist=instance)
+        Portfolio.objects.create(artist=instance, slug=slugify(instance))
 
 
 post_save.connect(post_artist_created_signal, sender=Artist)
+
+
+# def pre_artitem_created_signal(sender, instance, *args, **kwargs):
+#     instance.slug = slugify(instance)

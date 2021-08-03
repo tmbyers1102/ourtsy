@@ -2,14 +2,18 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.db.models.deletion import CASCADE
 from django.contrib.auth.models import AbstractUser
+from django.utils.text import slugify
 
 
 class User(AbstractUser):
-    pass
+    is_organizer = models.BooleanField(default=True)
+    is_agent = models.BooleanField(default=False)
+    is_artist = models.BooleanField(default=False)
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=50, primary_key=True)
 
     def __str__(self):
         return self.user.username
@@ -35,7 +39,7 @@ class Agent(models.Model):
 
 def post_user_created_signal(sender, instance, created, **kwargs):
     if created:
-        UserProfile.objects.create(user=instance)
+        UserProfile.objects.create(user=instance, slug=slugify(instance))
 
 
 post_save.connect(post_user_created_signal, sender=User)

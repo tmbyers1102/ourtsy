@@ -12,6 +12,7 @@ class ArtModelForm(forms.ModelForm):
         model = ArtItem
         fields = (
             'title',
+            'price'
         )
 
 
