@@ -1,7 +1,15 @@
+from django.conf import settings
 from django.db import models
 from django.db.models.signals import post_save, pre_save
 from leads.models import User, UserProfile
 from django.utils.text import slugify
+
+from taggit.managers import TaggableManager
+from taggit.models import CommonGenericTaggedItemBase, TaggedItemBase
+
+
+class GenericStringTaggedItem(CommonGenericTaggedItemBase, TaggedItemBase):
+    object_id = models.CharField(max_length=50, verbose_name=('Object id'), db_index=True)
 
 
 class ArtItem(models.Model):
@@ -9,6 +17,8 @@ class ArtItem(models.Model):
     artist = models.ForeignKey("Artist", on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=50)
     slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
+    cover_image = models.ImageField(default='default_cover_image.jpg', upload_to='cover_images')
+    tags = TaggableManager(through=GenericStringTaggedItem)
 
     def __str__(self):
         return self.title
@@ -17,7 +27,15 @@ class ArtItem(models.Model):
         self.slug = slugify(self.title)
         super(ArtItem, self).save(*args, **kwargs)
 
-        
+
+class Post(models.Model):
+    title = models.CharField(max_length=250)
+    description = models.TextField()
+    published = models.DateField(auto_now_add=True)
+    slug = models.SlugField(unique=True, max_length=100)
+
+    def __str__(self):
+        return self.title
 
 
 class Genres(models.Model):
@@ -62,9 +80,10 @@ def post_artist_created_signal(sender, instance, created, **kwargs):
         print(sender, instance)
         Portfolio.objects.create(artist=instance, slug=slugify(instance))
 
-
 post_save.connect(post_artist_created_signal, sender=Artist)
 
 
 # def pre_artitem_created_signal(sender, instance, *args, **kwargs):
 #     instance.slug = slugify(instance)
+
+

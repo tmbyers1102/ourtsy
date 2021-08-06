@@ -31,7 +31,7 @@
                     <span class="ml-auto text-gray-900">444-444-1111</span>
                 </div>
                 <div class="flex">
-                    <span class="title-font font-medium text-2xl text-gray-900">$58.00</span>
+                    <span class="title-font font-medium text-2xl text-gray-900">${{ art.price }}</span>
                     <a href="{% url 'portfolio:art-delete' art.pk %}" class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
                         Delete
                     </a>
@@ -42,7 +42,16 @@
                     </button>
                 </div>
             </div>
-            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
+            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ art.cover_image.url }}">
+        </div>
+        <div class="flex justify-end">
+            <div class="lg:w-1/2 w-full flex flex-wrap justify-end">
+                {% for tag in tagsList %}
+                    <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-50 p-3 ml-2 mt-2 text-indigo-300 rounded font-medium">
+                        <span>#{{ tag }}</span>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

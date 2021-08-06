@@ -17,7 +17,7 @@
                         Update
                     </a>
                 </div>
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit">Update</button>
@@ -26,7 +26,16 @@
                     </a>
                 </form>
             </div>
-            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
+            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ art.cover_image.url }}">
+        </div>
+        <div class="flex justify-end">
+            <div class="lg:w-1/2 w-full flex flex-wrap justify-end">
+                {% for tag in tagsList %}
+                    <a href="#" class="bg-indigo-50 p-3 ml-2 mt-2 text-indigo-300 rounded font-medium">
+                        <span>#{{ tag }}</span>
+                    </a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </section>

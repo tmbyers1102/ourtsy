@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
-from .models import ArtItem
+from .models import ArtItem, Post
 
 
 User = get_user_model()
@@ -12,7 +12,9 @@ class ArtModelForm(forms.ModelForm):
         model = ArtItem
         fields = (
             'title',
-            'price'
+            'price',
+            'cover_image',
+            'tags',
         )
 
 
@@ -25,3 +27,18 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ("username",)
         field_classes = {'username': UsernameField}
+
+
+class ArtistForm(forms.Form):
+    pass
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            'title',
+            'description',
+        ]
+
+

@@ -1,0 +1,16 @@
+.container {
+    width: 60%;
+    margin: 40px;
+}
+
+.tag-container {
+    border: 2px; solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.tag-container .tag {
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+}
