@@ -56,6 +56,7 @@ class Artist(models.Model):
     facebook = models.URLField(blank=True)
     bio = models.TextField(max_length=500, blank=True, null=True)
     slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
+    artist_image = models.ImageField(default='default_artist_image.jpg', upload_to='artist_images')
 
     def __str__(self):
         return self.slug

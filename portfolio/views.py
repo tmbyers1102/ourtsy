@@ -5,13 +5,83 @@ from .forms import ArtForm, ArtModelForm, CustomUserCreationForm, PostForm, Arti
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from portfolio.mixins import ArtistAndLoginRequiredMixin
-
+from .filters import ArtFilter, ArtTagFilter
 
 from .models import Post
 from django.contrib.auth import get_user_model
 
 
 User = get_user_model()
+
+
+def search_art(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        results = []
+        artists_results= []
+        # queries based on item's tags
+        art_items = ArtItem.objects.filter(tags__name__icontains=searched)
+        print('ART_ITEMS:')
+        print(art_items)
+        titles = ArtItem.objects.filter(title__icontains=searched)
+        print('TITLES:')
+        print(titles)
+        for x in titles:
+            if x in results:
+                pass
+            else:
+                results.extend(titles)
+        # queries based on item's related artist
+        artists_items = \
+            ArtItem.objects.filter(artist__user__username__icontains=searched) or \
+            ArtItem.objects.filter(artist__slug__icontains=searched) or \
+            ArtItem.objects.filter(artist__user__first_name__icontains=searched) or \
+            ArtItem.objects.filter(artist__user__last_name__icontains=searched)
+        print('ARTISTS_ITEMS:')
+        print(artists_items)
+        for x in artists_items:
+            if x in results:
+                pass
+            else:
+                results.extend(artists_items)
+        if not searched:
+            results = ArtItem.objects.all()
+        artist_list = \
+            Artist.objects.filter(user__username__icontains=searched) or \
+            Artist.objects.filter(user__first_name__icontains=searched) or \
+            Artist.objects.filter(user__last_name__icontains=searched)
+            # Artist.objects.filter(user__slug__icontains=searched)
+        print('ARTIST_LIST:')
+        print(artist_list)
+        artists_results.extend(artist_list)
+        artist_genre_list = \
+            Artist.objects.filter(genres__name__icontains=searched)
+        print('ARTIST_GENRE_LIST:')
+        print(artist_genre_list)
+        for y in artist_genre_list:
+            if y in artists_results:
+                pass
+            else:
+                artists_results.extend(artist_genre_list)
+        # query the art_items that will be showm and show all their respective artists
+        artists_from_items_list = []
+        for x in results:
+            get_the_artist = Artist.objects.filter(slug=x.artist)
+            if get_the_artist[0] in artists_results:
+                pass
+            else:
+                artists_results.extend(get_the_artist)
+        context = {
+            'searched': searched,
+            'art_items': art_items,
+            'results': results,
+            'artists_results': artists_results,
+            'artists_from_items_list': artists_from_items_list,
+        }
+        return render(request, 'search_art.html', context)
+    else:
+        return reverse(request, 'portfolio:art-list')
+
 
 
 class SignupView(generic.CreateView):
@@ -23,11 +93,11 @@ class SignupView(generic.CreateView):
 
 
 class LandingPageView(generic.TemplateView):
-    template_name = "landing_3.html"
+    template_name = "landing_1.html"
 
 
 def landing_page(request):
-    return render(request, "landing.html")
+    return render(request, "landing_1.html")
 
 
 class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
@@ -59,12 +129,33 @@ class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
         return context
 
 
+class ArtListView(generic.ListView):
+    template_name = "art_list.html"
+    context_object_name = "art_items"
+
+    def get_queryset(self):
+        return ArtItem.objects.all()
+
+    def get_context_data(self, **kwargs):
+        art = ArtItem.objects.all()
+        portfolios = Portfolio.objects.all()
+        context = {
+            "art": art,
+            "portfolios": portfolios,
+        }
+        return context
+
+
 def art_list(request):
     art = ArtItem.objects.all()
     portfolios = Portfolio.objects.all()
+    myFilter = ArtFilter(request.GET, queryset=art)
+    tagFilter = ArtTagFilter(request.GET, queryset=art)
+    art = myFilter.qs
     context = {
         "art": art,
         "portfolios": portfolios,
+        "myFilter": myFilter,
     }
     return render(request, "art_list.html", context)
 
@@ -245,13 +336,15 @@ def detail_view(request, slug):
 
 def art_search(request, slug):
     tag = str(slug)
-    # art_items = [x.title for x in ArtItem.objects.filter(tags_icontains=slug)]
     art_items = ArtItem.objects.filter(tags__name__icontains=slug)
     context = {
         'art_items':art_items,
         'tag': tag
     }
-    return render(request, 'art_search.html', context)
+    return render(request, 'tag.html', context)
+
+
+
 
 
 def artist_create(request):

@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'leads',
     'portfolio',
     'agents',
+    'django_filters',
+    'crispy_forms',
+    "crispy_tailwind",
+    "widget_tweaks",
+
 ]
 
 MIDDLEWARE = [
@@ -136,3 +141,8 @@ LOGIN_URL = "/login"
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"

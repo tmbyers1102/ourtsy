@@ -2,8 +2,37 @@
 {% load static %}
 {% block content %}
 
+
 <section class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto">
+        <div class="bg-white border-2 border-indigo-500 rounded-lg shadow-lg p-4 flex">
+            <span class="w-auto flex justify-end items-center text-gray-500 p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </span>
+            <form method="POST" class="w-full" action="{% url 'portfolio:search-art' %}">
+                {% csrf_token %}
+                <input style="height: auto; width: 90%;" class="rounded-lg outline-none py-2" type="text" placeholder="Try 'southwest' or 'green' or 'horse' etc... " name="searched">
+                <button class="bg-indigo-500 hover:bg-indigo-600 rounded text-white p-2 pl-4 pr-4" type="submit">
+                        <p class="font-semibold text-sm">Search</p>
+                </button >
+            </form>
+        </div>
+        <!-- <div class="bg-white border-2 border-indigo-500 rounded-lg shadow-lg p-4 flex">
+            <span class="w-auto flex justify-end items-center text-gray-500 p-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+            </span>
+            <form method="get">
+                {{ myFilter.form }}
+                <!-- <input class="w-full rounded outline-none p-2" type="text" placeholder="Try 'southwest' or 'green' or 'horse' etc... " id="myFilter"> -->
+                <!-- <button class="bg-indigo-500 hover:bg-indigo-600 rounded text-white p-2 pl-4 pr-4">
+                        <p class="font-semibold text-sm">Search</p>
+                </button >
+            </form>
+        </div> -->
         <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
             <div>
                 <h1 class="text-4xl text-gray-800">Art</h1>
@@ -14,15 +43,16 @@
         </div>
         <div class="flex flex-wrap -m-4">
             {% for item in art %}
-                <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
-                <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
-                    <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ item.cover_image.url }}">
-                </a>
-                <div class="mt-4">
-                    <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
-                    <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
-                    <p class="mt-1">$16.00</p>
-                </div>
+                <div class="content-div lg:w-1/4 md:w-1/2 p-4 w-full">
+                    <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
+                        <img alt="ecommerce" class="object-cover object-center w-full h-full block hover:md-scale-50" src="{{ item.cover_image.url }}">
+                        <div class="opacity-0 hover:opacity-40 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold"></div>
+                    </a>
+                    <div class="mt-4">
+                        <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
+                        <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
+                        <p class="mt-1">${{ item.price }}</p>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -40,7 +70,7 @@
         </div>
     </div>
     <div class="flex flex-wrap -mx-4 -mb-10 text-center">
-        {% for portfolio in portfolios %}
+        {% for portfolio in artists_results %}
             <div class="sm:w-1/2 mb-10 px-4">
             <div class="rounded-lg h-64 overflow-hidden">
                 <a href="{% url 'portfolio-detail' portfolio.pk %}">

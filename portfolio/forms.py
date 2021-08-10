@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from .models import ArtItem, Post
+from taggit.forms import TagWidget
 
 
 User = get_user_model()
