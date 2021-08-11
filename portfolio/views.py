@@ -97,7 +97,11 @@ class LandingPageView(generic.TemplateView):
 
 
 def landing_page(request):
-    return render(request, "landing_1.html")
+    artists = Artist.objects.all().order_by('-user_id')
+    context = {
+        "artists": artists[0:6]
+    }
+    return render(request, "landing_1.html", context)
 
 
 class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
