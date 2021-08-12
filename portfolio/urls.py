@@ -19,7 +19,8 @@ from portfolio.views import (
     post_list,
     artist_create,
     ArtListView,
-    search_art
+    search_art,
+    artist_list,
 )
 
 app_name = "portfolio"
@@ -27,6 +28,7 @@ app_name = "portfolio"
 urlpatterns = [
     path('', landing_page, name='landing-page'),
     path('art/', art_list, name='art-list'),
+    path('artists/', artist_list, name='artist-list'),
     path('post_list/', post_list, name='post-list'),
     path('post/', home_view, name='home'),
     path('posts/', post_create, name='post-create'),

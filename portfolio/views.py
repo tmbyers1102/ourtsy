@@ -13,6 +13,13 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+def artist_list(request):
+    artists = Artist.objects.all()
+    context = {
+        "artists": artists
+    }
+    return render(request, "artist_list.html", context)
+
 
 def search_art(request):
     if request.method == "POST":
@@ -81,7 +88,6 @@ def search_art(request):
         return render(request, 'search_art.html', context)
     else:
         return reverse(request, 'portfolio:art-list')
-
 
 
 class SignupView(generic.CreateView):
@@ -346,9 +352,6 @@ def art_search(request, slug):
         'tag': tag
     }
     return render(request, 'tag.html', context)
-
-
-
 
 
 def artist_create(request):

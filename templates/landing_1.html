@@ -26,35 +26,35 @@
                   {% else %}
                     <a href="{% url 'portfolio:art-list' %}" class="mr-5 hover:text-gray-900">Art</a>
                     {% if request.user.is_organizer %}
-                      <a href="{% url 'agents:agent-list' %}" class="mr-5 hover:text-gray-900">Agents</a>
+                      <a href="{% url 'portfolio:artist-list' %}" class="mr-5 hover:text-gray-900">Artists</a>
                     {% endif %}
-                    <a href="{% url 'leads:lead-list' %}" class="mr-5 hover:text-gray-900">Leads</a>
+                    <!-- <a href="{% url 'leads:lead-list' %}" class="mr-5 hover:text-gray-900">Leads</a> -->
                   {% endif %}
                 </nav>
                 {% if request.user.is_authenticated %}
                   {% if request.user.is_artist %}
                     <a
                       href="{% url 'portfolio:art-dashboard' %}"
-                      class="ml-3 inline-flex items-center text-gray-50 bg-indigo-600 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0"
+                      class="ml-3 inline-flex items-center text-gray-50 bg-indigo-500 border-0 py-1 px-3 hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
                     >
                       {{ request.user.username }}
                     </a>
                   {% else %}
                     <a
                       href="{% url 'user-profile' request.user.userprofile.slug %}"
-                      class="ml-3 inline-flex items-center text-gray-50 bg-indigo-600 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0"
+                      class="ml-3 inline-flex items-center text-gray-50 bg-indigo-500 border-0 py-1 px-3 hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
                     >
                       *{{ request.user.username }}
                     </a>
                   {% endif %}
-                  <a href="{% url 'logout' %}" class="ml-3 inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">
+                  <a href="{% url 'logout' %}" class="ml-3 inline-flex items-center bg-indigo-50 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">
                     Logout
                       <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
                           <path d="M5 12h14M12 5l7 7-7 7"></path>
                       </svg>
                   </a>
                 {% else %}
-                <a href="{% url 'login' %}" class="inline-flex items-center bg-gray-200 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">
+                <a href="{% url 'login' %}" class="inline-flex items-center bg-indigo-50 border-0 py-1 px-3 focus:outline-none hover:bg-gray-300 rounded text-base mt-4 md:mt-0">
                     Login
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
