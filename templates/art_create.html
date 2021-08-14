@@ -10,25 +10,42 @@
             <span class="block text-indigo-600 xl:inline">Art</span>
         </h1>
         <hr>
-        <form class="mt-4" method="post">
+        <form class="mt-4" method="post" enctype="multipart/form-data">
             {% csrf_token %}
+            <div class="field mb-2">
+                <label class="label">Cover Image</label>
+                <div class="control">
+                    {% render_field form.cover_image  class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" %}
+                </div>
+            </div>
             <div class="field mb-2">
                 <label class="label">Title*</label>
                 <div class="control">
                     {% render_field form.title  class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" %}
                 </div>
             </div>
-            <div class="field mb-2">
-                <label class="label">Price*</label>
-                <div class="control">
-                    {% render_field form.price  class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" %}
+            <div class="grid grid-cols-2">
+                <div class="field mb-2">
+                    <label class="label">Price*</label>
+                    <div class="control rounded border-2 border-indigo-100 relative items-stretch flex flex-wrap mr-2 w-3/4">
+                        <div class="flex -mr-px">
+                            <span class="flex items-center leading-normal bg-indigo-50 rounded rounded-r-none px-3 whitespace-no-wrap text-grey-dark text-sm">$</span>
+                        </div>				
+                        <div class="control" style="width: 65%;">
+                            {% render_field form.price  class="input text-center w-full py-2 px-2" %}
+                        </div>
+                        <div class="flex -mr-px">
+                            <span class="flex items-center leading-normal bg-indigo-50 rounded rounded-l-none pl-2 whitespace-no-wrap text-grey-dark text-sm">.00</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="field mb-2">
-                <label class="label">Cover Image</label>
-                <div class="control">
-                    {% render_field form.cover_image  class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" %}
+                <div class="field mb-2">
+                    <label class="label">Mediums</label>
+                    <div class="control">
+                        {% render_field form.art_mediums type="checkbox" class="w-flex py-2 px-6 border-2 border-indigo-100 rounded" %}
+                    </div>
                 </div>
+
             </div>
             <div class="field mb-2">
                 <label class="label">
@@ -39,6 +56,12 @@
                 </label>
                 <div class="control">
                     {% render_field form.tags  class="w-full py-2 px-4 border-2 border-indigo-100 rounded" placeholder="Example: mouse, red, impressionist, southwest, etc..." %}
+                </div>
+            </div>
+            <div class="field mb-2">
+                <label class="label">Art Story</label>
+                <div class="control">
+                    {% render_field form.art_story class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" placeholder="test" %}
                 </div>
             </div>
             <button type="submit" class="m-2 w-full ml-auto text-white bg-indigo-500 py-2 px-6 hover:bg-indigo-600 rounded">

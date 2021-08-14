@@ -15,10 +15,16 @@ class GenericStringTaggedItem(CommonGenericTaggedItemBase, TaggedItemBase):
 class ArtItem(models.Model):
     title = models.CharField(max_length=50)
     artist = models.ForeignKey("Artist", on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=8, decimal_places=2, default=50)
+    #  old price field
+    # price = models.DecimalField(max_digits=8, decimal_places=2, default=50)
+    price = models.PositiveIntegerField(default=99)
     slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
     cover_image = models.ImageField(default='default_cover_image.jpg', upload_to='cover_images')
     tags = TaggableManager(through=GenericStringTaggedItem)
+    art_story = models.TextField(max_length=500, blank=True, null=True)
+    art_mediums = models.ManyToManyField("ArtMedium", blank=True)
+    art_communities = models.ManyToManyField("ArtCommunity", blank=True)
+    art_genres = models.ManyToManyField("ArtGenre", blank=True)
 
     def __str__(self):
         return self.title
@@ -38,18 +44,61 @@ class Post(models.Model):
         return self.title
 
 
-class Genres(models.Model):
+# MEDIUM_CHOICES = (
+#     ('Paintings', 'Paintings'),
+#     ('Photography', 'Photography'),
+#     ('Sculptures', 'Sculptures'),
+#     ('Prints', 'Prints'),
+#     ('Designs', 'Designs'),
+#     ('Drawings', 'Drawings'),
+#     ('Installations', 'Installations'),
+#     ('Murals', 'Murals')
+# )
+
+
+class ArtMedium(models.Model):
     name = models.CharField(max_length=100, blank=False)
+    description = models.TextField(max_length=500, blank=True, null=True)
+    slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(ArtMedium, self).save(*args, **kwargs)
+
+
+class ArtCommunity(models.Model):
+    name = models.CharField(max_length=100, blank=False)
+    description = models.TextField(max_length=500, blank=True, null=True)
+    slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(ArtCommunity, self).save(*args, **kwargs)
+
+
+class ArtGenre(models.Model):
+    name = models.CharField(max_length=100, blank=False)
+    description = models.TextField(max_length=500, blank=True, null=True)
+    slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(ArtGenre, self).save(*args, **kwargs)
 
 
 class Artist(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # institutuions = models.ManyToManyField(blank=True)
     # communities = models.ManyToManyField(blank=True)
-    genres = models.ManyToManyField(Genres, blank=True)
     # mediums = models.ManyToManyField(blank=True)
     instagram = models.URLField(blank=True)
     twitter = models.URLField(blank=True)
@@ -57,6 +106,7 @@ class Artist(models.Model):
     bio = models.TextField(max_length=500, blank=True, null=True)
     slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
     artist_image = models.ImageField(default='default_artist_image.jpg', upload_to='artist_images')
+    art_mediums = models.ManyToManyField(ArtMedium, blank=True)
 
     def __str__(self):
         return self.slug

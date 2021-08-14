@@ -1,11 +1,15 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.forms import widgets
 from .models import ArtItem, Post
 from taggit.forms import TagWidget
 
 
 User = get_user_model()
+
+
+
 
 
 class ArtModelForm(forms.ModelForm):
@@ -16,6 +20,8 @@ class ArtModelForm(forms.ModelForm):
             'price',
             'cover_image',
             'tags',
+            'art_story',
+            'art_mediums',
         )
 
 

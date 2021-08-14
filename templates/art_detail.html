@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="text-gray-600 body-font overflow-hidden">
-    <div class="container px-5 py-24 mx-auto">
+    <div class="container px-5 py-2 mx-auto">
         <div class="lg:w-full mx-auto flex flex-wrap">
             <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
+            <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h2>
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ art }}</h1>
                 <div class="flex mb-4">
                     <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
@@ -17,7 +17,7 @@
                         Update
                     </a>
                 </div>
-                <p class="leading-relaxed mb-4">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean.</p>
+                <p class="leading-relaxed mb-4">{{ art.art_story }}</p>
                 <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Artist</span>
                     <span class="ml-auto text-gray-900">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</span>
@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <div class="container px-5 py-24 mx-auto">
+    <div class="container px-5 py-2 mx-auto">
         <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
             <div>
                 <h1 class="text-4xl text-gray-800">Artist's Story</h1>
@@ -64,6 +64,24 @@
                 <h1 class="text-4xl text-indigo-500">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h1>
             </div>
         </div>
+
+        <div class="grid grid-cols-12">
+            <div class="col-span-12 sm:col-span-12 md:col-span-5 lg:col-span-5 xxl:col-span-5">
+                <img alt="ecommerce" class="object-cover object-center" src="{{ art.artist.artist_image.url }}">
+            </div>
+            <div class="grid grid-cols-12 lg:col-span-7 gap-1 rounded">
+                <div class="col-span-12 sm:col-span-12 md:col-span-7 lg:col-span-12 xxl:col-span-12">
+                    <div class="relative bg-indigo-500 w-full h-full">
+                        <div class="lg:h-32">
+                            <p class="text-xs md:text-sm text-white lg:text-s mb-4 p-6">
+                                {{ art.artist.bio }} 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </section>

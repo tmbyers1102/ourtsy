@@ -1,11 +1,12 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
-from .models import ArtItem, Artist, Portfolio, GenericStringTaggedItem
+from .models import ArtItem, Artist, Portfolio, GenericStringTaggedItem, ArtMedium
 from .forms import ArtForm, ArtModelForm, CustomUserCreationForm, PostForm, ArtistForm
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from portfolio.mixins import ArtistAndLoginRequiredMixin
-from .filters import ArtFilter, ArtTagFilter
+from .filters import ArtFilter, ArtTagFilter, ArtMediumFilter
 
 from .models import Post
 from django.contrib.auth import get_user_model
@@ -30,6 +31,7 @@ def search_art(request):
         art_items = ArtItem.objects.filter(tags__name__icontains=searched)
         print('ART_ITEMS:')
         print(art_items)
+        results.extend(art_items)
         titles = ArtItem.objects.filter(title__icontains=searched)
         print('TITLES:')
         print(titles)
@@ -156,16 +158,24 @@ class ArtListView(generic.ListView):
         return context
 
 
+# this one is in use
 def art_list(request):
     art = ArtItem.objects.all()
+    artists = Artist.objects.all()
     portfolios = Portfolio.objects.all()
     myFilter = ArtFilter(request.GET, queryset=art)
     tagFilter = ArtTagFilter(request.GET, queryset=art)
+    mediumArtFilter = ArtMediumFilter(request.GET, queryset=art)
+    mediumArtistFilter = ArtMediumFilter(request.GET, queryset=artists)
     art = myFilter.qs
+    art_mediums = ArtMedium.objects.all()
     context = {
         "art": art,
         "portfolios": portfolios,
         "myFilter": myFilter,
+        "art_mediums": art_mediums,
+        "mediumArtFilter": mediumArtFilter,
+        "mediumArtistFilter": mediumArtistFilter,
     }
     return render(request, "art_list.html", context)
 
