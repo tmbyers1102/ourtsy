@@ -3,42 +3,11 @@
 {% block content %}
 
 
+
 <section class="text-gray-600 body-font">
     <div class="container px-5 py-2 mx-auto">
 
-        <div class="bg-white border-2 border-indigo-500 h-auto rounded-lg h-64 shadow-lg p-4 flex grid grid-cols-12">
-            <div class="col-span-1 bg-indigo-50 place-self-stretch text-center">
-                <h2 class="bg-gray-100 transform -rotate-90">Advanced Art Search</h2>
-            </div>
-            <div class="col-span-11 bg-indigo-100">
-                <form class="mx-auto" method="get">
-                    <div class="pb-4 flex justify-evenly">
-    
-                        <div>
-                            <label class="text-indigo-500 font-bold">Mediums</label>
-                            {{ myFilter.form.art_mediums }}
-                        </div>
-                        <div>
-                            <label class="text-indigo-500 font-bold">Communities</label>
-                            {{ myFilter.form.art_communities }}
-                        </div>
-                        <div>
-                            <label class="text-indigo-500 font-bold">Genres</label>
-                            {{ myFilter.form.art_genres }}
-                        </div>
-                        <button class="transform -rotate-90 bg-indigo-500 hover:bg-indigo-600 rounded text-white p-2 pl-4 pr-4 mt-4">
-                            <p class="font-semibold text-sm">Search</p>
-                        </button >
-                    </div>
-                    <!-- <input class="w-full rounded outline-none p-2" type="text" placeholder="Try 'southwest' or 'green' or 'horse' etc... " id="myFilter"> -->
-    
-                </form>
-            </div>
 
-
-
-
-        </div> 
         <div class="w-full mb-2 py-2 flex justify-between items-center border-b border-indigo-50">
             <div>
                 <h1 class="text-4xl text-gray-800">Art</h1>
@@ -67,19 +36,21 @@
                     </button >
             </form>
             <button
-                class="border-2 border-indigo-500 bg-white hover:bg-indigo-50 rounded-r text-indigo-500 px-4 mr-2"
-                type="submit"
+                type="button"
                 style="white-space: nowrap;"
-            >                    
-                    <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
-                        <span class="mr-2">Advanced Search</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
-                        </svg>
-                    </span>
-            </button >
+                onclick="openModal('mymodaltop')"
+                class="border-2 border-indigo-500 bg-white hover:bg-indigo-50 rounded-r text-indigo-500 px-4 mr-2"
+            >
+            <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
+                <span class="mr-2">Advanced Search</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                </svg>
+            </span>
+            </button>
+
         </div>
-        <div class="pb-4 flex justify-evenly">
+        <div class="pt-2 pb-4 flex justify-evenly">
             {% for medium in art_mediums %}
                 <a href="http://127.0.0.1:8000/art/?art_mediums={{ medium.pk }}" class="self-auto bg-indigo-500 m-1 py-2 text-white w-full text-center text-sm rounded hover:bg-indigo-600">
                     <span>{{ medium }}</span>
@@ -102,12 +73,13 @@
             {% endfor %}
         </div>
     </div>
-  </section>
+</section>
 <section class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto">
         <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
             <div>
                 <h1 class="text-4xl text-gray-800">Artists</h1>
+
             </div>
             <div>
                 <a class="text-gray-500 hover:text-blue-500" href="#">Dummy Button</a>
@@ -130,5 +102,92 @@
             </div>
         {% endfor %}
     </div>
-  </section>
+</section>
+
+
+
+
+
+
+
+
+  <!-- modal -->
+
+
+
+  <dialog id="mymodaltop" class="bg-transparent z-0 relative w-screen h-screen">
+      <div class="p-7 flex justify-center items-start overflow-x-hidden overflow-y-auto fixed left-0 top-0 w-full h-full bg-gray-900 bg-opacity-70 z-50 transition-opacity duration-300 opacity-0">
+        
+        <!-- beginning of adv search -->
+        <section class="text-gray-600 body-font">
+                <div class="tab-content overflow-hidden leading-normal">
+                    <div class="bg-white h-auto rounded-lg h-64 shadow-lg flex grid grid-cols-12">
+                        <div class="col-span-1 bg-indigo-500 rounded-l-lg flex items-center justify-center">
+                            <h2 class="text-white transform -rotate-90" style="white-space: nowrap;">Advanced Art Search</h2>
+                        </div>
+                        <div class="col-span-10 border-2 border-indigo-500">
+                            <form class="mx-auto" method="get">
+                                <div class="pb-4 flex justify-evenly">
+                
+                                    <div>
+                                        <label class="text-indigo-500 font-bold">Mediums</label>
+                                        {{ myFilter.form.art_mediums }}
+                                    </div>
+                                    <div>
+                                        <label class="text-indigo-500 font-bold">Communities</label>
+                                        {{ myFilter.form.art_communities }}
+                                    </div>
+                                    <div>
+                                        <label class="text-indigo-500 font-bold">Genres</label>
+                                        {{ myFilter.form.art_genres }}
+                                    </div>
+
+                                </div>
+                                <!-- <input class="w-full rounded outline-none p-2" type="text" placeholder="Try 'southwest' or 'green' or 'horse' etc... " id="myFilter"> -->
+                        </div>
+                        <div
+                            class="button group col-span-1 rounded-r-lg bg-indigo-500 flex items-center justify-center hover:bg-indigo-600"
+                        >
+                            <button class="flex flex-col transform rotate-90 bg-indigo-500 group-hover:bg-indigo-600 text-white">
+                                Search
+                            </button >
+                        </div>
+
+                            </form>
+
+                    </div> 
+                </div>
+        </section>
+
+        <!-- end of adv search -->
+
+            <svg onclick="modalClose('mymodaltop')" class="ml-auto fill-current text-white w-8 h-8 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z" />
+            </svg>
+      </div>
+  </dialog>
+  
+  <script>
+      function openModal(key) {
+          document.getElementById(key).showModal(); 
+          document.body.setAttribute('style', 'overflow: hidden;'); 
+          document.getElementById(key).children[0].scrollTop = 0; 
+          document.getElementById(key).children[0].classList.remove('opacity-0'); 
+          document.getElementById(key).children[0].classList.add('opacity-100')
+      }
+  
+      function modalClose(key) {
+          document.getElementById(key).children[0].classList.remove('opacity-100');
+          document.getElementById(key).children[0].classList.add('opacity-0');
+          setTimeout(function () {
+              document.getElementById(key).close();
+              document.body.removeAttribute('style');
+          }, 100);
+      }
+  </script>
+  
+  <!-- end of modal -->
+
+
+</section>
 {% endblock content %}

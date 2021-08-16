@@ -14,6 +14,11 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+def test(request):
+    return render(request, "test.html")
+
+
+
 def artist_list(request):
     artists = Artist.objects.all()
     context = {
@@ -64,7 +69,7 @@ def search_art(request):
         print(artist_list)
         artists_results.extend(artist_list)
         artist_genre_list = \
-            Artist.objects.filter(genres__name__icontains=searched)
+            Artist.objects.filter(art_genres__name__icontains=searched)
         print('ARTIST_GENRE_LIST:')
         print(artist_genre_list)
         for y in artist_genre_list:

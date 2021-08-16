@@ -107,6 +107,8 @@ class Artist(models.Model):
     slug = models.SlugField(max_length=50, primary_key=True, unique=True, blank=True)
     artist_image = models.ImageField(default='default_artist_image.jpg', upload_to='artist_images')
     art_mediums = models.ManyToManyField(ArtMedium, blank=True)
+    art_communities = models.ManyToManyField(ArtCommunity, blank=True)
+    art_genres = models.ManyToManyField(ArtGenre, blank=True)
 
     def __str__(self):
         return self.slug

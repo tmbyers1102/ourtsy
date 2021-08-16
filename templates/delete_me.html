@@ -58,3 +58,222 @@
 <button type="submit" class="w-1/4 ml-auto text-white bg-indigo-500 py-2 px-6 hover:bg-indigo-600 rounded">
     update
 </button>
+
+
+
+
+
+
+
+<div class="bg-white border-2 border-indigo-500 h-auto rounded-lg h-64 shadow-lg p-4 flex grid grid-cols-12">
+    <div class="col-span-1 bg-indigo-50 place-self-stretch text-center">
+        <h2 class="bg-gray-100 transform -rotate-90">Advanced Art Search</h2>
+    </div>
+    <div class="col-span-11 bg-indigo-100">
+        <form class="mx-auto" method="get">
+            <div class="pb-4 flex justify-evenly">
+
+                <div>
+                    <label class="text-indigo-500 font-bold">Mediums</label>
+                    {{ myFilter.form.art_mediums }}
+                </div>
+                <div>
+                    <label class="text-indigo-500 font-bold">Communities</label>
+                    {{ myFilter.form.art_communities }}
+                </div>
+                <div>
+                    <label class="text-indigo-500 font-bold">Genres</label>
+                    {{ myFilter.form.art_genres }}
+                </div>
+                <button class="transform -rotate-90 bg-indigo-500 hover:bg-indigo-600 rounded text-white p-2 pl-4 pr-4 mt-4">
+                    <p class="font-semibold text-sm">Search</p>
+                </button >
+            </div>
+            <!-- <input class="w-full rounded outline-none p-2" type="text" placeholder="Try 'southwest' or 'green' or 'horse' etc... " id="myFilter"> -->
+
+        </form>
+    </div>
+
+
+
+
+</div> 
+
+
+
+
+
+
+
+
+
+
+<!-- testffff adv search dropdown -->
+
+<head>
+    <title>Tailwind CSS Accordion</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> 
+    <style>
+       /* Tab content - closed */
+       .tab-content {
+       max-height: 0;
+       -webkit-transition: max-height .35s;
+       -o-transition: max-height .35s;
+       transition: max-height .35s;
+       }
+       /* :checked - resize to full height */
+       .tab input:checked ~ .tab-content {
+       max-height: 100vh;
+       }
+       /* Label formatting when open */
+       .tab input:checked + label{
+       /*@apply text-xl p-5 border-l-2 border-indigo-500 bg-gray-100 text-indigo*/
+       font-size: 1.25rem; /*.text-xl*/
+       padding: 1.25rem; /*.p-5*/
+       border-left-width: 2px; /*.border-l-2*/
+       border-color: #6574cd; /*.border-indigo*/
+       background-color: #f8fafc; /*.bg-gray-100 */
+       color: #6574cd; /*.text-indigo*/
+       }
+       /* Icon */
+       .tab label::after {
+       float:right;
+       right: 0;
+       top: 0;
+       display: block;
+       width: 1.5em;
+       height: 1.5em;
+       line-height: 1.5;
+       font-size: 1.25rem;
+       text-align: center;
+       -webkit-transition: all .35s;
+       -o-transition: all .35s;
+       transition: all .35s;
+       }
+       /* Icon formatting - closed */
+       .tab input[type=checkbox] + label::after {
+       content: "+";
+       font-weight:bold; /*.font-bold*/
+       border-width: 1px; /*.border*/
+       border-radius: 9999px; /*.rounded-full */
+       border-color: #b8c2cc; /*.border-grey*/
+       }
+       .tab input[type=radio] + label::after {
+       content: "\25BE";
+       font-weight:bold; /*.font-bold*/
+       border-width: 1px; /*.border*/
+       border-radius: 9999px; /*.rounded-full */
+       border-color: #b8c2cc; /*.border-grey*/
+       }
+       /* Icon formatting - open */
+       .tab input[type=checkbox]:checked + label::after {
+       transform: rotate(315deg);
+       background-color: #e613db; /*.bg-indigo*/
+       color: #f8fafc; /*.text-grey-lightest*/
+       }
+       .tab input[type=radio]:checked + label::after {
+       transform: rotateX(180deg);
+       background-color: #6574cd; /*.bg-indigo*/
+       color: #f8fafc; /*.text-grey-lightest*/
+       }
+    </style>
+ </head>
+
+<section class="text-gray-600 body-font">
+  <div class="container px-5 py-2 mx-auto">
+       <div class="shadow-md">
+          <div class="tab w-full overflow-hidden border-t">
+             <!-- RADIO BUTTON THAT ACTIVATES THE OPEN -->
+             <input class="absolute opacity-40" id="tab-single-one" type="radio" name="tabs2">
+             <!-- border around closed search box  -->
+             <label
+                  class="block p-5 leading-normal cursor-pointer rounded-lg border-2 border-red-600"
+                  for="tab-single-one"
+              >
+                  <!-- mag glass -->
+                  <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                      </svg>
+                  </span>
+                  <!-- search input field -->
+                  <form method="POST" class="w-full flex justify-left" action="{% url 'portfolio:search-art' %}">
+                      {% csrf_token %}
+                          <input
+                              class="flex w-1/2 rounded-lg outline-none py-2 pl-4 focus:bg-white text-indigo-500"
+                              type="text"
+                              placeholder="Try 'southwest' or 'green' or 'horse' etc... "
+                              name="searched"
+                          >
+                          <!-- reg search button -->
+                          <button class="bg-indigo-500 hover:bg-indigo-600 rounded-l text-white px-4" type="submit">
+                                  <p class="font-semibold text-sm">Search</p>
+                          </button >
+                  </form>
+                  <!-- adv search button -->
+                  <button
+                      class="border-2 border-indigo-500 bg-white hover:bg-indigo-50 rounded-r text-indigo-500 px-4 mr-2"
+                      type="submit"
+                      style="white-space: nowrap;"
+                  >                    
+                          <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
+                              <span class="mr-2">Advanced Search</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                              </svg>
+                          </span>
+                  </button >
+              </label>
+                  <div class="tab-content overflow-hidden border-l-2 bg-gray-100 border-indigo-500 leading-normal">
+                      <div class="bg-white border-2 border-indigo-500 h-auto rounded-lg h-64 shadow-lg p-4 flex grid grid-cols-12">
+                          <div class="col-span-1 bg-indigo-50 place-self-stretch text-center">
+                              <h2 class="bg-gray-100 transform -rotate-90">Advanced Art Search</h2>
+                          </div>
+                          <div class="col-span-11 bg-indigo-100">
+                              <form class="mx-auto" method="get">
+                                  <div class="pb-4 flex justify-evenly">
+                  
+                                      <div>
+                                          <label class="text-indigo-500 font-bold">Mediums</label>
+                                          {{ myFilter.form.art_mediums }}
+                                      </div>
+                                      <div>
+                                          <label class="text-indigo-500 font-bold">Communities</label>
+                                          {{ myFilter.form.art_communities }}
+                                      </div>
+                                      <div>
+                                          <label class="text-indigo-500 font-bold">Genres</label>
+                                          {{ myFilter.form.art_genres }}
+                                      </div>
+                                      <button class="transform -rotate-90 bg-indigo-500 hover:bg-indigo-600 rounded text-white p-2 pl-4 pr-4 mt-4">
+                                          <p class="font-semibold text-sm">Search</p>
+                                      </button >
+                                  </div>
+                                  <!-- <input class="w-full rounded outline-none p-2" type="text" placeholder="Try 'southwest' or 'green' or 'horse' etc... " id="myFilter"> -->
+                  
+                              </form>
+                          </div>
+                      </div> 
+                  </div>
+          </div>
+       </div>
+  </div>
+</section>
+
+ <script>
+    /* Optional Javascript to close the radio button version by clicking it again */
+    var myRadios = document.getElementsByName('tabs2');
+    var setCheck;
+    var x = 0;
+    for(x = 0; x < myRadios.length; x++){
+        myRadios[x].onclick = function(){
+            if(setCheck != this){
+                 setCheck = this;
+            }else{
+                this.checked = false;
+                setCheck = null;
+        }
+        };
+    }
+ </script>
+<!-- test over -->

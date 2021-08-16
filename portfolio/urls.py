@@ -21,6 +21,7 @@ from portfolio.views import (
     ArtListView,
     search_art,
     artist_list,
+    test
 )
 
 app_name = "portfolio"
@@ -41,4 +42,5 @@ urlpatterns = [
     path('art_dashboard/', ArtDashboardView.as_view(), name='art-dashboard'),
     path('artist/create/', artist_create, name='artist-create'),
     path('search_art/', search_art, name='search-art'),
+    path('test/', test, name='test'),
 ]
