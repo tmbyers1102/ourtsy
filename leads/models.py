@@ -9,6 +9,7 @@ class User(AbstractUser):
     is_organizer = models.BooleanField(default=True)
     is_agent = models.BooleanField(default=False)
     is_artist = models.BooleanField(default=False)
+    is_reviewer = models.BooleanField(default=False)
 
 
 class UserProfile(models.Model):

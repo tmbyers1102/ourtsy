@@ -1,8 +1,16 @@
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
-from .models import ArtItem, Artist, Portfolio, GenericStringTaggedItem, ArtMedium
-from .forms import ArtForm, ArtModelForm, CustomUserCreationForm, PostForm, ArtistForm
+from .models import ApprovalStatus, ArtItem, ArtStatus, Artist, Portfolio, GenericStringTaggedItem, ArtMedium
+from .forms import (
+    ArtForm,
+    ArtModelForm,
+    CustomUserCreationForm,
+    PostForm,
+    ArtistForm,
+    ArtUpdateModelForm,
+    ArtReviewModelForm
+)
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from portfolio.mixins import ArtistAndLoginRequiredMixin
@@ -17,6 +25,40 @@ User = get_user_model()
 def test(request):
     return render(request, "test.html")
 
+
+class SuperTableView(LoginRequiredMixin, generic.ListView):
+    template_name = "super_table.html"
+    context_object_name = "art"
+    queryset = ArtItem.objects.all()
+
+    def get_context_data(self, **kwargs):
+        dashboard_user = self.request.user.userprofile.slug
+        dashboard_user_slug = str(dashboard_user).lower()
+        art = ArtItem.objects.all()
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+            "art": art,
+        }
+        return context
+
+
+def art_review(request, slug):
+    art = ArtItem.objects.get(slug=slug)
+    form = ArtReviewModelForm(instance=art)
+    tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
+    if request.method == "POST":
+        print('POST Request on art review form')
+        form = ArtReviewModelForm(request.POST, instance=art)
+        if form.is_valid():
+            form.save()
+            return redirect("portfolio:art-dashboard")
+    context = {
+        "form": form,
+        "art": art,
+        "tagsList": tagsList,
+    }
+    return render(request, "art_review.html", context)
 
 
 def artist_list(request):
@@ -165,7 +207,7 @@ class ArtListView(generic.ListView):
 
 # this one is in use
 def art_list(request):
-    art = ArtItem.objects.all()
+    art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
     artists = Artist.objects.all()
     portfolios = Portfolio.objects.all()
     myFilter = ArtFilter(request.GET, queryset=art)
@@ -248,6 +290,8 @@ class ArtCreateView(LoginRequiredMixin, generic.CreateView):
         # ForeignKey references on the ArtItem model in portfolio.models
         artist_slug = self.request.user.userprofile.slug
         art_item.artist = Artist.objects.get(slug=artist_slug)
+        # art_item.art_status = str('Draft')
+        # art_item.approval_status = str('Pending')
         art_item.save()
         return super(ArtCreateView, self).form_valid(form)
 
@@ -273,14 +317,30 @@ def art_create(request):
 
 def art_update(request, slug):
     art = ArtItem.objects.get(slug=slug)
-    form = ArtModelForm(instance=art)
+    form = ArtUpdateModelForm(instance=art)
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
     if request.method == "POST":
         print('Receiving post request')
-        form = ArtModelForm(request.POST, instance=art)
+        form = ArtUpdateModelForm(request.POST, instance=art)
         if form.is_valid():
-            form.save()
-            return redirect("portfolio:art-dashboard")
+            print('form is valid, going into if statements')
+            if art.publish_after_approved:
+                print('> wants to publish after approved')
+                if art.approval_status.name == 'Approved':
+                    print('>> the items approval status is approved')
+                    if art.art_status.name != 'For Sale':
+                        print('>>> the art_status for this item is not For Sale so we will switch it to that')
+                        art.art_status = ArtStatus.objects.filter()[1]
+                        form.save()
+                        return redirect("portfolio:art-dashboard")
+                    else:
+                        print('the art_status WAS for sale so passing')
+                else:
+                    print('<< the items approval status is NOT approved')
+            else:
+                print('< does NOT want to publish after approved')
+                form.save()
+                return redirect("portfolio:art-dashboard")
     context = {
         "form": form,
         "art": art,

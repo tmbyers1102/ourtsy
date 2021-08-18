@@ -5,18 +5,18 @@
 
 
 <section class="text-gray-600 body-font">
-    <div class="container px-5 py-2 mx-auto">
+    <div class="container px-2 py-2 mx-auto">
 
 
-        <div class="w-full mb-2 py-2 flex justify-between items-center border-b border-indigo-50">
+        <!-- <div class="w-full mb-2 py-2 flex justify-between items-center border-b border-indigo-50">
             <div>
                 <h1 class="text-4xl text-gray-800">Art</h1>
             </div>
             <div>
                 <a class="text-gray-500 hover:text-blue-500" href="{% url 'portfolio:art-create' %}">Create new Art</a>
             </div>
-        </div>
-        <div class="bg-white border-2 border-indigo-500 rounded-lg shadow-lg p-4 flex">
+        </div> -->
+        <div class="bg-indigo-50 rounded shadow-lg py-4 px-2 flex">
             <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -26,9 +26,9 @@
                 {% csrf_token %}
                     <input
                         style="height: auto; width: full;"
-                        class="flex w-full rounded-lg outline-none py-2 pl-4 focus:bg-white text-indigo-500"
+                        class="flex w-full rounded outline-none py-2 pl-4 text-indigo-500 mr-2"
                         type="text"
-                        placeholder="Try 'southwest' or 'green' or 'horse' etc... "
+                        placeholder="Try 'southwest' or 'green' or 'horse' or 'pop art' etc... "
                         name="searched"
                     >
                     <button class="bg-indigo-500 hover:bg-indigo-600 rounded-l text-white px-4" type="submit">
@@ -50,7 +50,7 @@
             </button>
 
         </div>
-        <div class="pt-2 pb-4 flex justify-evenly">
+        <div class="py-4 flex justify-evenly">
             {% for medium in art_mediums %}
                 <a href="http://127.0.0.1:8000/art/?art_mediums={{ medium.pk }}" class="self-auto bg-indigo-500 m-1 py-2 text-white w-full text-center text-sm rounded hover:bg-indigo-600">
                     <span>{{ medium }}</span>
@@ -58,19 +58,28 @@
             {% endfor %}
         </div>
         <div class="flex flex-wrap -m-4">
-            {% for item in art %}
-                <div class="content-div lg:w-1/4 md:w-1/2 p-4 w-full">
-                    <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
-                        <img alt="ecommerce" class="object-cover object-center w-full h-full block hover:md-scale-50" src="{{ item.cover_image.url }}">
-                        <div class="opacity-0 hover:opacity-40 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold"></div>
-                    </a>
-                    <div class="mt-4">
-                        <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
-                        <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
-                        <p class="mt-1">${{ item.price }}</p>
+            {% if art %}
+                {% for item in art %}
+                    <div class="content-div lg:w-1/4 md:w-1/2 p-4 w-full">
+                        <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
+                            <img alt="ecommerce" class="object-cover object-center w-full h-full block hover:md-scale-50" src="{{ item.cover_image.url }}">
+                            <div class="opacity-0 hover:opacity-40 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold"></div>
+                        </a>
+                        <div class="mt-4">
+                            <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
+                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
+                            <p class="mt-1">${{ item.price }}</p>
+                        </div>
                     </div>
+                {% endfor %}
+            {% else %}
+                <div class="content-div lg:w-1/4 md:w-1/2 w-full"></div>
+                    <h1 class="mt-6 text-4xl tracking-tight font-extrabold text-indigo-500 sm:text-5xl md:text-6xl">
+                        <span class="block xl:inline">This search returned zero results!</span>
+                    </h1>
                 </div>
-            {% endfor %}
+            {% endif %}
+
         </div>
     </div>
 </section>
@@ -121,11 +130,14 @@
         <!-- beginning of adv search -->
         <section class="text-gray-600 body-font">
                 <div class="tab-content overflow-hidden leading-normal">
-                    <div class="bg-white h-auto rounded-lg h-64 shadow-lg flex grid grid-cols-12">
+                    <div class="bg-white h-auto rounded-lg h-auto shadow-lg flex grid grid-cols-12">
                         <div class="col-span-1 bg-indigo-500 rounded-l-lg flex items-center justify-center">
                             <h2 class="text-white transform -rotate-90" style="white-space: nowrap;">Advanced Art Search</h2>
                         </div>
                         <div class="col-span-10 border-2 border-indigo-500">
+                            <div class="text-center my-6">
+                                <h1>*Filter your search down by any criteria</h1>
+                            </div>
                             <form class="mx-auto" method="get">
                                 <div class="pb-4 flex justify-evenly">
                 
@@ -140,6 +152,10 @@
                                     <div>
                                         <label class="text-indigo-500 font-bold">Genres</label>
                                         {{ myFilter.form.art_genres }}
+                                    </div>
+                                    <div>
+                                        <label class="text-indigo-500 font-bold">Price</label>
+                                        {{ myFilter.form.price }}
                                     </div>
 
                                 </div>

@@ -5,6 +5,8 @@ from django_filters import CharFilter, ModelChoiceFilter
 from .models import *
 
 
+
+
 class ArtFilter(django_filters.FilterSet):
     # this area is for type-in fields so it can be a partial match
     # title = CharFilter(field_name="title", lookup_expr="icontains")
@@ -20,6 +22,10 @@ class ArtFilter(django_filters.FilterSet):
     )
     art_genres = django_filters.ModelMultipleChoiceFilter(
         queryset=ArtGenre.objects.all(),
+        widget=CheckboxSelectMultiple,
+    )
+    price = django_filters.ModelMultipleChoiceFilter(
+        queryset=ArtItem.objects.values_list('price', flat=True).distinct(),
         widget=CheckboxSelectMultiple,
     )
 

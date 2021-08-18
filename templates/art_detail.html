@@ -13,9 +13,11 @@
                     <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
                         More from {{ art.artist.user.first_name }} {{ art.artist.user.last_name }}
                     </a>
-                    <a href="{% url 'portfolio:art-update' art.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
-                        Update
-                    </a>
+                    {% if object.artist == user %}
+                        <a href="{% url 'portfolio:art-update' art.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                            Update
+                        </a>
+                    {% endif %}
                 </div>
                 <p class="leading-relaxed mb-4">{{ art.art_story }}</p>
                 <div class="flex border-t border-gray-200 py-2">
