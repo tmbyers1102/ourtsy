@@ -7,17 +7,17 @@
 <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 py-2 mx-auto">
         <div class="lg:w-full mx-auto flex flex-wrap">
-            <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+            <div class="lg:w-1/2 w-full lg:pr-10 lg:pb-6 mb-6 lg:mb-0">
             <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h2>
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ art }}</h1>
                 <div class="flex mb-4">
-                    <a href="{% url 'portfolio:art-detail' art.pk %}" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                    <a href="{% url 'portfolio:art-detail' art.pk %}" class="text-center flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
                         Description
                     </a>
-                    <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
+                    <a href="{% url 'portfolio:art-more' art.pk %}" class="text-center flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
                         More from {{ art.artist.user.first_name }} {{ art.artist.user.last_name }}
                     </a>
-                    <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
+                    <a class="rounded-t bg-indigo-50 text-center flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
                         Update
                     </a>
                 </div>
@@ -53,7 +53,6 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-4">
-                        
                         <div class="col-span-1 field mb-2 mr-1">
                             <label class="label">Mediums</label>
                             <div class="control">
@@ -72,14 +71,17 @@
                                 {% render_field form.art_genres type="checkbox" class="w-flex py-2 px-1 border-2 border-indigo-100 rounded" %}
                             </div>
                         </div>
-                        <div class="col-span-1 field mb-2">
-                            <label class="label">Status</label>
-                            <div class="control">
-                                {% render_field form.art_status class="w-flex py-2 px-1 border-2 border-indigo-100 rounded" %}
+                        {% if art.approval_status.name == 'Approved' %}
+                            <div class="col-span-1 field mb-2">
+                                <label class="label">Status</label>
+                                <div class="control">
+                                    {% render_field form.art_status class="w-flex py-2 px-1 border-2 border-indigo-100 rounded" %}
+                                </div>
                             </div>
-                        </div>
-        
+                        {% endif %}
                     </div>
+
+                    <!-- tags -->
                     <div class="field mb-2">
                         <label class="label">
                             Tags 
@@ -88,7 +90,7 @@
                             </span>
                         </label>
                         <div class="control">
-                            {% render_field form.tags  class="w-full py-2 px-4 border-2 border-indigo-100 rounded" placeholder="Example: mouse, red, impressionist, southwest, etc..." %}
+                            {% render_field form.tags class="w-full py-2 px-4 border-2 border-indigo-100 rounded" placeholder="Example: mouse, red, impressionist, southwest, etc..." %}
                         </div>
                     </div>
                     <div class="field mb-2">
@@ -97,15 +99,21 @@
                             {% render_field form.art_story class="input w-full h-40 py-2 px-6 border-2 border-indigo-100 rounded" placeholder="test" %}
                         </div>
                     </div>
-                    <div class="field mb-2">
-                        <label class="label">Publishing Instructions</label>
-                        <div class="control">
-                            {% render_field form.publish_after_approved type="checkbox" class="w-flex py-2 px-1 border-2 border-indigo-100 rounded" %}
-        
-                            <p class="text-xs">* Check this box if you'd like this piece to be published as "For Sale" on the publically viewable site after it is approved.</p>
-                            <p class="text-xs">** Otherwise you'll need to switch the piece's status to "For Sale" manually after you're notified of its approval.</p>
+
+                    <!-- publish instructions -->
+                    {% if art.art_status.name != 'For Sale' %}
+                        <div class="field mb-2">
+                            <label class="label">Publishing Instructions</label>
+                            <div class="control">
+                                {% render_field form.publish_after_approved type="checkbox" class="w-flex py-2 px-1 border-2 border-indigo-100 rounded" %}
+            
+                                <p class="text-xs">* Check this box if you'd like this piece to be published as "For Sale" on the publically viewable site after it is approved.</p>
+                                <p class="text-xs">** Otherwise you'll need to switch the piece's status to "For Sale" manually after you're notified of its approval.</p>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
+
+                    <!-- review section -->
                     {% if user.is_reviewer %}
                         <label class="label">Submission Review</label>
                         <div class="grid grid-cols-2">
@@ -125,7 +133,7 @@
                     </button>
                 </form>
             </div>
-            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ art.cover_image.url }}">
+            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto w-24 object-contain object-top rounded" src="{{ art.cover_image.url }}">
         </div>
         <div class="flex justify-end">
             <div class="lg:w-1/2 w-full flex flex-wrap justify-end">

@@ -1,4 +1,6 @@
 {% extends "base_2.html" %}
+{% load tailwind_filters %}
+{% load widget_tweaks %}
 {% block content %}
 
 <body>
@@ -513,43 +515,88 @@
             <tr class="text-xs text-left text-indigo-50 bg-gray-600 dark:text-gray-400 dark:bg-gray-800">
               <th class="px-4 pb-1 text-white">
                   <form method="get">
-                     <span class="">{{ submissionsFilter.form.title }}</span>
-                    <button class="bg-indigo-500 hover:bg-white hover:text-indigo-600 rounded-l px-2" type="submit">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                      </svg>
-                    </button >
-                    <a href="{% url 'review-table' dashboard_user_slug %}" class="text-indigo-500 bg-white hover:bg-indigo-400 hover:text-white rounded-r px-2" type="submit">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                      </svg>
-                    </a >
+                    <div class="grid grid-cols-2">
+                      <div class="col-span-1 mr-1">{{ submissionsFilter.form.title|add_class:"pl-1 h-flex w-full rounded border border-white bg-gray-600" }}</div>
+                      <div class="col-span-1">
+                        <button class="bg-indigo-500 hover:bg-white hover:text-indigo-600 rounded-l px-2" type="submit">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                          </svg>
+                        </button >
+                        <a href="{% url 'review-table' dashboard_user_slug %}" class="text-indigo-500 bg-white hover:bg-indigo-400 hover:text-white rounded-r px-2" type="submit">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        </a >
+                      </div>
+                    </div>
                   </form>
               </th>
-              <th class="px-4 py-1 text-black">
-                <form method="get">
-                  <span class="">{{ submissionsFilter.form.price }}</span>
-                  <button class="bg-indigo-500 hover:bg-white hover:text-indigo-600 rounded-l px-2" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                    </svg>
-                  </button >
-                  <a href="{% url 'review-table' dashboard_user_slug %}" class="text-indigo-500 bg-white hover:bg-indigo-400 hover:text-white rounded-r px-2" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                  </a >
+              <th class="px-4 py-1 text-white">
+                <form method="GET">
+                  <div class="grid grid-cols-2">
+                    <div class="col-span-1 mr-1">{{ submissionsFilter.form.price|add_class:"px-1 h-flex w-12 rounded border border-white bg-gray-600" }}</div>
+                    <div class="col-span-1">
+                      <button class="bg-indigo-500 hover:bg-white hover:text-indigo-600 rounded-l px-2" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                      </button >
+                      <a href="{% url 'review-table' dashboard_user_slug %}" class="text-indigo-500 bg-white hover:bg-indigo-400 hover:text-white rounded-r px-2" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      </a >
+                    </div>
+                  </div>
+                </form>
+                </form>
+              </th>
+              <th class="px-4 py-1 text-white">
+                <form method="GET">
+                  <div class="grid grid-cols-2">
+                    <div class="col-span-1 mr-1">
+                      {{ submissionsFilter.form.approval_status|add_class:"w-full rounded border border-white bg-gray-600" }}
+                    </div>
+                    <div class="col-span-1">
+                      <button class="bg-indigo-500 hover:bg-white hover:text-indigo-600 rounded-l px-2" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                      </button >
+                      <a href="{% url 'review-table' dashboard_user_slug %}" class="text-indigo-500 bg-white hover:bg-indigo-400 hover:text-white rounded-r px-2" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      </a >
+                    </div>
+                  </div>
+                </form>
+                  
+              </th>
+              <th class="px-4 py-1 text-white">
+                <form method="GET">
+                  <div class="grid grid-cols-2">
+                    <div class="col-span-1 mr-1">
+                      {{ submissionsFilter.form.start_date|add_class:"w-12 rounded border border-white bg-gray-600" }}
+                      {{ submissionsFilter.form.end_date|add_class:"w-12 rounded border border-white bg-gray-600" }}
+                    </div>
+                    <div class="col-span-1">
+                      <button class="bg-indigo-500 hover:bg-white hover:text-indigo-600 rounded-l px-2" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                        </svg>
+                      </button >
+                      <a href="{% url 'review-table' dashboard_user_slug %}" class="text-indigo-500 bg-white hover:bg-indigo-400 hover:text-white rounded-r px-2" type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 my-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      </a >
+                    </div>
+                  </div>
                 </form>
               </th>
               <th class="px-4 py-1 text-black">
-                  {{ submissionsFilter.form.approval_status }}
-              </th>
-              <th class="px-4 py-1 text-black">
-                  <span style="width: 50px;">{{ submissionsFilter.form.start_date }}</span>
-                  <span style="width: 50px;">{{ submissionsFilter.form.end_date }}</span>
-              </th>
-              <th class="px-4 py-1 text-black">
-                  {{ submissionsFilter.form.title }}
               </th>
               <th class="px-4 py-1 text-white">
 
@@ -582,21 +629,21 @@
                       $ {{ artitem.price }}
                       </td>
                 
-                      <td class="px-4 py-1 text-xs">
+                      <td class="px-4 py-1">
                           {% if artitem.approval_status.name == 'Approved' %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            <span class="px-2 py-1 text-xs leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
                               Approved
                             </span>
                           {% elif artitem.approval_status.name == 'Pending' %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            <span class="px-2 py-1 text-xs leading-tight text-gray-700 bg-gray-100 rounded-full dark:bg-green-700 dark:text-green-100">
                               Pending
                             </span>
                           {% elif artitem.approval_status.name == 'Rejected' %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            <span class="px-2 py-1 text-xs leading-tight text-red-700 bg-red-100 rounded-full dark:bg-green-700 dark:text-green-100">
                               Rejected
                             </span>
                           {% elif artitem.approval_status.name == 'Action Required' %}
-                            <span class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                            <span class="px-2 py-1 text-xs leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-green-700 dark:text-green-100">
                               Action Required
                             </span>
                           {% endif %}
@@ -697,7 +744,68 @@
 
 
 
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
+  <div class="flex flex-col items-center" x-data="rangeSlider(18, 800, 25, 555)">
+      <input class="absolute opacity-0 pointer-events-none" 
+          type="range" name="age_min" min="18" max="80" :value="min">
+      <input class="absolute opacity-0 pointer-events-none" 
+          type="range" name="age_max" min="18" max="80" :value="max">
+  
+      <span x-text="`${min} to ${max}`"></span>
+  
+      <div class="flex items-center relative rounded bg-gray-300 w-64 h-2 mt-4" 
+          x-ref="sliderEl" 
+          @mouseup.window="dragLeft = dragRight = false" 
+          @mousemove.window="handleThumbMouseMove($event)" 
+          style="user-select: none"
+      >
+          <div class="absolute h-2 bg-blue-400" 
+              :style="`left: ${(min - rangeMin) * 100 / range}%; right: ${100 - (max - rangeMin) * 100 / range}%`"></div>
+          <div class="w-4 h-4 -ml-2 rounded-full bg-blue-500 absolute cursor-pointer" 
+              @mousedown="dragLeft = true" 
+              :style="`left: ${(min - rangeMin) * 100 / range}%`" 
+              x-ref="minThumb"></div>
+          <div class="w-4 h-4 -ml-2 rounded-full bg-blue-500 absolute cursor-pointer" 
+              @mousedown="dragRight = true" 
+              :style="`left: ${(max - rangeMin) * 100 / range}%`" 
+              x-ref="maxThumb"></div>
+      </div>
+  </div>
+  
+  <script>
+  function rangeSlider(rangeMin, rangeMax, min, max) {
+      return {
+          range: rangeMax - rangeMin,
+          rangeMin,
+          rangeMax,
+          min,
+          max,
+          dragLeft: false,
+          dragRight: false,
+          
+          handleThumbMouseMove: function(e) {
+              if (!this.dragLeft && !this.dragRight) return;
+  
+              const thumbEl = this.dragLeft ? this.$refs.minThumb : this.$refs.maxThumb;
+              
+              const sliderRect = this.$refs.sliderEl.getBoundingClientRect();
+              
+              let r = (e.clientX - sliderRect.left) / sliderRect.width;
+              r = Math.max(0, Math.min(r, 1));
+              const value = Math.floor(r * this.range + this.rangeMin);
+  
+              if (this.dragLeft) {
+                  this.min = value;
+                  this.max = Math.max(this.min, this.max);
+              } else {
+                  this.max = value;
+                  this.min = Math.min(this.min, this.max);
+              }
+          }
+      };
+  }
+  </script>
 
 
 

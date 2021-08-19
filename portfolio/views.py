@@ -373,6 +373,21 @@ def art_create(request):
     return render(request, "art_create.html", context)
 
 
+
+
+def artist_more(request, slug):
+    art = ArtItem.objects.get(slug=slug)
+    artist = art.artist.user
+    artList = [x for x in ArtItem.objects.filter(artist__user=artist).filter(art_status__name='For Sale')]
+    tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
+    context = {
+        "art": art,
+        "tagsList": tagsList,
+        "artList": artList,
+    }
+    return render(request, "artist_more.html", context)
+
+
 def art_update(request, slug):
     art = ArtItem.objects.get(slug=slug)
     form = ArtUpdateModelForm(instance=art)

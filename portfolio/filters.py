@@ -1,6 +1,7 @@
+from django.forms import widgets
 from django.forms.widgets import CheckboxInput, CheckboxSelectMultiple, TextInput, Widget, DateInput
 import django_filters
-from django_filters import CharFilter, ModelChoiceFilter, DateFilter, DateFromToRangeFilter
+from django_filters import CharFilter, ModelChoiceFilter, DateFilter, DateFromToRangeFilter, NumericRangeFilter, RangeFilter
 from django_filters.widgets import RangeWidget
 from datetime import datetime, timedelta
 
@@ -9,8 +10,12 @@ from .models import *
 
 class ArtSubmissionsFilter(django_filters.FilterSet):
     title = CharFilter(field_name="title", lookup_expr="icontains", widget=TextInput(attrs={'placeholder': 'Search a title'}))
-    start_date = DateFilter(widget=DateInput(attrs={'size': 4, 'type': 'date'}), field_name="date_submitted", lookup_expr="gte")
-    end_date = DateFilter(widget=DateInput(attrs={'size': 4, 'type': 'date', 'placeholder': 'fff'}), field_name="date_submitted", lookup_expr="lte")
+    # start_date = DateFilter(field_name="date_submitted", lookup_expr="gte", widget=DateInput(attrs={'placeholder': 'From', 'type': 'text', 'onfocus': "(this.type='date')"}))
+    # end_date = DateFilter(field_name="date_submitted", lookup_expr="lte", widget=DateInput(attrs={'placeholder': 'To', 'type': 'text', 'onfocus': "(this.type='date')"}))
+    start_date = DateFilter(field_name="date_submitted", lookup_expr="gte", widget=DateInput(attrs={'placeholder': 'From', 'type': 'date'}))
+    end_date = DateFilter(field_name="date_submitted", lookup_expr="lte", widget=DateInput(attrs={'placeholder': 'To', 'type': 'date'}))
+    price = RangeFilter(widget=RangeWidget(attrs={'placeholder': 'price'}))
+
     # date_range = django_filters.DateFromToRangeFilter()
     approval_status_id = django_filters.ModelMultipleChoiceFilter(
         queryset=ApprovalStatus.objects.all(),
@@ -26,6 +31,7 @@ class ArtSubmissionsFilter(django_filters.FilterSet):
             'urgent_review',
             'title',
             'approval_status',
+            'price',
         ]
         exclude = [
             'date_submitted',
