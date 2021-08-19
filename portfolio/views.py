@@ -1,6 +1,8 @@
+from datetime import datetime, timedelta
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
+from django.utils.timesince import timesince
 from .models import ApprovalStatus, ArtItem, ArtStatus, Artist, Portfolio, GenericStringTaggedItem, ArtMedium
 from .forms import (
     ArtForm,
@@ -11,10 +13,11 @@ from .forms import (
     ArtUpdateModelForm,
     ArtReviewModelForm
 )
+from django.utils import timezone
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from portfolio.mixins import ArtistAndLoginRequiredMixin
-from .filters import ArtFilter, ArtTagFilter, ArtMediumFilter
+from .filters import ArtFilter, ArtTagFilter, ArtMediumFilter, ArtSubmissionsFilter
 
 from .models import Post
 from django.contrib.auth import get_user_model
@@ -26,19 +29,74 @@ def test(request):
     return render(request, "test.html")
 
 
-class SuperTableView(LoginRequiredMixin, generic.ListView):
-    template_name = "super_table.html"
+class ReviewTableView(LoginRequiredMixin, generic.ListView):
+    template_name = "review_table.html"
     context_object_name = "art"
     queryset = ArtItem.objects.all()
 
     def get_context_data(self, **kwargs):
         dashboard_user = self.request.user.userprofile.slug
         dashboard_user_slug = str(dashboard_user).lower()
-        art = ArtItem.objects.all()
+        order_by = self.request.GET.get('order_by', 'date_submitted')
+        art = ArtItem.objects.all().order_by(order_by)
+        art_count = art.count()
+        not_yet_reviewed = ArtItem.objects.exclude(approval_status__name="Approved").count()
+        rejected = ArtItem.objects.filter(approval_status__name="Rejected").count()
+        approved_and_rejected_count = rejected \
+            + ArtItem.objects.filter(approval_status__name="Approved").count()
+        approval_avg = (ArtItem.objects.filter(approval_status__name="Approved").count() \
+             / approved_and_rejected_count) * 100
+        submissionsFilter = ArtSubmissionsFilter(self.request.GET, queryset=art)
+        art = submissionsFilter.qs
+        time_now = timezone.now
+        threshold_24_hrs = datetime.now() - timedelta(days=1)
+        print('threshold:')
+        print(threshold_24_hrs)
+        not_reviewed_over_24_count = ArtItem.objects\
+            .exclude(approval_status__name="Approved")\
+            .exclude(art_status__name="For Sale")\
+            .filter(date_submitted__lt=threshold_24_hrs).count()
+        not_reviewed_over_24_list = ArtItem.objects\
+            .exclude(approval_status__name="Approved")\
+            .exclude(art_status__name="For Sale")\
+            .filter(date_submitted__lt=threshold_24_hrs)
+        print(str('the not yet reviewed list:') + str(not_reviewed_over_24_list))
+        # checks to see if recent submissions are passing 24hr w/o review and marking them for urgent review
+        for x in not_reviewed_over_24_list:
+            print('adding items to urgent review list')
+            if x.urgent_review != True:
+                print(str('updating urgent_review field to true... ') + str(x))
+                x.urgent_review = True
+                print('saved urgent_review field')
+                x.save()
+        # once those urgent review submissions are reviewed, we have to take them off the list
+        approved_list = ArtItem.objects.filter(approval_status__name="Approved")
+        for x in approved_list:
+            print('removing items from urgent review list')
+            if x.urgent_review == True:
+                print(str('updating urgent_review field to false... ') + str(x))
+                x.urgent_review = False
+                print('saved urgent_review field')
+                x.save()
+      
+        art_not_for_sale_yet = ArtItem.objects.exclude(art_status__name="For Sale")
+        timesince_list = [timesince(x.date_submitted) for x in art_not_for_sale_yet]
+
+
         context = {
             "dashboard_user": dashboard_user,
             "dashboard_user_slug": dashboard_user_slug,
             "art": art,
+            "not_yet_reviewed": not_yet_reviewed,
+            "not_reviewed_over_24_count": not_reviewed_over_24_count,
+            "not_reviewed_over_24_list": not_reviewed_over_24_list,
+            "rejected": rejected,
+            "approval_avg": approval_avg,
+            "submissionsFilter": submissionsFilter,
+            "time_now": time_now,
+            "timesince_list": timesince_list,
+            # "avg_wait_time": avg_wait_time,
+            "art_count": art_count,
         }
         return context
 
@@ -335,8 +393,12 @@ def art_update(request, slug):
                         return redirect("portfolio:art-dashboard")
                     else:
                         print('the art_status WAS for sale so passing')
+                        form.save()
+                        return redirect("portfolio:art-dashboard")
                 else:
                     print('<< the items approval status is NOT approved')
+                    form.save()
+                    return redirect("portfolio:art-dashboard")
             else:
                 print('< does NOT want to publish after approved')
                 form.save()

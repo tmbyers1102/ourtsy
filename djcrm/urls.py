@@ -10,7 +10,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView
 )
 from django.urls import path, include
-from portfolio.views import SignupView, portfolio_detail, PortfolioDetailView, SuperTableView
+from portfolio.views import SignupView, portfolio_detail, PortfolioDetailView, ReviewTableView
 from leads.views import UserAnalyticsView, UserProfileView, FinancialSettingsView
 
 
@@ -29,7 +29,7 @@ urlpatterns = [
     path('user/<str:pk>/', UserProfileView.as_view(), name='user-profile'),
     path('user/analytics/<str:pk>/', UserAnalyticsView.as_view(), name='user-analytics'),
     path('user/financial/<str:pk>/', FinancialSettingsView.as_view(), name='financial-settings'),
-    path('user/supertable/<str:pk>/', SuperTableView.as_view(), name='super-table'),
+    path('user/reviewtable/<str:pk>/', ReviewTableView.as_view(), name='review-table'),
     path('<str:pk>/', PortfolioDetailView.as_view(), name='portfolio-detail'),
 ]
 

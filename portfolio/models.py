@@ -49,6 +49,8 @@ class ArtItem(models.Model):
     publish_after_approved = models.BooleanField(default=False)
     reviewed_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, blank=True, null=True)
     review_note = models.TextField(max_length=1000, blank=True, null=True)
+    urgent_review = models.BooleanField(default=False)
+    # review_date
 
     def __str__(self):
         return self.title
