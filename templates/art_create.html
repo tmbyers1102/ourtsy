@@ -13,6 +13,10 @@
         <form class="mt-4" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="field mb-2">
+                <label class="label">multi Images</label>
+                <div class="control">
+                    <input name="images" type="file" multiple class="form-control-file">
+                </div>
                 <label class="label">Cover Image</label>
                 <div class="control">
                     {% render_field form.cover_image  class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" %}

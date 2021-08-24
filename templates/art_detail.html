@@ -1,11 +1,72 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- Required font awesome -->
+<style>
+    .carousel-open:checked+.carousel-item {
+      position: static;
+      opacity: 100;
+    }
+  
+    .carousel-item {
+      -webkit-transition: opacity 0.6s ease-out;
+      transition: opacity 0.6s ease-out;
+    }
+  
+    #carousel-1:checked~.control-1,
+    #carousel-2:checked~.control-2,
+    #carousel-3:checked~.control-3,
+    #carousel-4:checked~.control-4,
+    #carousel-5:checked~.control-5,
+    #carousel-6:checked~.control-6,
+    #carousel-7:checked~.control-7,
+    #carousel-8:checked~.control-8,
+    #carousel-9:checked~.control-9,
+    #carousel-10:checked~.control-10,
+    #carousel-11:checked~.control-11,
+    #carousel-12:checked~.control-12,
+    #carousel-13:checked~.control-13{
+      display: block;
+    }
+  
+    .carousel-indicators {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      bottom: 2%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+    }
+  
+    #carousel-1:checked~.control-1~.carousel-indicators li:nth-child(1) .carousel-bullet,
+    #carousel-2:checked~.control-2~.carousel-indicators li:nth-child(2) .carousel-bullet,
+    #carousel-3:checked~.control-3~.carousel-indicators li:nth-child(3) .carousel-bullet,
+    #carousel-3:checked~.control-4~.carousel-indicators li:nth-child(4) .carousel-bullet,
+    #carousel-3:checked~.control-5~.carousel-indicators li:nth-child(5) .carousel-bullet,
+    #carousel-3:checked~.control-6~.carousel-indicators li:nth-child(6) .carousel-bullet,
+    #carousel-3:checked~.control-7~.carousel-indicators li:nth-child(7) .carousel-bullet,
+    #carousel-3:checked~.control-8~.carousel-indicators li:nth-child(8) .carousel-bullet,
+    #carousel-3:checked~.control-9~.carousel-indicators li:nth-child(9) .carousel-bullet,
+    #carousel-3:checked~.control-10~.carousel-indicators li:nth-child(10) .carousel-bullet,
+    #carousel-3:checked~.control-11~.carousel-indicators li:nth-child(11) .carousel-bullet,
+    #carousel-3:checked~.control-12~.carousel-indicators li:nth-child(12) .carousel-bullet,
+    #carousel-4:checked~.control-13~.carousel-indicators li:nth-child(13) .carousel-bullet {
+      color: #ec4a0a;
+      /*Set to match the Tailwind colour you want the active one to be */
+    }
+  </style>
+  
+
+
+
 <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 py-2 mx-auto">
         <div class="lg:w-full mx-auto flex flex-wrap">
             <div class="lg:w-1/2 w-full lg:pr-10 lg:pb-6 mb-6 lg:mb-0">
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h2>
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ art }}</h1>
+                <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h2>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ art }}</h1>
                 <div class="flex mb-4">
                     <a class="flex-grow rounded-t bg-indigo-50 text-center text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">
                         Description
@@ -19,18 +80,34 @@
                         </a>
                     {% endif %}
                 </div>
-                <p class="leading-relaxed mb-4">{{ art.art_story }}</p>
+                <div class="flex">
+                    <a href="{% url 'portfolio-detail' art.artist %}" class="relative hidden w-16 h-16 mr-3 mb-3 rounded-full md:block">
+                        <img class="object-cover w-16 h-16 rounded-full" src="{{ art.artist.artist_headshot.url }}" alt="" loading="lazy">
+                        <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
+                    </a>
+                    <p class="leading-relaxed text-sm w-full pl-4 mb-4">{{ art.art_story }}</p>
+                </div>
                 <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Artist</span>
                     <span class="ml-auto text-gray-900">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</span>
                 </div>
                 <div class="flex border-t border-gray-200 py-2">
-                    <span class="text-gray-500">Location</span>
+                    <span class="text-gray-500">Height:</span>
+                    <span class="ml-3 mr-6 text-gray-900">###</span>
+                    <span class="text-gray-500 border-l border-gray-200 pl-2">Width:</span>
+                    <span class="ml-3 mr-6 text-gray-900">###</span>
+                    <span class="text-gray-500 border-l border-gray-200 pl-2">Depth:</span>
+                    <span class="ml-3 mr-6 text-gray-900">###</span>
+                    <span class="text-gray-500 border-l border-gray-200 pl-2">Weight:</span>
+                    <span class="ml-3 mr-6 text-gray-900">###</span>
+                </div>
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Medium</span>
                     <span class="ml-auto text-gray-900">Yo Mum's House</span>
                 </div>
                 <div class="flex border-t border-b mb-6 border-gray-200 py-2">
-                    <span class="text-gray-500">Cell Phone</span>
-                    <span class="ml-auto text-gray-900">444-444-1111</span>
+                    <span class="text-gray-500">Weight</span>
+                    <span class="ml-auto text-gray-900">###</span>
                 </div>
                 <div class="flex">
                     <span class="title-font font-medium text-2xl text-gray-900">${{ art.price }}</span>
@@ -44,7 +121,39 @@
                     </button>
                 </div>
             </div>
-            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ art.cover_image.url }}">
+            <!-- carousel -->
+            <div class="carousel relative rounded relative overflow-hidden shadow-xl w-1/2">
+                <div class="carousel-inner relative overflow-hidden w-full">
+                  
+                  {% for item in art_images %}
+                    <!--Slide -->
+                    <input class="carousel-open" type="radio" id="carousel-{{ forloop.counter }}" name="carousel" aria-hidden="true" hidden=""
+                      checked="{% if forloop.counter == 1 %}checked{% endif %}">
+                    <div class="carousel-item absolute opacity-0 bg-center">
+                      <img src="{{ item.image.url }}" alt="ffff">
+                    </div>
+              
+                    <label for="carousel-{% if forloop.counter|add:'1' > art_images_count %}1{% else %}{{ forloop.counter|add:'1' }}{% endif %}"
+                      class="control-{{ forloop.counter }} opacity-25 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight text-center z-10 inset-y-0 left-0 my-auto flex justify-center content-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                      </svg>
+                    </label>
+              
+                    <label for="carousel-{% if forloop.counter|add:'-1' == 0 %}{{ art_images_count }}{% else %}{{ forloop.counter|add:'-1' }}{% endif %}"
+                      class="next control-{{ forloop.counter }} opacity-25 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight content-center z-10 inset-y-0 right-0 my-auto"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </label>
+                  {% endfor %}
+        
+                </div>
+            </div>
+            <!-- end of carousel -->
+            <!-- <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-top rounded" src="{{ art.cover_image.url }}"> -->
         </div>
         <div class="flex justify-end">
             <div class="lg:w-1/2 w-full flex flex-wrap justify-end">
@@ -57,17 +166,9 @@
         </div>
     </div>
 
-    <div class="container px-5 py-2 mx-auto">
-        <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
-            <div>
-                <h1 class="text-4xl text-gray-800">Artist's Story</h1>
-            </div>
-            <div>
-                <h1 class="text-4xl text-indigo-500">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h1>
-            </div>
-        </div>
 
-        <div class="grid grid-cols-12">
+    <div class="container px-5 py-2 mx-auto border-t border-indigo-200 mt-3">
+        <div class="grid grid-cols-12 mt-3">
             <div class="col-span-12 sm:col-span-12 md:col-span-5 lg:col-span-5 xxl:col-span-5">
                 <img alt="ecommerce" class="object-cover object-center" src="{{ art.artist.artist_image.url }}">
             </div>

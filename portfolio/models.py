@@ -7,6 +7,9 @@ from django.utils.text import slugify
 from django.utils import timezone
 from taggit.managers import TaggableManager
 from taggit.models import CommonGenericTaggedItemBase, TaggedItemBase
+from django.utils.crypto import get_random_string
+import random
+import os
 
 
 class GenericStringTaggedItem(CommonGenericTaggedItemBase, TaggedItemBase):
@@ -32,7 +35,7 @@ class ApprovalStatus(models.Model):
 
 class ArtItem(models.Model):
     title = models.CharField(max_length=50)
-    artist = models.ForeignKey("Artist", on_delete=models.CASCADE)
+    artist = models.ForeignKey("Artist", related_name="art_items", on_delete=models.CASCADE)
     #  old price field
     # price = models.DecimalField(max_digits=8, decimal_places=2, default=50)
     price = models.PositiveIntegerField(default=99)
@@ -54,22 +57,37 @@ class ArtItem(models.Model):
 
     def __str__(self):
         return self.title
-
-    # def _update_art_status(self, created=False):
-    #     # check to see if this instance wants to be 'For Sale' once approved
-    #     if created and self.publish_after_approved:
-    #         print('> here checked if the artist wants it approved')
-    #         # Check to see if new saved version will have approval status: approved
-    #         if self.approval_status == 'Approved':
-    #             print('>> here checked if the new status is approved')
-                
-    #                 # switch new version of this instance from art_status draft to For Sale
-    #                 print('>>> Here will be the switch')
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(ArtItem, self).save(*args, **kwargs)
 
+
+# this function reformats the images uploaded to take on the 
+def rename_image_file(instance, filename):
+    print('renaming the image file')
+    # set path
+    path = "art_images/"
+    # get filename and strip off the .jpg part
+    extension = str(instance.art_item)+str("_")
+    # make a random int and make it a string
+    randInt = get_random_string(8,'0123456789')
+    print(str('new random int: ') + randInt )
+    # i suppose i have to add jpg to end of this to make it a useable jpg
+    jpg_str = str(".jpg")
+    # reformat filename 
+    filename_reformat = extension + randInt + jpg_str
+    # join the new filename with the path and send to model instance!
+    print(str(os.path.join(path, filename_reformat)))
+    return os.path.join(path, filename_reformat)
+    
+
+class ArtImage(models.Model):
+    art_item = models.ForeignKey(ArtItem, related_name="has_images", on_delete=models.CASCADE)
+    image = models.ImageField(blank=True, upload_to=rename_image_file)
+
+    def __str__(self):
+        return str(self.image)
 
 class Post(models.Model):
     title = models.CharField(max_length=250)
@@ -146,6 +164,8 @@ class Artist(models.Model):
     art_mediums = models.ManyToManyField(ArtMedium, blank=True)
     art_communities = models.ManyToManyField(ArtCommunity, blank=True)
     art_genres = models.ManyToManyField(ArtGenre, blank=True)
+    artist_headshot = models.ImageField(default='default_artist_headshot.jpg', upload_to='artist_headshots')
+    studio_image = models.ImageField(default='default_artist_studio.jpg', upload_to='artist_studios')
 
     def __str__(self):
         return self.slug

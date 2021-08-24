@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.forms import widgets
-from .models import ArtItem, ArtMedium, Post
+from .models import ArtImage, ArtItem, ArtMedium, Post
 from taggit.forms import TagWidget
 from django.forms.widgets import CheckboxSelectMultiple, Widget
 
@@ -42,6 +42,15 @@ class ArtModelForm(forms.ModelForm):
         }
 
 
+class ArtImageUpdateForm(forms.ModelForm):
+    class Meta:
+        model = ArtImage
+        fields = (
+            'art_item',
+            'image'
+        )
+
+
 class ArtUpdateModelForm(forms.ModelForm):
     # art_mediums = forms.MultipleChoiceField(
     #     required=True,
@@ -65,6 +74,7 @@ class ArtUpdateModelForm(forms.ModelForm):
             'review_note',
             'approval_status',
             'reviewed_by',
+            'slug',
         )
         widgets = {
             'art_mediums': forms.CheckboxSelectMultiple,

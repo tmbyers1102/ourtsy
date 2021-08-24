@@ -1,12 +1,74 @@
 {% extends "base.html" %}
 {% block content %}
+<!-- Required font awesome -->
+<style>
+    .carousel-open:checked+.carousel-item {
+      position: static;
+      opacity: 100;
+    }
+  
+    .carousel-item {
+      -webkit-transition: opacity 0.6s ease-out;
+      transition: opacity 0.6s ease-out;
+    }
+  
+    #carousel-1:checked~.control-1,
+    #carousel-2:checked~.control-2,
+    #carousel-3:checked~.control-3,
+    #carousel-4:checked~.control-4,
+    #carousel-5:checked~.control-5,
+    #carousel-6:checked~.control-6,
+    #carousel-7:checked~.control-7,
+    #carousel-8:checked~.control-8,
+    #carousel-9:checked~.control-9,
+    #carousel-10:checked~.control-10,
+    #carousel-11:checked~.control-11,
+    #carousel-12:checked~.control-12,
+    #carousel-13:checked~.control-13{
+      display: block;
+    }
+  
+    .carousel-indicators {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      bottom: 2%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 10;
+    }
+  
+    #carousel-1:checked~.control-1~.carousel-indicators li:nth-child(1) .carousel-bullet,
+    #carousel-2:checked~.control-2~.carousel-indicators li:nth-child(2) .carousel-bullet,
+    #carousel-3:checked~.control-3~.carousel-indicators li:nth-child(3) .carousel-bullet,
+    #carousel-3:checked~.control-4~.carousel-indicators li:nth-child(4) .carousel-bullet,
+    #carousel-3:checked~.control-5~.carousel-indicators li:nth-child(5) .carousel-bullet,
+    #carousel-3:checked~.control-6~.carousel-indicators li:nth-child(6) .carousel-bullet,
+    #carousel-3:checked~.control-7~.carousel-indicators li:nth-child(7) .carousel-bullet,
+    #carousel-3:checked~.control-8~.carousel-indicators li:nth-child(8) .carousel-bullet,
+    #carousel-3:checked~.control-9~.carousel-indicators li:nth-child(9) .carousel-bullet,
+    #carousel-3:checked~.control-10~.carousel-indicators li:nth-child(10) .carousel-bullet,
+    #carousel-3:checked~.control-11~.carousel-indicators li:nth-child(11) .carousel-bullet,
+    #carousel-3:checked~.control-12~.carousel-indicators li:nth-child(12) .carousel-bullet,
+    #carousel-4:checked~.control-13~.carousel-indicators li:nth-child(13) .carousel-bullet {
+      color: #ec4a0a;
+      /*Set to match the Tailwind colour you want the active one to be */
+    }
+  </style>
+  
+
+
+
+
 <section class="text-gray-600 body-font overflow-hidden">
     <div class="container px-5 py-2 mx-auto">
         <div class="lg:w-full mx-auto flex flex-wrap">
-            <div class="lg:w-1/2 w-full lg:pr-10 lg:pb-6 mb-6 lg:mb-0">
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h2>
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ art }}</h1>
-                <div class="flex mb-4">
+            <div class="lg:w-1/2 w-full lg:pr-10 lg:pb-0 mb-0 lg:mb-0">
+                <h2 class="text-sm title-font text-gray-500 tracking-widest">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h2>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ art }}</h1>
+                <div class="flex mb-2">
                     <a href="{% url 'portfolio:art-detail' art.pk %}" class="text-center flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">
                         Description
                     </a>
@@ -19,13 +81,15 @@
                         </a>
                     {% endif %}
                 </div>
-                <div class="flex flex-col text-center w-full mb-20">
+                <div class="flex flex-col text-center w-full mb-0">
 
                     {% for art in artList|slice:"0:3" %}
-                        <div class="py-1 lg:w-full">
+                        <div class="pt-1 lg:w-full">
                             <div class="h-full flex sm:flex-row flex-col items-center sm:justify-start justify-center text-center sm:text-left">
-                                <img alt="team" class="flex-shrink-0 rounded w-36 h-36 object-cover object-center sm:mb-0 mb-4" src="{{ art.cover_image.url }}">
-                                <div class="flex-grow sm:pl-3">
+                                <a href="{% url 'portfolio:art-detail' art.pk %}" >
+                                    <img alt="team" src="{{ art.cover_image.url }}" class="flex-shrink-0 rounded w-32 h-32 object-scale-down sm:mb-0 mb-4">
+                                </a>
+                                <div class="flex-grow sm:pl-3 border-b border-indigo-50">
                                     <h2 class="title-font font-medium text-lg text-gray-900">{{ art.title }}</h2>
                                     <h3 class="text-gray-500 mb-3">UI Developer</h3>
                                     <p class="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
@@ -37,7 +101,7 @@
                         href="{% url 'portfolio-detail' art.artist %}"
                         type="button"
                         style="white-space: nowrap;"
-                        class="border-2 border-indigo-500 bg-white hover:bg-indigo-50 rounded text-indigo-500 px-4 mt-3"
+                        class="border-2 border-indigo-500 bg-white hover:bg-indigo-50 rounded text-indigo-500 px-4 mt-1"
                     >
                         <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
                             <span class="mr-2">View Full Portfolio</span>
@@ -46,12 +110,41 @@
                             </svg>
                         </span>
                     </a>
-
                 </div>
-              
-            
             </div>
-            <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ art.cover_image.url }}">
+            <!-- carousel -->
+            <div class="carousel relative rounded relative overflow-hidden shadow-xl w-1/2">
+                <div class="carousel-inner relative overflow-hidden w-full">
+                  
+                  {% for item in art_images %}
+                    <!--Slide -->
+                    <input class="carousel-open" type="radio" id="carousel-{{ forloop.counter }}" name="carousel" aria-hidden="true" hidden=""
+                      checked="{% if forloop.counter == 1 %}checked{% endif %}">
+                    <div class="carousel-item absolute opacity-0 bg-center">
+                      <img src="{{ item.image.url }}" alt="ffff">
+                    </div>
+              
+                    <label for="carousel-{% if forloop.counter|add:'1' > art_images_count %}1{% else %}{{ forloop.counter|add:'1' }}{% endif %}"
+                      class="control-{{ forloop.counter }} opacity-25 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight text-center z-10 inset-y-0 left-0 my-auto flex justify-center content-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                      </svg>
+                    </label>
+              
+                    <label for="carousel-{% if forloop.counter|add:'-1' == 0 %}{{ art_images_count }}{% else %}{{ forloop.counter|add:'-1' }}{% endif %}"
+                      class="next control-{{ forloop.counter }} opacity-25 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight content-center z-10 inset-y-0 right-0 my-auto"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </label>
+                  {% endfor %}
+        
+                </div>
+            </div>
+            <!-- end of carousel -->
+            <!-- <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto w-24 object-contain object-top rounded" src="{{ art.cover_image.url }}"> -->
         </div>
         <div class="flex justify-end">
             <div class="lg:w-1/2 w-full flex flex-wrap justify-end">
@@ -63,9 +156,9 @@
             </div>
         </div>
     </div>
+    <!-- endof art area -->
 
-
-
+    <!-- artist area -->
     <div class="container px-5 py-2 mx-auto">
         <div class="w-full mb-6 py-6 flex justify-between items-center border-b border-gray-200">
             <div>

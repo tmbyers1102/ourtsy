@@ -3,7 +3,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
 from django.utils.timesince import timesince
-from .models import ApprovalStatus, ArtItem, ArtStatus, Artist, Portfolio, GenericStringTaggedItem, ArtMedium
+from .models import ApprovalStatus, ArtItem, ArtStatus, Artist, Portfolio, GenericStringTaggedItem, ArtMedium, ArtImage
 from .forms import (
     ArtForm,
     ArtModelForm,
@@ -11,7 +11,8 @@ from .forms import (
     PostForm,
     ArtistForm,
     ArtUpdateModelForm,
-    ArtReviewModelForm
+    ArtReviewModelForm,
+    ArtImageUpdateForm,
 )
 from django.utils import timezone
 from django.views import generic
@@ -21,12 +22,24 @@ from .filters import ArtFilter, ArtTagFilter, ArtMediumFilter, ArtSubmissionsFil
 
 from .models import Post
 from django.contrib.auth import get_user_model
+from django.contrib import messages
+from django.urls import reverse_lazy
 
 
 User = get_user_model()
 
 def test(request):
-    return render(request, "test.html")
+    art = ArtItem.objects.filter(slug="the-new-cactus").first()
+    artist = Artist.objects.filter(slug="tombyers").first()
+    art_images = ArtImage.objects.all()
+    art_images_count = ArtImage.objects.all().count()
+    context = {
+        "art": art,
+        "artist": artist,
+        "art_images": art_images,
+        "art_images_count": art_images_count,
+    }
+    return render(request, "test.html", context)
 
 
 class ReviewTableView(LoginRequiredMixin, generic.ListView):
@@ -324,12 +337,14 @@ class ArtDetailView(generic.DetailView):
 
 def art_detail(request, slug):
     art = ArtItem.objects.get(slug=slug)
+    art_images = ArtImage.objects.filter(art_item=slug)
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
     # for tag in ArtItem.tags.get_query_set():
     #     tagsList.append(tag.name)
     context = {
         "art": art,
-        "tagsList": tagsList
+        "tagsList": tagsList,
+        "art_images": art_images,
 
     }
     return render(request, "art_detail.html", context)
@@ -338,11 +353,15 @@ def art_detail(request, slug):
 class ArtCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "art_create.html"
     form_class = ArtModelForm
+    # success_url = reverse_lazy("portfolio:art-dashboard")
+    # success_message = "Thing was created successfully."
 
     def get_success_url(self):
-        return reverse("portfolio:art-dashboard")
+        messages.success(self.request, "created successfully")
+        return reverse("portfolio:art-list")
 
     def form_valid(self, form):
+        images = self.request.FILES.getlist('images')
         art_item = form.save(commit=False)
         # that 'artist' down there refers to the 'Artist' which the 'artist'
         # ForeignKey references on the ArtItem model in portfolio.models
@@ -352,6 +371,21 @@ class ArtCreateView(LoginRequiredMixin, generic.CreateView):
         # art_item.approval_status = str('Pending')
         art_item.save()
         return super(ArtCreateView, self).form_valid(form)
+
+    # print('ADDING images to new ArtItem')
+    # def add_the_photos(self, form):
+    #     images = self.request.FILES.getlist('images')
+    #     art_form = form
+    #     for image in images:
+    #         ArtImage.objects.create(
+    #             art_item=art_form,
+    #             image=image,
+    #         )
+    #         print('New image Created')
+    #         ArtImage.save()
+    #         print('New image Saved')
+    #     return
+
 
 
 def art_create(request):
@@ -373,55 +407,185 @@ def art_create(request):
     return render(request, "art_create.html", context)
 
 
-
-
 def artist_more(request, slug):
     art = ArtItem.objects.get(slug=slug)
     artist = art.artist.user
     artList = [x for x in ArtItem.objects.filter(artist__user=artist).filter(art_status__name='For Sale')]
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
+    art_images = ArtImage.objects.filter(art_item=slug)
+
     context = {
         "art": art,
         "tagsList": tagsList,
         "artList": artList,
+        "art_images": art_images,
     }
     return render(request, "artist_more.html", context)
+
+
+def art_images_update(request, slug):
+    art_item_instance = ArtItem.objects.get(slug=slug)
+    art_items = ArtItem.objects.all()
+    form = ArtImageUpdateForm(request.POST)
+
+    if request.method == 'POST':
+        data = request.POST
+        images = request.FILES.getlist('images')
+        art_item = ArtItem.objects.get(slug=slug)
+
+        print('Adding images for Item: ')
+        print(art_item)
+        print('Starting for loop: ')
+        print(images)
+        for image in images:
+            photo = ArtImage.objects.create(
+                art_item=art_item,
+                image=image,
+            )
+            print('finished an image: ')
+            print(image)
+        return redirect('portfolio:art-list')
+    
+    context = {
+        'art_items': art_items,
+        'art_item_instance': art_item_instance,
+        'form': form,
+    }
+    return render(request, 'art_image_update.html', context)
+
+
+
+# def art_images_update(request, slug):
+#     art_item_instance = ArtItem.objects.get(slug=slug)
+#     art_images = ArtImage.objects.filter(art_item=slug)
+#     images = request.FILES.getlist('images')
+#     print('IMAGES:')
+#     print(images)
+#     for image in images:
+#         print(image)
+#         print('made it tofor loop')
+#         if request.method == 'POST':
+#             print('made it past the if POST')
+#             art_image_form = ArtImageUpdateForm(request.POST, instance=[1])
+#             print(str('art_image_form instance: ') + str(art_image_form) )
+#             if art_image_form.is_valid():
+#                 print('made it past the is_valid')
+#                 print(art_image_form.errors)
+#                 ArtImage.objects.create(
+#                         art_item=art_item_instance,
+#                         image=image,
+#                     )
+#                 print('made it past create part --not saved yet')
+#                 art_image_form.save()
+#                 print('made it past the SAVED part')
+#                 return redirect("portfolio:art-detail", slug=slug)
+#     context = {
+#         'art_item_instance': art_item_instance,
+#         # "art_image_form": art_image_form,
+#         "art_images": art_images,
+#     }
+#     return render(request, 'art_image_update.html', context)
+
+
+# def art_images_update(request, slug):
+#     art = ArtItem.objects.get(slug=slug)
+#     form = ArtImageUpdateForm(instance=art)
+#     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
+#     art_images = ArtImage.objects.filter(art_item=slug)
+#     if request.method == "POST":
+#         print('> Receiving post request -- ART images update')
+#         form = ArtImageUpdateForm(request.POST or None, instance=art)
+#         if form.is_valid():
+#             print('>> form is valid, going into if statements')
+#             # lets add any new images
+#             print('ADDING images to existing ArtItem')
+#             images = request.FILES.getlist('images')
+#             art_slug = ArtItem.objects.filter(slug=slug).first()
+#             print(art_slug)
+#             for image in images:
+#                 ArtImage.objects.create(
+#                     art_item=art_slug,
+#                     image=image,
+#                 )
+#                 print('New image Created')
+#                 print('New image Saved')
+#                 # end of adding new images
+#                 form.save()
+#                 messages.success(request, "Success! Art Images Added!")
+#                 return redirect("portfolio:art-detail", slug=slug)
+#         else:
+#             messages.error(request, "error! form not valid!")
+#             print('Form valid errors:')
+#             print(form.errors)
+#             return redirect("portfolio:art-detail", slug=slug)
+#     context = {
+#         "form": form,
+#         "art": art,
+#         "tagsList": tagsList,
+#         "art_images": art_images,
+#     }
+#     return render(request, "art_image_update.html", context)
 
 
 def art_update(request, slug):
     art = ArtItem.objects.get(slug=slug)
     form = ArtUpdateModelForm(instance=art)
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
+    art_images = ArtImage.objects.filter(art_item=slug)
+
     if request.method == "POST":
-        print('Receiving post request')
-        form = ArtUpdateModelForm(request.POST, instance=art)
+        print('> Receiving post request -- ART UPDATE')
+        form = ArtUpdateModelForm(request.POST or None, instance=art)
         if form.is_valid():
-            print('form is valid, going into if statements')
+            print('>> form is valid, going into if statements')
+            # lets add any new images
+            print('ADDING images to existing ArtItem')
+            images = request.FILES.getlist('images')
+            art_slug = form.cleaned_data["slug"]
+            for image in images:
+                ArtImage.objects.create(
+                    art_item=art,
+                    image=image,
+                )
+                print('New image Created')
+                print('New image Saved')
+            # end of adding new images
             if art.publish_after_approved:
-                print('> wants to publish after approved')
+                print('>>> wants to publish after approved')
                 if art.approval_status.name == 'Approved':
-                    print('>> the items approval status is approved')
+                    print('>>>> the items approval status is approved')
                     if art.art_status.name != 'For Sale':
-                        print('>>> the art_status for this item is not For Sale so we will switch it to that')
+                        print('>>>>> the art_status for this item is not For Sale so we will switch it to that')
                         art.art_status = ArtStatus.objects.filter()[1]
                         form.save()
-                        return redirect("portfolio:art-dashboard")
+                        messages.success(request, "Success! Art Item Updated!")
+                        return redirect("portfolio:art-detail", slug=slug)
                     else:
-                        print('the art_status WAS for sale so passing')
+                        print('<<<<< the art_status WAS for sale so passing')
                         form.save()
-                        return redirect("portfolio:art-dashboard")
+                        messages.success(request, "Success! Art Item Updated!")
+                        return redirect("portfolio:art-detail", slug=slug)
                 else:
-                    print('<< the items approval status is NOT approved')
+                    print('<<<< the items approval status is NOT approved')
                     form.save()
-                    return redirect("portfolio:art-dashboard")
+                    messages.success(request, "Success! Art Item Updated!")
+                    return redirect("portfolio:art-detail", slug=slug)
             else:
-                print('< does NOT want to publish after approved')
+                print('<<< does NOT want to publish after approved')
                 form.save()
-                return redirect("portfolio:art-dashboard")
+                messages.success(request, "Success! Art Item Updated!")
+                return redirect("portfolio:art-detail", slug=slug)
+        else:
+            print('<< This is an ART UPDATE POST request but not a valid form')
+            print(form.errors)
+            messages.error(request, "This is an ART UPDATE POST request but not a valid form")
+    else:
+        print('< This is not a POST request -- art update')
     context = {
         "form": form,
         "art": art,
-        "tagsList": tagsList
+        "tagsList": tagsList,
+        "art_images": art_images,
     }
     return render(request, "art_update.html", context)
 
