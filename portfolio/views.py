@@ -28,7 +28,7 @@ from django.urls import reverse_lazy
 
 User = get_user_model()
 
-def test(request):
+def index(request):
     art = ArtItem.objects.filter(slug="the-new-cactus").first()
     artist = Artist.objects.filter(slug="tombyers").first()
     art_images = ArtImage.objects.all()
@@ -39,7 +39,7 @@ def test(request):
         "art_images": art_images,
         "art_images_count": art_images_count,
     }
-    return render(request, "test.html", context)
+    return render(request, "index.html", context)
 
 
 class ReviewTableView(LoginRequiredMixin, generic.ListView):

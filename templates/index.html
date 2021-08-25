@@ -1,0 +1,191 @@
+{% extends "base_4.html" %}
+{% load static %}
+{% block content %}
+   <body>
+      <div class="container">
+			<h1 class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-sm md:text-6xl">
+				<span class="block xl:inline">List your art</span>
+			</h1>
+		  <h1 class="mb-4 text-xl tracking-tight font-extrabold text-gray-900 sm:text-sm md:text-6xl">
+			<span class="block text-indigo-600 xl:inline">in 4 easy steps</span>
+		  </h1>
+         <div class="progress-bar">
+            <div class="step">
+               <p>
+                  Policy
+               </p>
+               <div class="bullet">
+                  <span>1</span>
+               </div>
+               <div class="check fas fa-check"></div>
+            </div>
+            <div class="step">
+               <p>
+                  Details
+               </p>
+               <div class="bullet">
+                  <span>2</span>
+               </div>
+               <div class="check fas fa-check"></div>
+            </div>
+            <div class="step">
+               <p>
+                  Photos
+               </p>
+               <div class="bullet">
+                  <span>3</span>
+               </div>
+               <div class="check fas fa-check"></div>
+            </div>
+            <div class="step">
+               <p>
+                  Submit!
+               </p>
+               <div class="bullet">
+                  <span>4</span>
+               </div>
+               <div class="check fas fa-check"></div>
+            </div>
+         </div>
+         <div class="form-outer">
+            <form action="#">
+		<!-- Slide 1 -->
+               <div class="page slide-page">
+                  <div class="title mb-3">
+                     Here's how it works
+                  </div>
+				  <div class="grid grid-cols-12">
+						<div class="grid col-span-12 md:col-span-8">
+							<!-- step 1 -->
+							<div class="mb-1 pb-1 border-b border-indigo-50 xl:border-none">
+								<div class="w-full">
+									<div class="flex-shrink-0 float-left mr-4 w-12 h-12 bg-indigo-50 text-indigo-500 rounded-full inline-flex items-center justify-center">
+										<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+										</svg>
+									</div>
+									<p class="text-left text-sm lg:text-lg xl:text-2xl">Upload all your artwork here on ourtsy to serve as your very own online portfolio.</p>
+								</div>
+							</div>
+							<!-- step 2 -->
+							<div class="mb-1 pb-1 border-b border-indigo-50 xl:border-none">
+								<div class="w-full">
+									<div class="flex-shrink-0 float-left mr-4 w-12 h-12 bg-indigo-50 text-indigo-500 rounded-full inline-flex items-center justify-center">
+										<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+										</svg>
+										
+									</div>
+									<p class="text-left text-sm lg:text-lg xl:text-2xl">Upload all your artwork here on ourtsy to serve as your very own online portfolio.</p>
+								</div>
+							</div>
+							<!-- step 3 -->
+							<div class="mb-1 pb-1">
+								<div class="w-full">
+									<div class="flex-shrink-0 float-left mr-4 w-12 h-12 bg-indigo-50 text-indigo-500 rounded-full inline-flex items-center justify-center">
+										<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-6 h-6" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+										</svg>
+										
+									</div>
+									<p class="text-left text-sm lg:text-lg xl:text-2xl">Upload all your artwork here on ourtsy to serve as your very own online portfolio.</p>
+								</div>
+							</div>
+						</div>
+						<div class="grid col-span-none md:col-span-4 ">
+							<img class="float-right w-3/4 h-auto invisible md:visible" alt="hero" src="{% static 'images/artist-bro.png' %}">
+						</div>
+					  
+					<!-- end of steps -->
+				  </div>
+				  <div>
+					<label class="inline-flex items-center">
+						<div class="inline-flex border-r border-indigo-50 pr-4">
+							<a href="{% url 'portfolio:landing-page' %}" target="_blank" class="mr-2 text-xs bg-indigo-50 px-2 py-1 rounded hover:bg-indigo-700 hover:text-white border border-indigo-500">Legal Stuff</a>
+							<p class="text-xs text-gray-500">Please read all the legal stuff and check this box to agree to our terms of service </p>
+						</div>
+						<div class="pl-4">
+							<input type="checkbox" required class="form-checkbox">
+					  		<span class="ml-2 flex-wrap">I Agree</span>
+						</div>
+					</label>
+				  </div>
+                  <div class="field">
+                     <button class="firstNext next">Next</button>
+                  </div>
+               </div>
+		<!-- Slide 2 -->
+               <div class="page">
+                  <div class="title">
+                     Contact Info:
+                  </div>
+                  <div class="field">
+                     <div class="label">
+                        Email Address
+                     </div>
+                     <input type="text">
+                  </div>
+                  <div class="field">
+                     <div class="label">
+                        Phone Number
+                     </div>
+                     <input type="Number">
+                  </div>
+                  <div class="field btns">
+                     <button class="prev-1 prev">Previous</button>
+                     <button class="next-1 next">Next</button>
+                  </div>
+               </div>
+		<!-- Slide 3 -->
+               <div class="page">
+                  <div class="title">
+                     Date of Birth:
+                  </div>
+                  <div class="field">
+                     <div class="label">
+                        Date
+                     </div>
+                     <input type="text">
+                  </div>
+                  <div class="field">
+                     <div class="label">
+                        Gender
+                     </div>
+                     <select>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                     </select>
+                  </div>
+                  <div class="field btns">
+                     <button class="prev-2 prev">Previous</button>
+                     <button class="next-2 next">Next</button>
+                  </div>
+               </div>
+		<!-- Slide 4 -->
+               <div class="page">
+                  <div class="title">
+                     Login Details:
+                  </div>
+                  <div class="field">
+                     <div class="label">
+                        Username
+                     </div>
+                     <input type="text">
+                  </div>
+                  <div class="field">
+                     <div class="label">
+                        Password
+                     </div>
+                     <input type="password">
+                  </div>
+                  <div class="field btns">
+                     <button class="prev-3 prev">Previous</button>
+                     <button class="submit">Submit</button>
+                  </div>
+               </div>
+            </form>
+         </div>
+      </div>
+   </body>
+{% endblock content %}
