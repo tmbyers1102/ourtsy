@@ -6,10 +6,10 @@
 {% block content %}
 
     <div class="max-w-2xl mx-auto mb-2">
-        <p class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-xl md:text-xl">
+        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
             <span class="block xl:inline">Create new </span>
-            <span class="block text-indigo-600 xl:inline">Art - </span><span><p>{{ artist_instance }}</p></span>
-        </p>
+            <span class="block text-indigo-600 xl:inline">Art - {{ artist_instance }}</span>
+        </h1>
         <hr>
         <form class="mt-4" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -89,7 +89,7 @@
                     </span>
                 </label>
                 <div class="control">
-                    {% render_field form.tags class="w-full py-2 px-4 border-2 border-indigo-100 rounded" placeholder="Example: mouse, red, impressionist, southwest, etc..." %}
+                    {% render_field form.tags  class="w-full py-2 px-4 border-2 border-indigo-100 rounded" placeholder="Example: mouse, red, impressionist, southwest, etc..." %}
                 </div>
             </div>
             <div class="field mb-2">

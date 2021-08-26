@@ -1,5 +1,8 @@
 {% extends "base_4.html" %}
 {% load static %}
+{% load tailwind_filters %}
+{% load widget_tweaks %}
+
 {% block content %}
    <body>
       <div class="container">
@@ -47,17 +50,18 @@
             </div>
          </div>
          <div class="form-outer">
-            <form action="#">
+            <form action="POST" enctype="multipart/form-data">
+               {% csrf_token %}
 		<!-- Slide 1 -->
                <div class="page slide-page">
-				<div class="inline-flex">
-					<h1 class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-lg md:text-2xl mr-2">
-						<span class="block xl:inline">List your art</span>
-					</h1>
-					<h1 class="mb-4 text-xl tracking-tight font-extrabold text-gray-900 sm:text-lg md:text-2xl">
-						<span class="block text-indigo-600 xl:inline">in 4 easy steps</span>
-					</h1>
-				</div>
+                  <div class="inline-flex">
+                     <h1 class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-lg md:text-2xl mr-2">
+                        <span class="block xl:inline">List your art</span>
+                     </h1>
+                     <h1 class="mb-4 text-xl tracking-tight font-extrabold text-gray-900 sm:text-lg md:text-2xl">
+                        <span class="block text-indigo-600 xl:inline">in 4 easy steps</span>
+                     </h1>
+                  </div>
                   <div class="title mb-3">
                      Here's how it works
                   </div>
@@ -126,18 +130,35 @@
                   <div class="title">
                      Contact Info:
                   </div>
-                  <div class="field">
-                     <div class="label">
-                        Email Address
+                  <div class="grid grid-cols-4">
+                     <div class="col-span-4 md:col-span-3 field mr-2">
+                         <label class="label">Title*</label>
+                         <div class="control w-full pr-4">
+                             {% render_field form.title  class="input w-full py-2 px-6 border-2 border-indigo-100 rounded" %}
+                         </div>
                      </div>
-                     <input type="text">
-                  </div>
-                  <div class="field">
-                     <div class="label">
-                        Phone Number
+                     <div class="col-span-4 md:col-span-1 field">
+                         <label class="label">Price*</label>
+                         <div class="control rounded border-2 border-indigo-100 relative items-stretch flex flex-wrap mr-2 w-3/4">
+                             <div class="flex">
+                                 <span class="flex items-center leading-normal bg-indigo-50 rounded rounded-r-none px-1 whitespace-no-wrap text-grey-dark text-sm">$</span>
+                             </div>				
+                             <div class="control" style="width: 60%;">
+                                 {% render_field form.price  class="input text-center w-full py-2" %}
+                             </div>
+                             <div class="flex -mr-px">
+                                 <span class="flex items-center leading-normal bg-indigo-50 rounded rounded-l-none pl-1 whitespace-no-wrap text-grey-dark text-sm">.00</span>
+                             </div>	
+                         </div>
                      </div>
-                     <input type="Number">
+                     <div class="col-span-4 field">
+                        <label class="label">Art Story</label>
+                        <div class="control w-full">
+                            {% render_field form.art_story class="input w-full h-24 py-2 px-6 border-2 border-indigo-100 rounded" placeholder="This is a section where you should give the full background story for this piece of art. Describe the where, why, and when. Tell us your motivations and inspirations." %}
+                        </div>
+                     </div>
                   </div>
+                  
                   <div class="field btns">
                      <button class="prev-1 prev">Previous</button>
                      <button class="next-1 next">Next</button>
@@ -171,20 +192,14 @@
                </div>
 		<!-- Slide 4 -->
                <div class="page">
-                  <div class="title">
-                     Login Details:
-                  </div>
-                  <div class="field">
-                     <div class="label">
-                        Username
-                     </div>
-                     <input type="text">
-                  </div>
-                  <div class="field">
-                     <div class="label">
-                        Password
-                     </div>
-                     <input type="password">
+                  <label class="label">
+                     Tags 
+                     <span class="text-indigo-500 text-sm">
+                         (Separate tags with comma)
+                     </span>
+                  </label>
+                  <div class="control">
+                        {% render_field form.tags class="w-full py-2 px-4 border-2 border-indigo-100 rounded" placeholder="Example: mouse, red, impressionist, southwest, etc..." %}
                   </div>
                   <div class="field btns">
                      <button class="prev-3 prev">Previous</button>

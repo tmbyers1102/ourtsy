@@ -24,6 +24,7 @@ from .models import Post
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
+import string
 
 
 User = get_user_model()
@@ -388,23 +389,155 @@ class ArtCreateView(LoginRequiredMixin, generic.CreateView):
 
 
 
+# def art_create(request):
+#     form = ArtForm()
+#     if request.method == "POST":
+#         print('Receiving post request')
+#         form = ArtForm(request.POST)
+#         if form.is_valid():
+#             title = form.cleaned_data['title']
+#             artist = Artist.objects.first()
+#             ArtItem.objects.create(
+#                 title=title,
+#                 artist=artist
+#             )
+#             return redirect("/")
+#     context = {
+#         "form": form
+#     }
+#     return render(request, "art_create.html", context)
+
+
 def art_create(request):
-    form = ArtForm()
-    if request.method == "POST":
-        print('Receiving post request')
-        form = ArtForm(request.POST)
+    art_items = ArtItem.objects.all()
+    form = ArtModelForm(request.POST)
+    artist_instance = Artist.objects.filter(slug=request.user.userprofile.slug).first()
+
+    if request.method == 'POST':
+        data = request.POST
+        print('data: ')
+        print(data)
+        # images = request.FILES.getlist('images')
+        instance_mediums = request.POST.getlist('art_mediums')
+        instance_communities = request.POST.getlist('art_communities')
+        instance_genres = request.POST.getlist('art_genres')
+        instance_auto_pub_value = request.POST.get('publish_after_approved')
+        # get raw data
+        raw_tags_data = request.POST.getlist('tags')
+        print('raw_tags_data: ')
+        print(raw_tags_data)
+        # conv to a string
+        raw_data_to_string = ' '.join(raw_tags_data)
+        print('raw_data_to_string: ')
+        print(raw_data_to_string)
+        # conv string to actual list of strings
+        tags_list_of_strings = list(raw_data_to_string.split(", "))
+        print('tags_list_of_strings: ')
+        print(tags_list_of_strings)
+
+        # create the item
         if form.is_valid():
-            title = form.cleaned_data['title']
-            artist = Artist.objects.first()
-            ArtItem.objects.create(
-                title=title,
-                artist=artist
+            art_item = ArtItem.objects.create(
+                artist = artist_instance,
+                title = data['title'],
+                price = data['price'],
+                art_story = data['art_story'],
             )
-            return redirect("/")
+            art_item.art_mediums.set(instance_mediums)
+            art_item.art_communities.set(instance_communities)
+            art_item.art_genres.set(instance_genres)
+            for x in tags_list_of_strings:
+                art_item.tags.add(x)
+            if instance_auto_pub_value:
+                art_item.publish_after_approved = True
+                art_item.save()
+            # now create ArtImage model instances using the newly created ArtItem instance as the ArtImage's art_item field!
+            images = request.FILES.getlist('images')
+            print('Adding images for Item: ')
+            print(art_item)
+            print('Starting for loop: ')
+            print(images)
+            for image in images:
+                photo = ArtImage.objects.create(
+                    art_item=art_item,
+                    image=image,
+                )
+                print('finished an image: ')
+                print(image)
+    
     context = {
-        "form": form
+        'art_items': art_items,
+        'artist_instance': artist_instance,
+        'form': form,
     }
-    return render(request, "art_create.html", context)
+    return render(request, 'art_create.html', context)
+
+
+def art_new(request):
+    art_items = ArtItem.objects.all()
+    form = ArtModelForm(request.POST)
+    artist_instance = Artist.objects.filter(slug=request.user.userprofile.slug).first()
+
+    if request.method == 'POST':
+        data = request.POST
+        print('data: ')
+        print(data)
+        # images = request.FILES.getlist('images')
+        instance_mediums = request.POST.getlist('art_mediums')
+        instance_communities = request.POST.getlist('art_communities')
+        instance_genres = request.POST.getlist('art_genres')
+        instance_auto_pub_value = request.POST.get('publish_after_approved')
+        # get raw data
+        raw_tags_data = request.POST.getlist('tags')
+        print('raw_tags_data: ')
+        print(raw_tags_data)
+        # conv to a string
+        raw_data_to_string = ' '.join(raw_tags_data)
+        print('raw_data_to_string: ')
+        print(raw_data_to_string)
+        # conv string to actual list of strings
+        tags_list_of_strings = list(raw_data_to_string.split(", "))
+        print('tags_list_of_strings: ')
+        print(tags_list_of_strings)
+
+        # create the item
+        if form.is_valid():
+            art_item = ArtItem.objects.create(
+                artist = artist_instance,
+                title = data['title'],
+                price = data['price'],
+                art_story = data['art_story'],
+            )
+            art_item.art_mediums.set(instance_mediums)
+            art_item.art_communities.set(instance_communities)
+            art_item.art_genres.set(instance_genres)
+            for x in tags_list_of_strings:
+                art_item.tags.add(x)
+            if instance_auto_pub_value:
+                art_item.publish_after_approved = True
+                art_item.save()
+            # now create ArtImage model instances using the newly created ArtItem instance as the ArtImage's art_item field!
+            images = request.FILES.getlist('images')
+            print('Adding images for Item: ')
+            print(art_item)
+            print('Starting for loop: ')
+            print(images)
+            for image in images:
+                photo = ArtImage.objects.create(
+                    art_item=art_item,
+                    image=image,
+                )
+                print('finished an image: ')
+                print(image)
+    
+    context = {
+        'art_items': art_items,
+        'artist_instance': artist_instance,
+        'form': form,
+    }
+    return render(request, 'art_new_multi.html', context)
+
+
 
 
 def artist_more(request, slug):
