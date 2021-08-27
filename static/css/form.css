@@ -25,7 +25,7 @@ body{
   background: #fff;
   text-align: center;
   border-radius: 5px;
-  padding: 50px 35px 10px 35px;
+  padding: 20px 25px 10px 25px;
 }
 .container header{
   font-size: 35px;
@@ -45,9 +45,16 @@ body{
   transition: margin-left 0.3s ease-in-out;
 }
 .form-outer form .page .title{
-  text-align: left;
+  text-align: center;
   font-size: 25px;
-  font-weight: 500;
+  font-weight: 600;
+}
+.form-outer form .page .description{
+  text-align: center;
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 .form-outer form .page .field{
   width: 100%;
@@ -105,7 +112,7 @@ form .page .btns button.next{
 }
 .container .progress-bar{
   display: flex;
-  margin: 40px 0;
+  margin: 30px 0;
   user-select: none;
 }
 .container .progress-bar .step{

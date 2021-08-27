@@ -1,17 +1,64 @@
 // multi-part form start
 
 const slidePage = document.querySelector(".slide-page");
+// 1st slide -- intro, agreement
+const agreeCheckBox = document.getElementById("agreementCheckBox");
 const nextBtnFirst = document.querySelector(".firstNext");
+// 2nd slide -- Photos
 const prevBtnSec = document.querySelector(".prev-1");
 const nextBtnSec = document.querySelector(".next-1");
+// 3rd slide --title, price, story
+const artTitle = document.getElementById("artTitle");
+const artPrice = document.getElementById("artPrice");
+const artStory = document.getElementById("artStory");
+
 const prevBtnThird = document.querySelector(".prev-2");
 const nextBtnThird = document.querySelector(".next-2");
+// 4th slide -- tags, medium, communities, genres
 const prevBtnFourth = document.querySelector(".prev-3");
 const submitBtn = document.querySelector(".submit");
+
 const progressText = document.querySelectorAll(".step p");
 const progressCheck = document.querySelectorAll(".step .check");
 const bullet = document.querySelectorAll(".step .bullet");
 let current = 1;
+
+// this checks to see if title, price, and story are filled for next slide button
+artTitle.addEventListener('keyup', (e) =>{
+  console.log(e.currentTarget.value);
+  const valueTitle = e.currentTarget.value;
+  artPrice.addEventListener('keyup', (e) =>{
+    console.log(e.currentTarget.value);
+    const valuePrice = e.currentTarget.value;
+    artStory.addEventListener('keyup', (e) =>{
+      console.log(e.currentTarget.value);
+      const valueStory = e.currentTarget.value;
+      nextBtnThird.hidden = false;
+      if (valueStory === "" || valuePrice === "" || valueTitle === "") {
+        nextBtnThird.hidden = true;
+      }
+    });
+  });
+});
+
+
+
+
+
+// this checks to see if agreement box is checked to offer next slide button
+agreeCheckBox.addEventListener('change', (e) =>{
+  console.log(e.target.checked);
+  const value = e.target.checked;
+  nextBtnFirst.hidden = true;
+  nextBtnFirst.disabled = true;
+  if (value == true) {
+    nextBtnFirst.hidden = false;
+    nextBtnFirst.disabled = false;
+  }
+});
+
+
+
 nextBtnFirst.addEventListener("click", function(event){
   event.preventDefault();
   slidePage.style.marginLeft = "-25%";
