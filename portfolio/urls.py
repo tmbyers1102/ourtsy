@@ -25,7 +25,9 @@ from portfolio.views import (
     art_review,
     artist_more,
     art_images_update,
-    art_new
+    art_new,
+    terms,
+    submitted,
 )
 
 app_name = "portfolio"
@@ -51,4 +53,8 @@ urlpatterns = [
     path('artist/create/', artist_create, name='artist-create'),
     path('search_art/', search_art, name='search-art'),
     path('index/', index, name='index'),
+    path('terms/', terms, name='terms'),
+    path('submitted/', submitted, name='submitted'),
+
+
 ]

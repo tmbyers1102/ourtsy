@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from django.conf.urls import url
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
@@ -28,6 +29,15 @@ import string
 
 
 User = get_user_model()
+
+
+def submitted(request):
+    return render(request, "submitted.html")
+
+
+def terms(request):
+    return render(request, "terms.html")
+
 
 def index(request):
     art = ArtItem.objects.filter(slug="the-new-cactus").first()
@@ -412,6 +422,7 @@ def art_create(request):
     art_items = ArtItem.objects.all()
     form = ArtModelForm(request.POST)
     artist_instance = Artist.objects.filter(slug=request.user.userprofile.slug).first()
+    url = reverse('porfolio:terms')
 
     if request.method == 'POST':
         data = request.POST
@@ -464,6 +475,7 @@ def art_create(request):
                 )
                 print('finished an image: ')
                 print(image)
+        
     
     context = {
         'art_items': art_items,
@@ -529,6 +541,7 @@ def art_new(request):
                 )
                 print('finished an image: ')
                 print(image)
+            return redirect("portfolio:submitted")
     
     context = {
         'art_items': art_items,
