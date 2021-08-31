@@ -12,7 +12,7 @@ User = get_user_model()
 
 
 # this gathers all the mediums from the ArtMedium model
-MEDIUM_CHOICES = ([(x.name, x.name) for x in ArtMedium.objects.all()])
+# MEDIUM_CHOICES = ([(x.name, x.name) for x in ArtMedium.objects.all()])
 
 
 class ArtModelForm(forms.ModelForm):
