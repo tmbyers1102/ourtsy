@@ -23,27 +23,45 @@ const progressCheck = document.querySelectorAll(".step .check");
 const bullet = document.querySelectorAll(".step .bullet");
 let current = 1;
 
-// this checks to see if title, price, and story are filled for next slide button
-artTitle.addEventListener('keyup', (e) =>{
+
+artTitle.addEventListener('change', (e) =>{
   console.log(e.currentTarget.value);
   const valueTitle = e.currentTarget.value;
-  artPrice.addEventListener('keyup', (e) =>{
+  nextBtnThird.hidden = true;
+  const valuePrice = '';
+  const valueStory = '';
+  if (valueTitle && valuePrice && valueStory !== '') {
+    console.log('all have values');
+    nextBtnThird.removeAttribute('hidden');
+  } else {
+    console.log('all DONT have values');
+    nextBtnThird.setAttribute('hidden', 'hidden');
+  }
+  artPrice.addEventListener('change', (e) =>{
     console.log(e.currentTarget.value);
     const valuePrice = e.currentTarget.value;
+    nextBtnThird.hidden = true;
+    if (valueTitle && valuePrice && valueStory !== '') {
+      console.log('all have values');
+      nextBtnThird.removeAttribute('hidden');
+    } else {
+      console.log('all DONT have values');
+      nextBtnThird.setAttribute('hidden', 'hidden');
+    }
     artStory.addEventListener('keyup', (e) =>{
       console.log(e.currentTarget.value);
       const valueStory = e.currentTarget.value;
-      nextBtnThird.hidden = false;
-      if (valueStory === "" || valuePrice === "" || valueTitle === "") {
-        nextBtnThird.hidden = true;
+      nextBtnThird.hidden = true;
+      if (valueTitle && valuePrice && valueStory !== '') {
+        console.log('all have values');
+        nextBtnThird.removeAttribute('hidden');
+      } else {
+        console.log('all DONT have values');
+        nextBtnThird.setAttribute('hidden', 'hidden');
       }
     });
   });
 });
-
-
-
-
 
 // this checks to see if agreement box is checked to offer next slide button
 agreeCheckBox.addEventListener('change', (e) =>{
@@ -56,8 +74,6 @@ agreeCheckBox.addEventListener('change', (e) =>{
     nextBtnFirst.disabled = false;
   }
 });
-
-
 
 nextBtnFirst.addEventListener("click", function(event){
   event.preventDefault();
