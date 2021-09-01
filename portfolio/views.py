@@ -422,7 +422,6 @@ def art_create(request):
     art_items = ArtItem.objects.all()
     form = ArtModelForm(request.POST)
     artist_instance = Artist.objects.filter(slug=request.user.userprofile.slug).first()
-    url = reverse('porfolio:terms')
 
     if request.method == 'POST':
         data = request.POST
