@@ -1,0 +1,30 @@
+<div class="carousel rounded relative overflow-hidden shadow-xl w-1/2 hidden md:block">
+  <div class="carousel-inner relative overflow-hidden w-full">
+    
+    {% for item in art_images %}
+      <!--Slide -->
+      <input class="carousel-open" type="radio" id="carousel-{{ forloop.counter }}" name="carousel" aria-hidden="true" hidden=""
+        checked="{% if forloop.counter == 1 %}checked{% endif %}">
+      <div class="carousel-item absolute opacity-0 bg-center">
+        <img src="{{ item.image.url }}" alt="ffff">
+      </div>
+
+      <label for="carousel-{% if forloop.counter|add:'1' > art_images_count %}1{% else %}{{ forloop.counter|add:'1' }}{% endif %}"
+        class="control-{{ forloop.counter }} opacity-25 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight text-center z-10 inset-y-0 left-0 my-auto flex justify-center content-center"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+        </svg>
+      </label>
+
+      <label for="carousel-{% if forloop.counter|add:'-1' == 0 %}{{ art_images_count }}{% else %}{{ forloop.counter|add:'-1' }}{% endif %}"
+        class="next control-{{ forloop.counter }} opacity-25 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight content-center z-10 inset-y-0 right-0 my-auto"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </label>
+    {% endfor %}
+
+  </div>
+</div>

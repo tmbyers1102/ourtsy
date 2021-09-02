@@ -292,6 +292,7 @@ class ArtListView(generic.ListView):
 # this one is in use
 def art_list(request):
     art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
+    # art_images = ArtImage.objects.filter(art_item=instance)
     artists = Artist.objects.all()
     portfolios = Portfolio.objects.all()
     myFilter = ArtFilter(request.GET, queryset=art)
@@ -302,6 +303,7 @@ def art_list(request):
     art_mediums = ArtMedium.objects.all()
     context = {
         "art": art,
+        # "art_images": art_images,
         "portfolios": portfolios,
         "myFilter": myFilter,
         "art_mediums": art_mediums,
@@ -360,7 +362,7 @@ def art_detail(request, slug):
         "art_images": art_images,
 
     }
-    return render(request, "art_detail.html", context)
+    return render(request, "art_detail/art_detail.html", context)
 
 
 class ArtCreateView(LoginRequiredMixin, generic.CreateView):

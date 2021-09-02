@@ -1,0 +1,99 @@
+<div class="container mx-auto border-t border-indigo-200 mt-3">
+    <div class="relative rounded-lg flex flex-col md:flex-row items-center md:shadow-xl hover:shadow-2xl">
+        <div class="z-0 order-1 md:order-2 relative w-full md:w-2/5 h-56 md:h-full overflow-hidden">
+    
+            <div class="absolute inset-0 w-full h-full object-fill object-center bg-blue-400 bg-opacity-30 bg-cover bg-bottom" style="background-image: url( '{{ art.artist.artist_headshot.url }}' ); background-blend-mode: multiply;"></div>
+            
+            <div class="md:hidden absolute inset-0 h-full p-3 md:p-6 flex flex-col-reverse justify-start items-start bg-gradient-to-b from-transparent via-transparent to-gray-900">
+              <p class="text-white text-sm">{{ art.artist.bio|truncatechars:229 }} <span class="text-xs">(Read More)</span></p>
+              <div class="flex items-center">
+                
+                <h1 class="text-xs text-white font-bold">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h1>
+              </div>
+              <div class="w-full text-xs text-gray-100 mt-3 mb-1 items-center">
+                {% for tag in art.artist.art_mediums.all %}
+                    <a href="#" class="bg-indigo-700 bg-opacity-50 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                        <span>{{ tag }}</span>
+                    </a>
+                {% endfor %}
+              </div>
+                <!-- <a class="" href="#">
+                  <img class="inline object-cover w-12 h-12 mr-2 rounded-full" src="{{ artist.artist_headshot.url }}" alt="Profile image"/>
+
+                  <h3 class="w-full font-bold text-sm md:text-2xl text-white leading-tight right-0">{{ artist.user.first_name }} {{ artist.user.last_name }}</h3>
+                </a> -->
+                
+            </div>
+            <svg class="hidden md:block absolute inset-y-0 h-full w-24 fill-current text-white -ml-12" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polygon points="50,0 100,0 50,100 0,100" />
+            </svg>
+            
+        </div>
+
+        <div class="z-10 order-2 md:order-1 w-full h-full md:w-3/5 flex items-center -mt-6 md:mt-0 hidden md:block">
+            <div class="p-8 md:pr-18 md:pl-14 md:py-12 mx-2 md:mx-0 h-full bg-white rounded-lg md:rounded-none md:rounded-l-lg shadow-xl md:shadow-none">
+                <h3 class="hidden md:block font-bold text-2xl text-gray-700">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h3>
+                <!-- <h4 class="hidden md:block text-xs text-gray-400 mb-2">somethingz  |  something esle</h4> -->
+                        {% for genre in art.artist.genres.all %}
+                            <a class="text-xs bg-indigo-50 p-1 mr-2 mt-2 text-indigo-300 rounded font-medium">
+                                <span>#{{ genre }}</span>
+                            </a>
+                        {% endfor %}
+                
+                <a class="flex items-baseline mt-3 text-blue-600 hover:text-blue-900 focus:text-blue-900" href="#####">
+                    <span>View {{ art.artist.user.first_name }}'s portfolio</span>
+                    <span class="text-xs ml-1">&#x279c;</span>
+                </a>
+            </div>
+        </div>
+      </div>
+</div>
+
+
+
+
+<!-- angled mobile profile card -->
+
+<!-- <div class="w-screen h-screen flex justify-center items-center md:hidden">
+    <div class="container mx-auto max-w-sm rounded-lg overflow-hidden shadow-lg my-2 bg-white">
+        <div class="relative z-10" style="clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 25vw));">
+                <img class="w-full" src="{{ art.artist.artist_headshot.url }}"
+                    alt="Profile image" />
+                <div class="text-center absolute w-full" style="bottom: 4rem">
+                <p class="text-white tracking-wide uppercase text-lg font-bold">John Doe</p>
+                <p class="text-gray-400 text-sm">@johndoe</p>
+                </div>
+        </div>
+        <div class="relative flex justify-between items-center flex-row px-6 z-50 -mt-10">
+                <p class="flex items-center text-gray-400">
+                <span class="inline-block w-3 h-3 bg-green-500 rounded-full mr-2"></span>online</p>
+                <button
+                        class="p-4 bg-red-600 rounded-full hover:bg-red-500 focus:bg-red-700 transition ease-in duration-200 focus:outline-none">
+                <svg viewBox="0 0 20 20" enable-background="new 0 0 20 20" class="w-6 h-6">
+                    <path fill="#FFFFFF" d="M16,10c0,0.553-0.048,1-0.601,1H11v4.399C11,15.951,10.553,16,10,16c-0.553,0-1-0.049-1-0.601V11H4.601
+                                            C4.049,11,4,10.553,4,10c0-0.553,0.049-1,0.601-1H9V4.601C9,4.048,9.447,4,10,4c0.553,0,1,0.048,1,0.601V9h4.399
+                                            C15.952,9,16,9.447,16,10z" />
+                </svg>
+                </button>
+        </div>
+        <div class="pt-6 pb-8 text-gray-600 text-center">
+            <p>Fullstack Developer </p>
+            <p class="text-sm">Coding from Planet Earth</p>
+        </div>
+    
+        <div class="pb-10 uppercase text-center tracking-wide flex justify-around">
+                <div class="posts">
+                <p class="text-gray-400 text-sm">Posts</p>
+                <p class="text-lg font-semibold text-blue-300">76</p>
+                </div>
+                <div class="followers">
+                <p class="text-gray-400 text-sm">Followers</p>
+                <p class="text-lg font-semibold text-blue-300">964</p>
+                </div>
+                <div class="following">
+                <p class="text-gray-400 text-sm">Following</p>
+                <p class="text-lg font-semibold text-blue-300">34</p>
+                </div>
+        </div>
+    </div>
+</div> -->

@@ -1,52 +1,79 @@
-<header class="text-gray-700 body-font">
-  <div class="container mx-auto flex flex-wrap p-2 flex-col md:flex-row items-center">
-    <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-      </svg>
-      <span class="ml-3 text-xl">ourtsy</span>
-    </a>
-    <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-      {% if not request.user.is_authenticated %}
-        <a href="{% url 'signup' %}" class="mr-5 hover:text-gray-900">Signup</a>
-      {% else %}
-        <a href="{% url 'portfolio:art-list' %}" class="mr-5 hover:text-gray-900">Art</a>
-        {% if request.user.is_organizer %}
-          <a href="{% url 'portfolio:artist-list' %}" class="mr-5 hover:text-gray-900">Artists</a>
-        {% endif %}
-        <!-- <a href="{% url 'leads:lead-list' %}" class="mr-5 hover:text-gray-900">Leads</a> -->
-      {% endif %}
-    </nav>
-    {% if request.user.is_authenticated %}
-        {% if request.user.is_artist %}
-          <a
-            href="{% url 'portfolio:art-dashboard' %}"
-            class="ml-3 inline-flex items-center text-gray-50 bg-indigo-500 border-0 py-1 px-3 hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-          >
-            {{ request.user.username }}
-          </a>
-        {% else %}
-          <a
-            href="{% url 'user-profile' request.user.userprofile.slug %}"
-            class="ml-3 inline-flex items-center text-gray-50 bg-indigo-500 border-0 py-1 px-3 hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-          >
-            *{{ request.user.username }}
-          </a>
-        {% endif %}
-      <a href="{% url 'logout' %}" class="ml-3 inline-flex items-center hover:bg-indigo-50 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
-        Logout
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
+<div>
+  <!-- mobile menu -->
+  <header id="top" class="z-20 md:hidden w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l">
+    <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center px-4 sm:px-6 py-1 bg-white shadow sm:shadow-none">
+      <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
+        <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-indigo-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
           </svg>
-      </a>
-    {% else %}
-    <a href="{% url 'login' %}" class="inline-flex items-center hover:bg-indigo-50 border-0 py-1 px-3 focus:outline-none rounded text-base mt-4 md:mt-0">
-        Login
-        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-        </svg>
-    </a>
-    {% endif %}
-  </div>
-</header>
+          <span class="ml-3 text-l text-xl">ourtsy</span>
+        </a>
+        {% if request.user.is_authenticated %}
+          <a class="inline-flex text-white text-sm text-white w-32 items-center no-underline bg-indigo-500 rounded sm:w-auto px-3 py-2" href="{% url 'portfolio:art-dashboard' %}">
+            <svg xmlns="inline http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ request.user.username }}</span>
+          </a>                  
+        {% endif %}
+        <button id="menuBtn" class="hamburger block sm:hidden focus:outline-none text-white" type="button" onclick="navToggle();">
+          <span class="hamburger__top-bun"></span><span class="hamburger__bottom-bun"></span>
+        </button>
+      </div>
+      <div id="menu" class="w-full sm:w-auto self-end text-indigo-500 sm:self-center sm:flex flex-col sm:flex-row items-center h-full py-1 pb-4 sm:py-0 sm:pb-0 hidden divide-y divide-indigo-50">
+        {% if not request.user.is_authenticated %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'signup' %}">Signup</a>                  
+        {% endif %}
+        <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'portfolio:art-list' %}">Art</a>
+        <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'portfolio:artist-list' %}">Artists</a>
+        {% if request.user.is_authenticated %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+  <div class="relative pt-3 px-3 z-20">
+    <!-- full screen menu -->
+    <header id="top" class="hidden md:block w-full flex flex-col fixed sm:relative pin-t pin-r pin-l">
+      <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center bg-white shadow sm:shadow-none">
+        <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
+          <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-indigo-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-l text-xl">ourtsy</span>
+          </a>
+          <button id="menuBtn" class="hamburger block sm:hidden focus:outline-none" type="button" onclick="navToggle();">
+            <span class="hamburger__top-bun"></span><span class="hamburger__bottom-bun"></span>
+          </button>
+        </div>
+        <div id="menu" class="w-full sm:w-auto self-end text-indigo-500 sm:self-center sm:flex flex-col sm:flex-row items-center h-full py-1 pb-4 sm:py-0 sm:pb-0 hidden">
+          {% if not request.user.is_authenticated %}
+            <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'signup' %}">Signup</a>                  
+          {% endif %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'portfolio:art-list' %}">Art</a>
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'portfolio:artist-list' %}">Artists</a>
+          {% if request.user.is_authenticated %}
+            {% if request.user.is_artist %}                        
+                <a class="inline-flex text-white w-full items-center no-underline bg-indigo-500 rounded sm:w-auto px-3 py-2 ml-8 pt-2 hover:bg-indigo-700" href="{% url 'portfolio:art-dashboard' %}">
+                  <svg xmlns="inline http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>{{ request.user.username }}</span>
+                </a>
+            {% else %}
+              <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'user-profile' request.user.userprofile.slug %}">{{ request.user.username }}*</a>
+            {% endif %}
+            <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'logout' %}">Logout</a>
+          {% else %}
+            <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'login' %}">Login</a>
+          {% endif %}
+        </div>
+      </nav>
+    </header>
 
+  </div>
+</div>

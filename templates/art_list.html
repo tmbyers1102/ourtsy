@@ -5,6 +5,8 @@
 
 
 <section class="text-gray-600 body-font">
+    <br class="md:hidden">
+    <br class="md:hidden">
     <div class="container px-2 py-2 mx-auto">
 
 
@@ -50,7 +52,7 @@
             </button>
 
         </div>
-        <div class="py-4 flex justify-evenly">
+        <div class="py-4 flex justify-evenly hidden md:block">
             {% for medium in art_mediums %}
                 <a href="http://127.0.0.1:8000/art/?art_mediums={{ medium.pk }}" class="self-auto bg-indigo-500 m-1 py-2 text-white w-full text-center text-sm rounded hover:bg-indigo-600">
                     <span>{{ medium }}</span>
