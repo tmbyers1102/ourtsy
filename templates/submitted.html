@@ -5,129 +5,99 @@
 
   <div class="relative bg-indigo-500 overflow-hidden">
     <div class="max-w-7xl mx-auto">
-      <div class="relative z-10 pb-8 bg-indigo-500 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+      <div class="relative z-10 pb-4 md:pb-8 bg-indigo-500 sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
+    
         <svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-indigo-500 transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <polygon points="50,0 100,0 50,100 0,100" />
         </svg>
-  
         <div>
-          <div class="relative pt-6 px-4 sm:px-6 lg:px-8">
-            <nav class="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
-              <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center text-white">
-                <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+          <!-- mobile menu -->
+          <header id="top" class="md:hidden w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l">
+            <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center px-4 sm:px-6 py-1 bg-indigo-700 shadow sm:shadow-none">
+              <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
+                <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-white">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                   </svg>
-                  <span class="ml-3 text-xl text-white">ourtsy</span>
+                  <span class="ml-3 text-l text-xl">ourtsy</span>
                 </a>
-                <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                  {% if not request.user.is_authenticated %}
-                    <a href="{% url 'signup' %}" class="mr-5 hover:text-gray-900">Signup</a>
-                  {% else %}
-                    <a href="{% url 'portfolio:art-list' %}" class="mr-5 hover:text-gray-900">Art</a>
-                    {% if request.user.is_organizer %}
-                      <a href="{% url 'portfolio:artist-list' %}" class="mr-5 hover:text-gray-900">Artists</a>
-                    {% endif %}
-                    <!-- <a href="{% url 'leads:lead-list' %}" class="mr-5 hover:text-gray-900">Leads</a> -->
-                  {% endif %}
-                </nav>
                 {% if request.user.is_authenticated %}
-                  {% if request.user.is_artist %}
-                    <a
-                      href="{% url 'portfolio:art-dashboard' %}"
-                      class="ml-3 inline-flex items-center text-gray-50 bg-indigo-500 border-2 border-white py-1 px-3 hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-                    >
-                      {{ request.user.username }}
-                    </a>
-                  {% else %}
-                    <a
-                      href="{% url 'user-profile' request.user.userprofile.slug %}"
-                      class="ml-3 inline-flex items-center text-gray-50 bg-indigo-500 border-0 py-1 px-3 hover:bg-indigo-600 rounded text-base mt-4 md:mt-0"
-                    >
-                      *{{ request.user.username }}
-                    </a>
-                  {% endif %}
-                  <a href="{% url 'logout' %}" class="ml-3 inline-flex items-center border-0 py-1 px-3 focus:outline-none hover:bg-indigo-50 hover:text-indigo-600 rounded text-base mt-4 md:mt-0">
-                    Logout
-                      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                          <path d="M5 12h14M12 5l7 7-7 7"></path>
-                      </svg>
-                  </a>
-                {% else %}
-                <a href="{% url 'login' %}" class="inline-flex items-center border-0 py-1 px-3 focus:outline-none hover:bg-indigo-50 rounded text-base mt-4 md:mt-0">
-                    Login
-                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-1" viewBox="0 0 24 24">
-                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                  <a class="inline-flex text-white text-sm text-indigo-600 w-32 items-center no-underline bg-white rounded sm:w-auto px-3 py-2" href="{% url 'portfolio:art-dashboard' %}">
+                    <svg xmlns="inline http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                </a>
+                    <span>{{ request.user.username }}</span>
+                  </a>                  
+                {% endif %}
+                <button id="menuBtn" class="hamburger block sm:hidden focus:outline-none text-white" type="button" onclick="navToggle();">
+                  <span class="hamburger__top-bun"></span><span class="hamburger__bottom-bun"></span>
+                </button>
+              </div>
+              <div id="menu" class="w-full sm:w-auto self-end text-white sm:self-center sm:flex flex-col sm:flex-row items-center h-full py-1 pb-4 sm:py-0 sm:pb-0 hidden divide-y divide-indigo-600">
+                {% if not request.user.is_authenticated %}
+                  <a class="text-white text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'signup' %}">Signup</a>                  
+                {% endif %}
+                <a class="text-white text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'portfolio:art-list' %}">Art</a>
+                <a class="text-white text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'portfolio:artist-list' %}">Artists</a>
+                {% if request.user.is_authenticated %}
+                  <a class="text-white text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                  <a class="text-white text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'login' %}">Login</a>
                 {% endif %}
               </div>
             </nav>
-          </div>
-  
-          <!--
-            Mobile menu, show/hide based on menu open state.
-  
-            Entering: "duration-150 ease-out"
-              From: "opacity-0 scale-95"
-              To: "opacity-100 scale-100"
-            Leaving: "duration-100 ease-in"
-              From: "opacity-100 scale-100"
-              To: "opacity-0 scale-95"
-          -->
-          <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
-            <div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-              <div class="px-5 pt-4 flex items-center justify-between">
-                <div>
-                  <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="">
-                </div>
-                <div class="-mr-2">
-                  <button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
-                    <span class="sr-only">Close main menu</span>
-                    <!-- Heroicon name: outline/x -->
-                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </header>
+          <div class="relative md:pt-3 px-4 sm:px-6 lg:px-8">
+            <!-- full screen menu -->
+            <header id="top" class="hidden md:block w-full flex flex-col fixed sm:relative pin-t pin-r pin-l">
+              <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center bg-indigo-500 shadow sm:shadow-none">
+                <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
+                  <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                     </svg>
+                    <span class="ml-3 text-l text-xl">ourtsy</span>
+                  </a>
+                  <button id="menuBtn" class="hamburger block sm:hidden focus:outline-none" type="button" onclick="navToggle();">
+                    <span class="hamburger__top-bun"></span><span class="hamburger__bottom-bun"></span>
                   </button>
                 </div>
-              </div>
-              <div class="px-2 pt-2 pb-3 space-y-1">
-                {% if not request.user.is_authenticated %}
-                  <a href="{% url 'signup' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Signup</a>
-                {% else %}
-                  <a href="{% url 'portfolio:art-list' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Art</a>
-    
-                  <a href="{% url 'leads:lead-list' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Leads</a>
-                  
-                  <a href="{% url 'agents:agent-list' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50">Agents</a>
-                {% endif %}
-              </div>
-                {% if request.user.is_authenticated %}
-                  <a
-                    href="{% url 'portfolio:art-dashboard' %}"
-                    class="block w-full px-5 py-3 text-center font-medium text-gray-50 bg-indigo-600 hover:bg-gray-100"
-                  >
-                    Welcome, {{ request.user.username }}
-                  </a>
+                <div id="menu" class="w-full sm:w-auto self-end text-white sm:self-center sm:flex flex-col sm:flex-row items-center h-full py-1 pb-4 sm:py-0 sm:pb-0 hidden">
+                  {% if not request.user.is_authenticated %}
+                    <a class="text-white text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'signup' %}">Signup</a>                  
+                  {% endif %}
+                  <a class="text-white text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'portfolio:art-list' %}">Art</a>
+                  <a class="text-white text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'portfolio:artist-list' %}">Artists</a>
+                  {% if request.user.is_authenticated %}
+                    {% if request.user.is_artist %}                        
+                        <a class="inline-flex text-white text-indigo-600 w-full items-center no-underline bg-white rounded sm:w-auto px-3 py-2 ml-8 pt-2" href="{% url 'portfolio:art-dashboard' %}">
+                          <svg xmlns="inline http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          <span>{{ request.user.username }}</span>
+                        </a>
+                    {% else %}
+                      <a class="text-white text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'user-profile' request.user.userprofile.slug %}">{{ request.user.username }}*</a>
+                    {% endif %}
+                    <a class="text-white text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'logout' %}">Logout</a>
+                  {% else %}
+                    <a class="text-white text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2" href="{% url 'login' %}">Login</a>
+                  {% endif %}
+                </div>
+              </nav>
+            </header>
 
-              <a href="{% url 'logout' %}" class="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">
-                Logout
-              </a>
-                {% else %}
-              <a href="{% url 'login' %}" class="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100">
-                Login
-              </a>
-                {% endif %}
-            </div>
           </div>
         </div>
   
-        <main class="mt-5 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-12">
-          <div class="sm:text-center lg:text-left">
-            <h1 class="text-4xl tracking-tight font-extrabold text-yellow-300 sm:text-5xl md:text-6xl">
+        <main class="mx-auto max-w-7xl px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-12">
+          <div class="text-center md:text-left">
+            <h1 class="text-4xl tracking-tight font-extrabold text-yellow-300 md:text-6xl">
+              <br class="md:hidden">
+              <br class="md:hidden">
               <span class="block xl:inline">Congrats!</span>
             </h1>
-            <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
+            <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-white md:text-6xl">
               <span class="block xl:inline">Your artwork has been submitted</span>
             </h1>
           </div>
@@ -136,11 +106,11 @@
     </div>
     <div class="container lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
       <img class="h-full w-full object-cover" src="{% static 'images/bike_guy.jpg' %}" alt="">
-      <div class="centered rounded-lg p-4" style="background: rgba(255,255,255,0.85); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-        <h1 class="text-2xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-3xl">
+      <div class="centered rounded-lg p-6 absolute bottom-6 right-6 md:bottom-12 md:right-12" style="background: rgba(255,255,255,0.75); ">
+        <h1 class="text-xl tracking-tight font-extrabold text-gray-900 md:text-3xl">
           <span class="block xl:inline">Your journey</span>
         </h1>
-        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-3xl">
+        <h1 class="text-xl tracking-tight font-extrabold text-gray-900 md:text-3xl">
           <span class="block text-indigo-600 xl:inline">has just begun!</span>
         </h1>
       </div>

@@ -11,14 +11,14 @@
         </svg>
   
         <div>
-          <div class="relative pt-6 px-4 sm:px-6 lg:px-8">
-            <nav class="relative flex items-center justify-between sm:h-10 lg:justify-start" aria-label="Global">
-              <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+          <div class="relative pt-3 px-4 sm:px-6 lg:px-8">
+            <nav class="relative flex items-left justify-between sm:h-10 lg:justify-start" aria-label="Global">
+              <div class="container mx-auto flex flex-wrap flex-col md:flex-row items-left">
                 <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5 md:w-10 md:h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                   </svg>
-                  <span class="ml-3 text-xl">ourtsy</span>
+                  <span class="ml-3 text-l text-xl">ourtsy</span>
                 </a>
                 <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
                   {% if not request.user.is_authenticated %}
@@ -28,7 +28,6 @@
                     {% if request.user.is_organizer %}
                       <a href="{% url 'portfolio:artist-list' %}" class="mr-5 hover:text-gray-900">Artists</a>
                     {% endif %}
-                    <!-- <a href="{% url 'leads:lead-list' %}" class="mr-5 hover:text-gray-900">Leads</a> -->
                   {% endif %}
                 </nav>
                 {% if request.user.is_authenticated %}
@@ -75,7 +74,7 @@
               From: "opacity-100 scale-100"
               To: "opacity-0 scale-95"
           -->
-          <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
+          <div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right hidden">
             <div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
               <div class="px-5 pt-4 flex items-center justify-between">
                 <div>
@@ -130,7 +129,7 @@
             <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
               <span class="block text-indigo-600 xl:inline">fantastic art!</span>
             </h1>
-            <div class="bg-indigo-50 rounded-lg shadow-lg p-4 w-3/4">
+            <div class="bg-indigo-50 rounded-lg shadow-lg p-4 w-full md:w-3/4">
                 <form method="POST" class="w-full" action="{% url 'portfolio:search-art' %}">
                     {% csrf_token %}
                     <input
