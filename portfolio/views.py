@@ -235,8 +235,10 @@ class LandingPageView(generic.TemplateView):
 
 def landing_page(request):
     artists = Artist.objects.all().order_by('-user_id')
+    artists_tags = ["test1", "test2", "test3", "test4", "test5"]
     context = {
-        "artists": artists[0:6]
+        "artists": artists[0:6],
+        "artists_tags": artists_tags,
     }
     return render(request, "landing_1.html", context)
 
