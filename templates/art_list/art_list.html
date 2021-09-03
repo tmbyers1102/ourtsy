@@ -7,70 +7,31 @@
 <section class="text-gray-600 body-font">
     <br class="md:hidden">
     <br class="md:hidden">
-    <div class="container px-2 py-2 mx-auto">
+    <div class="container px-2 mx-auto"></div>
+            <!-- Mobile search -->
+            {% include "art_list/art_list_mobile_search.html" %}
+        <!-- END Mobile search -->
+    
 
 
-        <!-- <div class="w-full mb-2 py-2 flex justify-between items-center border-b border-indigo-50">
-            <div>
-                <h1 class="text-4xl text-gray-800">Art</h1>
-            </div>
-            <div>
-                <a class="text-gray-500 hover:text-blue-500" href="{% url 'portfolio:art-create' %}">Create new Art</a>
-            </div>
-        </div> -->
-        <div class="bg-indigo-50 rounded shadow-lg py-4 px-2 flex">
-            <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </span>
-            <form method="POST" class="w-full flex justify-left" action="{% url 'portfolio:search-art' %}">
-                {% csrf_token %}
-                    <input
-                        style="height: auto; width: full;"
-                        class="flex w-full rounded outline-none py-2 pl-4 text-indigo-500 mr-2"
-                        type="text"
-                        placeholder="Try 'southwest' or 'green' or 'horse' or 'pop art' etc... "
-                        name="searched"
-                    >
-                    <button class="bg-indigo-500 hover:bg-indigo-600 rounded-l text-white px-4" type="submit">
-                            <p class="font-semibold text-sm">Search</p>
-                    </button >
-            </form>
-            <button
-                type="button"
-                style="white-space: nowrap;"
-                onclick="openModal('mymodaltop')"
-                class="border-2 border-indigo-500 bg-white hover:bg-indigo-50 rounded-r text-indigo-500 px-4 mr-2"
-            >
-                <span class="w-auto flex justify-center items-center text-indigo-500 p-2">
-                    <span class="mr-2">Advanced Search</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-                    </svg>
-                </span>
-            </button>
+        <!-- Desktop search -->
+            {% include "art_list/art_list_desktop_search.html" %}
+        <!-- END Desktop search -->
+        <br class="md:hidden">
+        <br class="md:hidden">
+        <div class="flex flex-wrap">
 
-        </div>
-        <div class="py-4 flex justify-evenly hidden md:block">
-            {% for medium in art_mediums %}
-                <a href="http://127.0.0.1:8000/art/?art_mediums={{ medium.pk }}" class="self-auto bg-indigo-500 m-1 py-2 text-white w-full text-center text-sm rounded hover:bg-indigo-600">
-                    <span>{{ medium }}</span>
-                </a>
-            {% endfor %}
-        </div>
-        <div class="flex flex-wrap -m-4">
             {% if art %}
                 {% for item in art %}
-                    <div class="content-div lg:w-1/4 md:w-1/2 p-4 w-full">
+                    <div class="content-div lg:w-1/4 md:w-1/2 px-2 w-full">
                         <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ item.cover_image.url }}">
                             <div class="opacity-0 hover:opacity-40 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold"></div>
                         </a>
-                        <div class="mt-4">
+                        <div class="mb-3">
                             <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
-                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
-                            <p class="mt-1">${{ item.price }}</p>
+                            <h3 class="text-gray-500 text-xs tracking-widest title-font">{{ item.artist }}</h3>
+                            <p>${{ item.price }}</p>
                         </div>
                     </div>
                 {% endfor %}
@@ -113,6 +74,91 @@
             </div>
         {% endfor %}
     </div>
+        <!-- START Medium Meta -->
+        <button id="metaMedium" name="collapsibleMetaMediumW" class="collapsible md:hidden inline-flex text-xs" type="button">
+            <span>Mediums</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+            </svg>
+        </button>
+        <div class="contentC leading-none rounded">
+                {{ myFilter.form.art_mediums }}
+        </div>
+        <script>
+            var collMeta = document.getElementsByName("collapsibleMetaMediumW");
+            var i;
+            
+            for (i = 0; i < coll.length; i++) {
+                collMeta[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } 
+                });
+            }
+        </script>
+        <!-- END Medium Meta -->
+        <!-- START Com Meta -->
+        <button id="metaCom" name="collapsibleMetaCom" class="collapsible md:hidden inline-flex text-xs text-indigo-200" type="button">
+            <span>Communities</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+            </svg>
+        </button>
+        <div class="contentC leading-none rounded">
+            <div class="control">
+                {{ myFilter.form.art_communities }}
+            </div>
+        </div>
+        <script>
+            var collMeta = document.getElementsByName("collapsibleMetaCom");
+            var i;
+            
+            for (i = 0; i < coll.length; i++) {
+                collMeta[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } 
+                });
+            }
+        </script>
+        <!-- END Com Meta -->
+        <!-- START Genre Meta -->
+        <button id="metaGenre" name="collapsibleMetaGenre" class="collapsible md:hidden inline-flex text-xs text-indigo-200" type="button">
+            <span>Genres</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+            </svg>
+        </button>
+        <div class="contentC rounded mb-2">
+            <div class="control py-2">
+                {{ myFilter.form.art_genres }}
+            </div>
+        </div>
+        <script>
+            var collMeta = document.getElementsByName("collapsibleMetaGenre");
+            var i;
+            
+            for (i = 0; i < coll.length; i++) {
+                collMeta[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } 
+                });
+            }
+        </script>
+        <!-- END Genre Meta -->
 </section>
 
 

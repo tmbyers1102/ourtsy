@@ -273,7 +273,7 @@ class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
 
 
 class ArtListView(generic.ListView):
-    template_name = "art_list.html"
+    template_name = "art_list/art_list.html"
     context_object_name = "art_items"
 
     def get_queryset(self):
@@ -310,7 +310,7 @@ def art_list(request):
         "mediumArtFilter": mediumArtFilter,
         "mediumArtistFilter": mediumArtistFilter,
     }
-    return render(request, "art_list.html", context)
+    return render(request, "art_list/art_list.html", context)
 
 
 def art_page(request):

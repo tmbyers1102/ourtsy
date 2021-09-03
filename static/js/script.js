@@ -275,7 +275,7 @@ for (i = 0; i < coll.length; i++) {
 
 // end collapse
 
-// new menu
+// new menu --Home and submitted
 var nav = document.getElementById('site-menu');
 var header = document.getElementById('top');
 
@@ -299,4 +299,68 @@ function navToggle() {
     }
 
 
-// end of new menu
+// end of new menu --Home and submitted
+
+// art list mobile search dropdown
+var navSearch = document.getElementById('search-menu');
+var headerSearch = document.getElementById('search-top');
+
+window.addEventListener('scroll', function() {
+  if (window.scrollY >=400) { // adjust this value based on site structure and header image height
+    navSearch.classList.add('nav-sticky');
+    headerSearch.classList.add('pt-scroll');
+  } else {
+    navSearch.classList.remove('nav-sticky');
+    headerSearch.classList.remove('pt-scroll');
+  }
+});
+
+function navSearchToggle() {
+        var btnSearch = document.getElementById('searchMenuBtn');
+        var navSearch = document.getElementById('searchMenu');
+
+        btnSearch.classList.toggle('open');
+        navSearch.classList.toggle('flex');
+        navSearch.classList.toggle('hidden');
+    }
+
+// art list mobile search dropdown
+
+// art list mobile search -- MEDIUMS -- dropdown
+
+function navMediumToggle() {
+        var btnMedium = document.getElementById('mediumMenuBtn');
+        var navMedium = document.getElementById('mediumMenu');
+
+        btnMedium.classList.toggle('open');
+        navMedium.classList.toggle('flex');
+        navMedium.classList.toggle('hidden');
+    }
+
+// art list mobile search --MEDIUMS-- dropdown
+
+// art list mobile search -- COMS -- dropdown
+
+function navComToggle() {
+        var btnCom = document.getElementById('comMenuBtn');
+        var navCom = document.getElementById('comMenu');
+
+        btnCom.classList.toggle('open');
+        navCom.classList.toggle('flex');
+        navCom.classList.toggle('hidden');
+    }
+
+// art list mobile search --COMS-- dropdown
+
+// art list mobile search -- GENRES -- dropdown
+
+function navGenreToggle() {
+        var btnGenre = document.getElementById('genreMenuBtn');
+        var navGenre = document.getElementById('genreMenu');
+
+        btnGenre.classList.toggle('open');
+        navGenre.classList.toggle('flex');
+        navGenre.classList.toggle('hidden');
+    }
+
+// art list mobile search --COMS-- dropdown
