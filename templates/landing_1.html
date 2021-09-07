@@ -41,20 +41,124 @@
         </main>
       </div>
     </div>
-    <div class="container lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-      <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="{% static 'images/stock_06.jpeg' %}" alt="">
-      <div class="centered rounded-lg p-6 absolute bottom-6 right-6 md:bottom-12 md:right-12" style="background: rgba(255,255,255,0.85);">
-        <h1 class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-3xl">
-          <span class="block xl:inline">Art with a story</span>
-        </h1>
-        <h1 class="text-xl tracking-tight font-extrabold md:text-3xl">
-          <span class="block text-indigo-600 xl:inline">For those who care</span>
-        </h1>
-      </div>
+
+    <div class="carousel container lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+      {% for item in showcase_art %}
+        <input
+          class="carousel-open"
+          type="radio"
+          id="carousel-{{ forloop.counter }}"
+          name="carousel"
+          aria-hidden="true"
+          hidden=""
+          checked="{% if forloop.counter == 1 %}checked{% endif %}"
+        >
+        <div class="carousel-item absolute opacity-0 bg-center">
+          <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="{{ item.artist.artist_headshot.url }}" alt="">
+          <!-- MOBILE -->
+          <div class="md:hidden">
+            <div class="centered w-full h-1/6 absolute bottom-0 bg-indigo-50 bg-opacity-60 bg-clip-padding" style="backdrop-filter: blur(5px);">
+                <div class="p-3">
+                  <h1 class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-3xl">
+                    <span class="block inline">Sally</span>
+                    <span class="block text-indigo-600 inline">
+                      Smith
+                      <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </span>
+                  </h1>
+                  <p class="pr-2 text-xs">text text text text. text text text text. text text text text.</p>
+                  <div class="grid grid-cols-3 text-center text-sm md:text-xl md:font-bold mt-1 md:mt-3 pr-2">
+                    <div class="border-r border-indigo-600 pr-3">
+                      test
+                    </div>
+                    <div class="border-r border-indigo-600 px-3">
+                      test2
+                    </div>
+                    <div class="pl-3">
+                      test3
+                    </div>
+                  </div>
+                  <p class="leading-tight ml-4">Here is a bio paragraph for the top hero showcase artist. This blurb invites the customer to read ourtsy's profile of this artist.</p>
+                  <a href="#" class="button bg-indigo-500 hover:bg-indigo-600 text-white text-sm rounded float-right px-3 py-1 mt-2">
+                    Read Profile
+                  </a>
+                </div>
+            </div>
+          </div>
+          <!-- MOBILE END -->
+          <!-- DESKTOP -->
+          <div class="hidden md:block">
+            <div class="grid grid-cols-2 centered rounded-lg w-3/4 p-3 md:p-6 absolute bottom-6 right-6 md:bottom-12 md:right-12 bg-indigo-50 bg-opacity-60 bg-clip-padding" style="backdrop-filter: blur(5px);">
+              <div class="col-span-1">
+                <h1 class="text-xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-3xl">
+                  <span class="block inline">{{ item.artist.user.first_name }}</span>
+                  <span class="block text-indigo-600 inline">
+                    {{ item.artist.user.last_name }}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </span>
+                </h1>
+                <div class="w-full text-xs text-gray-100 mt-3 mb-1 items-center">
+                  {% for tag in item.artist.art_mediums.all %}
+                      <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                          <span>{{ tag }}</span>
+                      </a>
+                  {% endfor %}
+                  {% for tag in item.artist.art_communities.all %}
+                      <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                          <span>{{ tag }}</span>
+                      </a>
+                  {% endfor %}
+                  {% for tag in item.artist.art_genres.all %}
+                      <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                          <span>{{ tag }}</span>
+                      </a>
+                  {% endfor %}
+                </div>
+                <div class="grid grid-cols-3 text-center text-sm md:text-xl md:font-bold mt-1 md:mt-3 pr-2">
+                  <div class="border-r border-indigo-600 pr-3">
+                    test
+                  </div>
+                  <div class="border-r border-indigo-600 px-3">
+                    test2
+                  </div>
+                  <div class="pl-3">
+                    test3
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-1 border-l border-indigo-600">
+                <p class="leading-tight ml-4">Here is a bio paragraph for the top hero showcase artist. This blurb invites the customer to read ourtsy's profile of this artist.</p>
+                <a href="#" class="button bg-indigo-500 hover:bg-indigo-600 text-white text-sm rounded float-right px-3 py-1 mt-2">
+                  Read Our Interview
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- DESKTOP END -->
+        </div>
+        <label for="carousel-{% if forloop.counter|add:'1' > art_images_count %}1{% else %}{{ forloop.counter|add:'1' }}{% endif %}"
+          class="control-{{ forloop.counter }} opacity-25 w-10 h-10 ml-2 md:ml-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight text-center z-10 inset-y-0 right-20 my-auto flex justify-center content-center"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+          </svg>
+        </label>
+  
+        <label for="carousel-{% if forloop.counter|add:'-1' == 0 %}{{ art_images_count }}{% else %}{{ forloop.counter|add:'-1' }}{% endif %}"
+          class="next control-{{ forloop.counter }} opacity-25 w-10 h-10 mr-2 md:mr-10 absolute cursor-pointer hidden font-bold text-black hover:text-white rounded-full bg-white hover:bg-indigo-500 leading-tight content-center z-10 inset-y-0 right-0 my-auto"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 m-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </label>
+        
+      {% endfor %}
     </div>
   </div>
-
-<!-- end of hero -->
 
 
 <!-- showcase cards -->
@@ -68,13 +172,23 @@
                 
                 <div class="md:hidden absolute inset-0 h-full p-3 md:p-6 flex flex-col-reverse justify-start items-start bg-gradient-to-b from-transparent via-transparent to-gray-900">
 
-                  <div class="flex items-center space-x-4">
+                  <a href="#" class="flex items-center space-x-4">
                     <img class="h-10 w-10 rounded-full" src="{{ art.artist.artist_headshot.url }}" alt="" />
                     <h1 class="text-xs text-white font-bold">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h1>
-                  </div>
+                  </a>
                   <div class="w-full text-xs text-gray-100 mt-3 mb-1 items-center">
                     {% for tag in art.artist.art_mediums.all %}
-                        <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-700 bg-opacity-50 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                        <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                            <span>{{ tag }}</span>
+                        </a>
+                    {% endfor %}
+                    {% for tag in art.artist.art_communities.all %}
+                        <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                            <span>{{ tag }}</span>
+                        </a>
+                    {% endfor %}
+                    {% for tag in art.artist.art_genres.all %}
+                        <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
                             <span>{{ tag }}</span>
                         </a>
                     {% endfor %}
@@ -93,15 +207,36 @@
             </div>
     
             <div class="z-10 order-2 md:order-1 w-full h-full md:w-3/5 flex items-center -mt-6 md:mt-0 hidden md:block">
-                <div class="p-8 md:pr-18 md:pl-14 md:py-12 mx-2 md:mx-0 h-full bg-white rounded-lg md:rounded-none md:rounded-l-lg shadow-xl md:shadow-none">
-                    <h3 class="hidden md:block font-bold text-2xl text-gray-700">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</h3>
-                    <!-- <h4 class="hidden md:block text-xs text-gray-400 mb-2">somethingz  |  something esle</h4> -->
-                            {% for genre in art.artist.genres.all %}
-                                <a class="text-xs bg-indigo-50 p-1 mr-2 mt-2 text-indigo-300 rounded font-medium">
-                                    <span>#{{ genre }}</span>
-                                </a>
-                            {% endfor %}
-                    <!-- <p class="text-gray-600 text-sm">{{ artist.bio }}</p> -->
+                <div class="p-8 lg:pl-5 lg:pr-0 xl:pl-10 md:py-12 mx-2 md:mx-0 h-full bg-white rounded-lg md:rounded-none md:rounded-l-lg shadow-xl md:shadow-none">
+                  <a href="#" class="flex items-center space-x-4">
+                    <img class="h-10 w-10 rounded-full" src="{{ art.artist.artist_headshot.url }}" alt="" />
+                    <h1 class="text-lg text-indigo-600 font-bold">
+                      <span>
+                        {{ art.artist.user.first_name }} {{ art.artist.user.last_name }}
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden xl:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </span>
+                    </h1>
+                  </a>
+                  <div class="w-full text-xs text-gray-100 mt-3 mb-1 items-center">
+                    {% for tag in art.artist.art_mediums.all %}
+                        <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                            <span>{{ tag }}</span>
+                        </a>
+                    {% endfor %}
+                    {% for tag in art.artist.art_communities.all %}
+                        <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                            <span>{{ tag }}</span>
+                        </a>
+                    {% endfor %}
+                    {% for tag in art.artist.art_genres.all %}
+                        <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                            <span>{{ tag }}</span>
+                        </a>
+                    {% endfor %}
+                  </div>
+                    <p class="text-gray-600 text-sm truncate mt-1">{{ art.artist.bio }}</p>
                     <a class="flex items-baseline mt-3 text-blue-600 hover:text-blue-900 focus:text-blue-900" href="#####">
                         <span>View {{ art.artist.user.first_name }}'s portfolio</span>
                         <span class="text-xs ml-1">&#x279c;</span>
@@ -115,6 +250,9 @@
 <!-- end of artist cards -->
 
 <!-- wallhanger begin -->
+
+<!-- component -->
+
 
 <section class="text-white bg-indigo-500 body-font">
   <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -130,6 +268,15 @@
       <div class="flex w-full md:justify-start justify-center items-end">
         <div class="relative mr-4 lg:w-full xl:w-1/2 w-2/4">
           <label for="hero-field" class="leading-7 text-sm text-white">email</label>
+          <div class="group cursor-pointer relative inline-block w-auto text-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div class="opacity-0 w-auto bg-indigo-600 text-white text-center text-xs rounded-lg py-2 absolute z-10 group-hover:opacity-100 bottom-full -left-1/3 ml-0 px-3 pointer-events-none">
+              Tooltip center
+              <svg class="absolute text-indigo-600 h-2 w-full left-0 top-full" x="0px" y="0px" viewBox="0 0 255 255" xml:space="preserve"><polygon class="fill-current" points="0,0 127.5,127.5 255,0"/></svg>
+            </div>
+          </div>
           <input type="text" id="hero-field" name="hero-field" class="w-full bg-gray-800 rounded border bg-opacity-40 border-gray-700 focus:ring-2 focus:ring-indigo-900 focus:bg-transparent focus:border-indigo-500 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
         </div>
         <button class="inline-flex text-white bg-none border-2 border-white border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Request</button>
