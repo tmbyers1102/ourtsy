@@ -6,10 +6,11 @@
           <form method="POST" class="w-full flex justify-left" action="{% url 'portfolio:search-art' %}">
             {% csrf_token %}
                 <input
-                    class="flex w-full rounded-l border border-indigo-100 py-1 pl-2 text-indigo-500 focus:ring-none"
+                    class="flex w-full rounded-l border border-indigo-100 py-1 pl-2 text-white focus-within focus:bg-indigo-500 focus:outline-none"
                     type="text"
                     placeholder="Search ..."
                     name="searched"
+                    autocomplete="off"
                 >
                 <div class="inline-flex">
                   <button class="border border-indigo-100 bg-indigo-50 font-bold py-2 px-2">

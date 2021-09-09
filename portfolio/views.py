@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from django.conf.urls import url
+from django.db.models import query
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
@@ -26,6 +27,7 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.urls import reverse_lazy
 import string
+from urlparams.redirect import param_redirect
 
 
 User = get_user_model()
@@ -236,9 +238,15 @@ class LandingPageView(generic.TemplateView):
 def landing_page(request):
     artists = Artist.objects.all().order_by('-user_id')
     showcase_art = ArtItem.objects.all().order_by('title')
+    art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
+    myFilter = ArtFilter(request.GET, queryset=art)
+    if request.GET:
+        params = request
+        return param_redirect(request, 'portfolio:art-list')
     context = {
         "artists": artists[0:6],
         "showcase_art": showcase_art[0:6],
+        "myFilter": myFilter,
     }
     return render(request, "home/landing_1.html", context)
 

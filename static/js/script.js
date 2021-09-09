@@ -324,7 +324,7 @@ function navSearchToggle() {
         navSearch.classList.toggle('hidden');
     }
 
-// art list mobile search dropdown
+// art list mobile search dropdown  END
 
 // art list mobile search -- MEDIUMS -- dropdown
 
@@ -337,7 +337,7 @@ function navMediumToggle() {
         navMedium.classList.toggle('hidden');
     }
 
-// art list mobile search --MEDIUMS-- dropdown
+// art list mobile search --MEDIUMS-- dropdown END
 
 // art list mobile search -- COMS -- dropdown
 
@@ -350,7 +350,7 @@ function navComToggle() {
         navCom.classList.toggle('hidden');
     }
 
-// art list mobile search --COMS-- dropdown
+// art list mobile search --COMS-- dropdown END
 
 // art list mobile search -- GENRES -- dropdown
 
@@ -363,4 +363,48 @@ function navGenreToggle() {
         navGenre.classList.toggle('hidden');
     }
 
-// art list mobile search --COMS-- dropdown
+// art list mobile search --COMS-- dropdown END
+
+// landing cat search dropdowns
+var navSearch = document.getElementById('search-menu');
+var headerSearch = document.getElementById('search-top');
+
+window.addEventListener('scroll', function() {
+  if (window.scrollY >=400) { // adjust this value based on site structure and header image height
+    navSearch.classList.add('nav-sticky');
+    headerSearch.classList.add('pt-scroll');
+  } else {
+    navSearch.classList.remove('nav-sticky');
+    headerSearch.classList.remove('pt-scroll');
+  }
+});
+
+function landingSearchToggle() {
+        var btnSearch = document.getElementById('landingSearchMenuBtn');
+        var navSearch = document.getElementById('landingSearchMenu');
+
+        btnSearch.classList.toggle('open');
+        navSearch.classList.toggle('flex');
+        navSearch.classList.toggle('hidden');
+    }
+
+// landing cat search dropdowns END
+
+// Landing search -- MEDIUMS -- dropdown
+
+function landingMediumToggle() {
+  var btnMedium = document.getElementById('landingMediumMenuBtn');
+  var navMedium = document.getElementById('landingMediumMenu');
+
+  btnMedium.classList.toggle('open');
+  navMedium.classList.toggle('flex');
+  navMedium.classList.toggle('hidden');
+}
+
+// Landing search --MEDIUMS-- dropdown END
+
+
+
+// This function sends the search criteria to the art list search page when the filter button is clicked on the home page
+
+// end searchArtList

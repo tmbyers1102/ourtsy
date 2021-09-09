@@ -1,0 +1,39 @@
+<main class="mx-auto max-w-7xl px-2 md:mt-16 lg:mt-20 lg:px-8 xl:mt-12">
+  <div class="sm:text-center lg:text-left">
+    <h1 class="md:text-4xl tracking-tight font-extrabold text-gray-900">
+      <br class="md:hidden">
+      <br class="md:hidden">
+      <br class="md:hidden">
+      <span class="">Let's find some <span class="text-indigo-600">fantastic art!</span></span>
+
+    </h1>
+    <div class="bg-indigo-50 rounded-lg shadow-lg p-2 md:p-4 w-full md:w-3/4">
+            <div class="md:hidden">
+              <button id="landingSearchMenuBtn" class="border border-indigo-100 bg-indigo-50 py-2 px-2 rounded-r focus:outline-none w-full" type="button" onclick="landingSearchToggle();">
+                <span class="text-indigo-600">Search Categories</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+              </button>
+              {% include "home/art_search_mobile_accordion.html" %}
+            </div>
+              <p class="text-center md:hidden">-- OR --</p>
+            <!-- <p class="text-xs text-gray-700">Price Range</p> -->
+            <p class="text-xs text-gray-700">Search by Term</p>
+        <form method="POST" class="w-full" action="{% url 'portfolio:search-art' %}">
+          {% csrf_token %}
+            <input
+              style="height: auto; width: 100%;"
+              class="shadow-inner text-white rounded border border-indigo-200 bg-indigo-50 p-1 md:p-2 focus-within focus:bg-indigo-500 focus:outline-none"
+              type="text"
+              placeholder="Try 'southwest' or 'green' or 'horse' etc... "
+              name="searched"
+              autocomplete="off"
+            >
+            <button class="w-full bg-white hover:bg-indigo-100 shadow-lg rounded text-indigo-600 p-2 pl-4 pr-4" type="submit">
+                    <p class="font-semibold text-sm">Search</p>
+            </button >
+        </form>
+    </div>
+  </div>
+</main>
