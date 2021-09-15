@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% block content %}
+    <div class="max-w-4xl mx-auto">
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="w-full h-12 px-6 text-white transition-colors duration-150 bg-indigo-600 rounded-lg focus:shadow-outline hover:bg-indigo-700" type="submit">
+                Update
+            </button>
+        </form>
+    </div>
+{% endblock content %}

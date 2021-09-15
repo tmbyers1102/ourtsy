@@ -114,6 +114,9 @@ class PostForm(forms.ModelForm):
         fields = [
             'title',
             'description',
+            'text',
+            'post_image',
+
         ]
 
 

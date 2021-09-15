@@ -10,6 +10,12 @@ class User(AbstractUser):
     is_agent = models.BooleanField(default=False)
     is_artist = models.BooleanField(default=False)
     is_reviewer = models.BooleanField(default=False)
+    twitter_name = models.CharField(max_length=100, blank=True)
+    twitter_url = models.URLField(blank=True)
+    instagram_name = models.CharField(max_length=100, blank=True)
+    instagram_url = models.URLField(blank=True)
+    facebook_name = models.CharField(max_length=100, blank=True)
+    facebook_url = models.URLField(blank=True)
 
 
 class UserProfile(models.Model):

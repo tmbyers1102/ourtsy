@@ -89,26 +89,36 @@ class ArtImage(models.Model):
     def __str__(self):
         return str(self.image)
 
+
+class PostStatus(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Post(models.Model):
     title = models.CharField(max_length=250)
-    description = models.TextField()
+    author = models.ForeignKey(User, related_name="post_author", on_delete=models.CASCADE)
+    description = models.TextField(max_length=200)
+    text = models.TextField()
     published = models.DateField(auto_now_add=True)
-    slug = models.SlugField(unique=True, max_length=100)
+    slug = models.SlugField(max_length=100, primary_key=True, unique=True, blank=True)
+    post_image = models.ImageField(default='default_post_image.jpg', upload_to='post_images')
+    post_status = models.ForeignKey(PostStatus, null=True, default=1, on_delete=models.SET_DEFAULT)
+    approval_status = models.ForeignKey(ApprovalStatus, null=True, default=1, on_delete=models.SET_DEFAULT)
+    publish_after_approved = models.BooleanField(default=False)
+    reviewed_by = models.ForeignKey(User, related_name="post_reviewer", on_delete=models.DO_NOTHING, blank=True, null=True)
+    review_note = models.TextField(max_length=1000, blank=True, null=True)
+    urgent_review = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
-
-# MEDIUM_CHOICES = (
-#     ('Paintings', 'Paintings'),
-#     ('Photography', 'Photography'),
-#     ('Sculptures', 'Sculptures'),
-#     ('Prints', 'Prints'),
-#     ('Designs', 'Designs'),
-#     ('Drawings', 'Drawings'),
-#     ('Installations', 'Installations'),
-#     ('Murals', 'Murals')
-# )
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Post, self).save(*args, **kwargs)
 
 
 class ArtMedium(models.Model):
@@ -182,7 +192,6 @@ class Portfolio(models.Model):
 
     def __str__(self):
         return self.slug
-
 
 
 def post_artist_created_signal(sender, instance, created, **kwargs):

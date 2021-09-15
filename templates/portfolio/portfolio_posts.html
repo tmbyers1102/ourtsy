@@ -1,0 +1,53 @@
+<!-- <div class="h-48 bg-red-700 w-3/4 rounded shadow-2xl">
+    
+</div>
+<div class="h-48 bg-red-700 w-3/4 rounded shadow-2xl mt-3">
+    
+</div> -->
+
+
+
+<section>
+    <div class="md:grid grid-cols-2 gap-1 md:gap-2 w-full p-1 md:p-4 space-y-2 md:space-y-0">
+        {% for post in artist_posts %}
+            <div class="relative rounded-lg flex flex-col md:flex-row items-center md:shadow-xl hover:shadow-2xl">
+              <div class="z-0 order-1 md:order-2 relative w-full md:w-2/5 h-36 md:h-full overflow-hidden rounded-lg md:rounded-none md:rounded-r-lg">
+          
+                  <div class="absolute inset-0 w-full h-full object-fill object-center bg-blue-400 bg-opacity-30 bg-cover bg-bottom" style="background-image: url( '{{ post.post_image.url }}' ); background-blend-mode: multiply;"></div>
+                  
+                  <div class="md:hidden absolute inset-0 h-full p-3 md:p-6 flex flex-col-reverse justify-start items-start bg-gradient-to-b from-transparent via-transparent to-gray-900">
+  
+                    <a href="#" class="flex items-center space-x-4">
+                      <h1 class="text-xs text-white font-bold">{{ post.title }}</h1>
+                    </a>
+                      
+                  </div>
+                  <svg class="hidden md:block absolute inset-y-0 h-full w-24 fill-current text-white -ml-12" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <polygon points="50,0 100,0 50,100 0,100" />
+                  </svg>
+                  
+              </div>
+      
+                <a href="{% url 'portfolio:post-detail' post.slug %}" class="z-10 order-2 md:order-1 w-full h-full md:w-3/5 flex items-center -mt-6 md:mt-0 hidden md:block">
+                    <div class="p-8 lg:pl-5 lg:pr-0 xl:pl-10 md:py-12 mx-2 md:mx-0 h-full bg-white rounded-lg md:rounded-none md:rounded-l-lg shadow-xl md:shadow-none">
+                        <div class="flex items-center space-x-4">
+                            <h1 class="text-lg text-indigo-600 font-bold">
+                                <span>
+                                    {{ post.title }}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="animate-bounce h-6 w-6 hidden xl:inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                </span>
+                            </h1>
+                        </div>
+
+                        <p class="text-gray-600 text-left text-sm truncate mt-1">{{ post.published }}</p>
+                        <p class="text-left text-sm mt-1">{{ post.description }}</p>
+
+
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</section>

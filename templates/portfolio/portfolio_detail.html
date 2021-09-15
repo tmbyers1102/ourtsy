@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- Profile Header mobile -->
+<div class="md:hidden">
+    <br class="md:hidden">
+    <br class="md:hidden">
+    <div class="flex justify-center m-2">
+        <img class="object-cover w-20 h-20 rounded-full mr-4" src="{{ artist.artist_headshot.url }}" alt="Profile image"/>
+        <div class="">
+            <div class="font-bold text-xl">
+                {{ artist.user.first_name }} {{ artist.user.last_name }}
+                {% if artist.user.is_artist %}
+                    <span class="font-light text-sm bg-indigo-50 border-2 border-indigo-100 px-2 py-1 rounded mt-2">ourtsy artist</span>
+                {% else %}
+                    <span class="font-light text-sm bg-green-50 border-2 border-green-100 px-2 py-1 rounded mt-2">ourtsy selling artist</span>
+                {% endif %}
+            </div>
+            <div class="mt-2">
+
+                <p class="leading-none mt-2 text-sm">{{ artist.bio }}</p>
+            </div>
+        </div>
+
+    </div>
+  
+</div>
+<!-- Profile Header mobile END -->
+<!-- Profile Header desktop -->
+<div class="hidden h-80 md:grid grid-cols-3 place-content-center">
+    <div class="grid justify-items-end">
+        <img class="inline object-cover w-48 h-48 rounded-full mr-4" src="{{ artist.artist_headshot.url }}" alt="Profile image"/>
+    </div>
+    <div class="col-span-2 ml-4 space-y-3">
+        <h1 class="font-bold text-5xl">
+            {{ artist.user.first_name }} {{ artist.user.last_name }}
+            {% if artist.user.is_artist %}
+                <span class="font-light text-sm bg-indigo-50 border-4 border-indigo-100 px-3 py-1 rounded align-top">ourtsy artist</span>
+            {% else %}
+                <span class="font-light text-sm bg-green-50 border-4 border-green-100 px-3 py-1 rounded align-top">ourtsy selling artist</span>
+            {% endif %}
+        </h1>
+        <p>{{ artist.bio }}</p>
+        <div>
+            {% for tag in artist.art_mediums.all %}
+                <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                    <span>{{ tag }}</span>
+                </a>
+            {% endfor %}
+            {% for tag in art_communities.all %}
+                <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                    <span>{{ tag }}</span>
+                </a>
+            {% endfor %}
+            {% for tag in artist.art_genres.all %}
+                <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                    <span>{{ tag }}</span>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- Profile Header desktop END -->
+
+<!-- section tabs -->
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+
+<div class="flex justify-center items-center">
+	<!--actual component start-->
+	<div x-data="setup()">
+		<ul class="flex justify-left items-left space-x-10 border-b">
+			<template x-for="(tab, index) in tabs" :key="index">
+				<li class="cursor-pointer py-2 px-4 text-gray-500 border-b-4"
+					:class="activeTab===index ? 'text-indigo-500 border-indigo-500' : ''" @click="activeTab = index"
+					x-text="tab"></li>
+			</template>
+		</ul>
+
+		<div id="portfolio-bg" class="w-full md:w-screen px-0 md:px-16 py-3 text-center mx-auto bg-opacity-40">
+			<div x-show="activeTab===0">{% include "portfolio/portfolio_art.html" %}</div>
+			<div x-show="activeTab===1">{% include "portfolio/portfolio_posts.html" %}</div>
+			<div x-show="activeTab===2">{% include "portfolio/portfolio_social.html" %}</div>
+			<!-- <div x-show="activeTab===3">Content 4</div> -->
+		</div>
+
+
+		
+		
+	</div>
+	<!--actual component end-->
+</div>
+
+<script>
+	function setup() {
+    return {
+      activeTab: 0,
+      tabs: [
+          "Art",
+          "Posts",
+          "Social",
+        //   "Tab No.4",
+      ]
+    };
+  };
+</script>
+<!-- section tabs END -->
+
+
+
+{% endblock content %}

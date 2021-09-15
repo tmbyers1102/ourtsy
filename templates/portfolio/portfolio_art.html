@@ -1,0 +1,19 @@
+<div class="grid-cols-4 space-y-2 lg:space-y-0 lg:grid lg:gap-3 lg:grid-rows-3">
+    {% for art in portfolio_art %}
+        {% if forloop.first %}
+            <div class="w-full relative col-span-2 row-span-2">
+        {% else %}
+            <div class="w-full relative rounded">
+        {% endif %}
+                <a href="{% url 'portfolio:art-detail' art.slug %}">
+                    <img src="{{ art.cover_image.url }}" alt="image">
+                    <div class="opacity-0 hover:opacity-50 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold">
+                        <H1 class="p-12">{{ art }}</H1>
+                        <br>
+                        <p class="text-2xl absolute bottom-6 right-6">${{ art.price }}</p>
+                    </div>
+                </a>
+            </div>
+
+    {% endfor %}
+</div>

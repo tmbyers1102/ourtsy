@@ -4,6 +4,7 @@ from portfolio.views import (
     ArtCreateView,
     ArtDeleteView,
     ArtDetailView,
+    PostUpdateView,
     art_list,
     art_create,
     art_detail,
@@ -28,6 +29,10 @@ from portfolio.views import (
     art_new,
     terms,
     submitted,
+    PostDetailView,
+    post_detail,
+    post_create,
+    PostCreateView,
 )
 
 app_name = "portfolio"
@@ -38,8 +43,8 @@ urlpatterns = [
     path('artists/', artist_list, name='artist-list'),
     path('post_list/', post_list, name='post-list'),
     path('post/', home_view, name='home'),
-    path('posts/', post_create, name='post-create'),
-    path('post/<slug:slug>/', detail_view, name='detail'),
+    # path('posts/', post_create, name='post-create'),
+    # path('post/<slug:slug>/', detail_view, name='detail'),
     path('tag/<str:slug>/', art_search, name='art-search'),
     path('art/create/', art_create, name='art-create'),
     path('art/new/', art_new, name='art-new'),
@@ -55,6 +60,10 @@ urlpatterns = [
     path('index/', index, name='index'),
     path('terms/', terms, name='terms'),
     path('submitted/', submitted, name='submitted'),
+    path('posts/create/', PostCreateView.as_view(), name='post-create'),
+    path('posts/<slug:slug>/', post_detail, name='post-detail'),
+    path('posts/<slug:slug>/update/', PostUpdateView.as_view(), name='post-update'),
+    
 
 
 ]

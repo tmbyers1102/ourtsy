@@ -18,7 +18,7 @@ from .forms import (
 )
 from django.utils import timezone
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from portfolio.mixins import ArtistAndLoginRequiredMixin
 from .filters import ArtFilter, ArtTagFilter, ArtMediumFilter, ArtSubmissionsFilter
 
@@ -269,6 +269,8 @@ class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
             avg_price_per_piece = str('NA')
         else:
             avg_price_per_piece = float(user_art_price_total/artist_items_count)
+        artist_posts = Post.objects.filter(author=self.request.user)
+        artist_posts_count = Post.objects.filter(author=self.request.user).count()
         context = {
             "dashboard_user": dashboard_user,
             "dashboard_user_slug": dashboard_user_slug,
@@ -276,6 +278,8 @@ class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
             "artist_items_count": artist_items_count,
             "user_art_price_total": user_art_price_total,
             "avg_price_per_piece": avg_price_per_piece,
+            "artist_posts": artist_posts,
+            "artist_posts_count": artist_posts_count,
         }
         return context
 
@@ -329,19 +333,88 @@ def art_page(request):
     return render(request, "art_page.html", context)
 
 
-class PortfolioDetailView(LoginRequiredMixin, generic.DetailView):
-    template_name = "portfolio_detail.html"
+class PortfolioDetailView(generic.DetailView):
+    model = ArtItem
+    template_name = "portfolio/portfolio_detail.html"
     queryset = Portfolio.objects.all()
     context_object_name = "portfolio_object"
+
+    # def get_queryset(self):
+    #     print(str('queyset: ') + str(self.kwargs.get('pk')))
+    #     return ArtItem.objects.filter(artist__slug='miltmiller')
 
 
 def portfolio_detail(request, pk):
     portfolio = Portfolio.objects.get(slug=pk)
+    artist = Artist.objects.get(slug=pk)
+    portfolio_art = ArtItem.objects.filter(artist__slug=pk)
+    artist_posts = Post.objects.filter(author__artist__pk=artist)
     context = {
-        "portfolio": portfolio
+        "portfolio": portfolio,
+        "artist": artist,
+        "portfolio_art": portfolio_art,
+        "artist_posts": artist_posts,
     }
-    return render(request, "portfolio_detail.html", context)
+    return render(request, "portfolio/portfolio_detail.html", context)
 
+
+def post_detail(request, slug):
+    post = Post.objects.get(slug=slug)
+    user = get_object_or_404(User, username=post.author)
+    authors_posts = Post.objects.filter(author = user).order_by('-published')[0:3]
+    trending_posts = Post.objects.exclude(author = user)[0:3]
+
+    context = {
+        'post': post,
+        'authors_posts': authors_posts,
+        "trending_posts": trending_posts,
+    }
+    return render(request, "portfolio/post_detail.html", context)
+
+class PostDetailView(generic.DetailView):
+    template_name = "portfolio/post_detail.html"
+    # queryset = Post.objects.filter(author = 3)
+    context_object_name = "post"
+
+    def get_object(self):
+        return Post.objects.filter(slug = self.kwargs['slug'])[0]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        authors_posts = Post.objects.filter(slug = self)
+
+
+class PostCreateView(LoginRequiredMixin, generic.CreateView):
+    template_name = "portfolio/post_create.html"
+    form_class = PostForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, f'Success! Your post has been submitted for review. Until then, you may view it here in your dashboard.')
+        return reverse("portfolio:art-dashboard")
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    template_name = "portfolio/post_update.html"
+    model = Post
+    form_class = PostForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+    def get_success_url(self):
+        messages.success(self.request, f'Success! Your post has been submitted for review. Until then, you may view it here in your dashboard.')
+        return reverse("portfolio:art-dashboard")
 
 class ArtDetailView(generic.DetailView):
     template_name = "art_detail.html"
@@ -560,8 +633,6 @@ def art_new(request):
         'form': form,
     }
     return render(request, 'art_new_multi.html', context)
-
-
 
 
 def artist_more(request, slug):

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="grid grid-cols-3 w-full mt-6">
+    
+    <div class="grid col-span-3 md:col-span-2 h-full shadow-2xl">
+        {% if post.author == request.user %}
+            <a href="{% url 'portfolio:post-update' post.slug %}" class="relative block overflow-hidden">
+                <img src="{{ post.post_image.url }}" class="object-cover h-96 w-full block" alt="{{ post.title }}-Image">
+                <div class="opacity-0 hover:opacity-80 duration-100 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mr-4 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <p>Edit Post</p>
+                </div>
+            </a>
+        {% else %}
+            <img src="{{ post.post_image.url }}" class="object-cover h-96 w-full block" alt="{{ post.title }}-Image">
+        {% endif %}
+        <div class="w-full">
+            <div class="mx-6 my-6">
+                <h1 class="text-4xl">{{ post.title }}</h1>
+                <a href="{% url 'portfolio-detail' post.author.artist.slug %}" class="flex my-2">
+                    <img class="object-cover w-10 h-10 rounded-full mr-4" src="{{ post.author.artist.artist_headshot.url }}" alt="Profile image"/>
+                    <div>
+                        <p class="">By: {{ post.author }}</p>
+                        <small class="text-gray-400 mt-3">{{ post.published }}</small>
+                    </div>
+            
+                </a>
+
+                <p class="mt-3">{{ post.text|linebreaksbr }}</p>
+                    
+                <div class="hidden md:block">
+                    <hr class="my-6">
+                    <h1 class="text-2xl">Trending ourtsy Posts</h1>
+                    <!-- how to set max number of items per row to 4? or go in views and do [0:3] -->
+                    <div class="hidden md:flex space-x-4">
+                        {% for post in trending_posts %}
+                            <div class="flex mt-6 border border-indigo-100 bg-white hover:shadow-2xl">
+                                <a href="{% url 'portfolio:post-detail' post.slug %}">
+                                    <img class="object-cover w-full h-32" src="{{ post.post_image.url }}" alt="">
+                                    <div class="m-2">
+                                        <h1>{{ post.title }}</h1>
+                                        <div class="flex my-2">
+                                            <img class="object-cover w-10 h-10 rounded-full mr-2" src="{{ post.author.artist.artist_headshot.url }}" alt="Profile image"/>
+                                            <div>
+                                                <p class="">By: {{ post.author }}</p>
+                                                <small class="text-gray-400 mt-1">{{ post.published }}</small>
+                                            </div>
+                                    
+                                        </div>
+                                        <p class="leading-none mt-2"> {{ post.description|truncatechars:100 }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                <div class="md:hidden mt-6">
+                    <hr>
+                    <div>
+                        <h1 class="mt-3 text-2xl">About {{ post.author }}</h1>
+                        <!-- We may need to add a customer model in the portfolio model.py so they can have a bio area as well -->
+                        <p class="text-sm mt-3">{{ post.author.artist.bio }}</p>
+                    </div>
+                    <div class="mt-6 border-t border-gray-200">
+                        <h1 class="mt-3 text-2xl">More Posts From {{ post.author }}</h1>
+                        {% for post in authors_posts %}
+            
+                            <div class="w-full h-auto mt-6 border border-indigo-100 bg-white hover:shadow-2xl">
+                                <a href="{% url 'portfolio:post-detail' post.slug %}">
+                                    <img class="object-cover w-full h-32" src="{{ post.post_image.url }}" alt="">
+                                    <div class="m-2">
+                                        <h1>{{ post.title }}</h1>
+                                        <small class="text-gray-500">{{ post.published }}</small>
+                                        <p class="leading-none mt-2"> {{ post.description|truncatechars:145 }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="">
+                        <hr class="my-3">
+                        <h1 class="text-2xl">Trending ourtsy Posts</h1>
+                        <div class="">
+                            {% for post in trending_posts %}
+                                <div class="flex mt-6 border border-indigo-100 bg-white hover:shadow-2xl">
+                                    <a href="{% url 'portfolio:post-detail' post.slug %}">
+                                        <img class="object-cover w-full h-32" src="{{ post.post_image.url }}" alt="">
+                                        <div class="m-2">
+                                            <h1>{{ post.title }}</h1>
+                                            <div class="flex my-2">
+                                                <img class="object-cover w-10 h-10 rounded-full mr-2" src="{{ post.author.artist.artist_headshot.url }}" alt="Profile image"/>
+                                                <div>
+                                                    <p class="">By: {{ post.author }}</p>
+                                                    <small class="text-gray-400 mt-1">{{ post.published }}</small>
+                                                </div>
+                                        
+                                            </div>
+                                            <p class="leading-none mt-2"> {{ post.description|truncatechars:100 }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="hidden md:grid md:col-span-1 border-l content-start">
+        <div>
+            <h1 class="ml-6 mt-3 text-2xl">About {{ post.author }}</h1>
+            <!-- We may need to add a customer model in the portfolio model.py so they can have a bio area as well -->
+            <p class="ml-6 mt-6">{{ post.author.artist.bio }}</p>
+        </div>
+        <div class="mt-6 border-t border-gray-200">
+            <h1 class="ml-6 mt-3 text-2xl">More Posts From {{ post.author }}</h1>
+            {% for post in authors_posts %}
+
+                <div class="w-full h-auto ml-6 mt-6 border border-indigo-100 bg-white hover:shadow-2xl">
+                    <a href="{% url 'portfolio:post-detail' post.slug %}">
+                        <img class="object-cover w-full h-32" src="{{ post.post_image.url }}" alt="">
+                        <div class="m-2">
+                            <h1>{{ post.title }}</h1>
+                            <small class="text-gray-500">{{ post.published }}</small>
+                            <p class="leading-none mt-2"> {{ post.description|truncatechars:145 }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -30,7 +30,7 @@ urlpatterns = [
     path('user/analytics/<str:pk>/', UserAnalyticsView.as_view(), name='user-analytics'),
     path('user/financial/<str:pk>/', FinancialSettingsView.as_view(), name='financial-settings'),
     path('user/reviewtable/<str:pk>/', ReviewTableView.as_view(), name='review-table'),
-    path('<str:pk>/', PortfolioDetailView.as_view(), name='portfolio-detail'),
+    path('<str:pk>/', portfolio_detail, name='portfolio-detail'),
 ]
 
 if settings.DEBUG:

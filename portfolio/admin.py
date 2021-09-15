@@ -13,6 +13,7 @@ from .models import (
     ArtGenre,
     ApprovalStatus,
     ArtImage,
+    PostStatus,
 )
 
 
@@ -72,4 +73,5 @@ admin.site.register(ArtGenre)
 admin.site.register(ArtStatus)
 admin.site.register(ApprovalStatus)
 admin.site.register(ArtImage)
+admin.site.register(PostStatus)
 
