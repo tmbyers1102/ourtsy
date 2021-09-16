@@ -21,7 +21,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
-                <span class="ml-4">Artist Dashboard</span>
+                <span class="ml-4">Dashboard</span>
               </a>
             </li>
           </ul>
@@ -74,7 +74,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="indigo">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
                 </svg>
-                <span class="ml-4">Art Review Table</span>
+                <span class="ml-4">Review Table</span>
               </a>
             </li>
 
@@ -104,13 +104,13 @@
             <!-- Mobile and desktop HEader -->
             {% include 'dashboard/dashboard_mobile_header.html' %}
             <!-- Mobile and desktop HEader END -->
-                <main class="h-full overflow-y-auto">
+                <main class="hidden md:block h-full overflow-y-auto">
                     <div class="container px-6 mx-auto grid">
-                        <div class="mt-6">
+                        <div class="">
                           {% include 'messages.html' %}
                         </div>
                         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                          Your Artist Dashboard {{ dashboard_user }}
+                          Art Dashboard
                         </h2>
                 
                         <!-- Cards -->
@@ -181,7 +181,7 @@
                           </div>
                         </div>
 
-                        <!-- New Table -->
+                        <!-- art Table -->
                         {% if artist_items_count < 1 %}
                           <!-- CTA -->
                           <a
@@ -363,8 +363,9 @@
                             </div>
                           </div>
                         {% endif %}
+                        <!-- art Table END -->
                   
-                        <!-- Charts -->
+                        <!-- Post Table Begin -->
                         <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                           Posts
                         </h2>
@@ -534,11 +535,41 @@
                             </div>
                           </div>
                         {% endif %}
-
+                        <!-- Post Table End -->
                     </div>
                 </main>
+                <main class="block md:hidden">
+                  <div>
+                    {% if messages %}
+                      <div class="mt-3">
+                        {% include 'messages.html' %}
+                      </div>
+                    {% endif %}
+                    <div class="flex justify-between my-3 mx-2">
+                      <h2 class="text-xl font-semibold text-left text-gray-700 dark:text-gray-200">
+                        Art Dashboard
+                      </h2>
+                      <a href="#" class="bg-indigo-50 border border-indigo-60 text-indigo-600 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                      </a>
+                    </div>
+                    {% include 'dashboard/mobile_art_table.html' %}
+                    <div class="flex justify-between my-3 mx-2">
+                      <h2 class="text-xl font-semibold text-left text-gray-700 dark:text-gray-200">
+                        Posts Dashboard
+                      </h2>
+                      <a href="#" class="bg-indigo-50 border border-indigo-60 text-indigo-600 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                      </a>
+                    </div>
+                    {% include 'dashboard/mobile_post_table.html' %}
+                  </div>
+                </main>
             </div>
-        
     </div>
 </body>
 

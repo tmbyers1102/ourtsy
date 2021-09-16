@@ -1,0 +1,161 @@
+<!-- art Table -->
+{% if artist_items_count < 1 %}
+<!-- CTA -->
+    <a
+    class="flex justify-center p-4 mb-8 font-semibold text-indigo-100 bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple"
+    href="{% url 'portfolio:art-new' %}">
+        <div class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
+        <ul>There is no art uploaded... YET! <br> <span class="row text-yellow-300">Add your first work of art +</span></ul>
+        <br>
+        <br>
+        <br>
+        
+        </div>
+    </a>
+{% else %}
+    <div class="w-full overflow-hidden border-solid border-2 border-gray-100 rounded-lg shadow-xs">
+        <div class="w-full overflow-x-auto">
+            <table class="w-full whitespace-no-wrap">
+                    <thead>
+                        <tr class="text-xs font-semibold text-left text-indigo-500 border-b bg-indigo-50">
+                            <th class="px-2 py-2">Title</th>
+                            <th class="px-2 py-2">Status</th>
+                            <th class="px-2 py-2">Approval</th>
+                            <th class="px-2 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y">
+                        {% for artitem in artist_items %}
+                        <!-- Line in table -->
+                            <tr class="text-gray-700 hover:bg-indigo-50">
+                                <td class="px-1 py-1">
+                                    <a href="{% url 'portfolio:art-detail' artitem.pk %}">
+                                        <div class="flex items-center text-sm">
+                                            <div>
+                                                <p class="font-semibold">{{ artitem }}</p>
+                                                <p class="text-xs text-gray-600">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td class="px-1 py-1 text-xs">
+                                    {% if artitem.art_status.name == 'For Sale' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-blue-700 bg-blue-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        For Sale
+                                    </span>
+                                    {% elif artitem.art_status.name == 'Sold' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Sold
+                                    </span>
+                                    {% elif artitem.art_status.name == 'Draft' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Draft
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                <td class="px-1 py-3 text-xs">
+                                    {% if artitem.approval_status.name == 'Approved' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Approved
+                                    </span>
+                                    {% elif artitem.approval_status.name == 'Pending' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Pending
+                                    </span>
+                                    {% elif artitem.approval_status.name == 'Rejected' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Rejected
+                                    </span>
+                                    {% elif artitem.approval_status.name == 'Action Required' %}
+                                    <span class="px-2 py-1 font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                        Action Required
+                                    </span>
+                                    {% endif %}
+                                </td>
+                                
+                                <td class="px-1 py-1">
+                                    <div class="flex items-center space-x-1 text-sm">
+                                        <a href="{% url 'portfolio:art-update' artitem.pk %}" class="flex items-center justify-between py-2 text-sm font-medium leading-5 text-indigo-500" aria-label="Edit">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                            </svg>
+                                        </a>
+                                        <a href="{% url 'portfolio:art-delete' artitem.pk %}" class="flex items-center justify-between py-2 text-sm font-medium leading-5 text-indigo-500" aria-label="Delete">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <!-- end of line in table -->
+                        {% endfor %}
+                    </tbody>
+            </table>
+        </div>
+        <div class="grid px-4 py-3 text-xs font-semibold tracking-wide text-indigo-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+            <span class="flex items-center col-span-3">
+            Showing 21-30 of 100
+            </span>
+            <span class="col-span-2"></span>
+            <!-- Pagination -->
+            <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+            <nav aria-label="Table navigation">
+                <ul class="inline-flex items-center">
+                <li>
+                    <button class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-indigo" aria-label="Previous">
+                    <svg aria-hidden="true" class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                    </button>
+                </li>
+                <li>
+                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-indigo">
+                    1
+                    </button>
+                </li>
+                <li>
+                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-indigo">
+                    2
+                    </button>
+                </li>
+                <li>
+                    <button class="px-3 py-1 text-white transition-colors duration-150 bg-indigo-600 border border-r-0 border-indigo-600 rounded-md focus:outline-none focus:shadow-outline-indigo">
+                    3
+                    </button>
+                </li>
+                <li>
+                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-indigo">
+                    4
+                    </button>
+                </li>
+                <li>
+                    <span class="px-3 py-1">...</span>
+                </li>
+                <li>
+                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-indigo">
+                    8
+                    </button>
+                </li>
+                <li>
+                    <button class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-indigo">
+                    9
+                    </button>
+                </li>
+                <li>
+                    <button class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-indigo" aria-label="Next">
+                    <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                        <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" fill-rule="evenodd"></path>
+                    </svg>
+                    </button>
+                </li>
+                </ul>
+            </nav>
+            </span>
+        </div>
+    </div>
+{% endif %}
+<!-- art Table END -->

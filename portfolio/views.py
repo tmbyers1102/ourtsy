@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
 from django.conf.urls import url
+from django.db import models
 from django.db.models import query
+from django.core.paginator import Paginator
 from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
@@ -285,24 +287,41 @@ class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
         return context
 
 
+# this one is in use
 class ArtListView(generic.ListView):
     template_name = "art_list/art_list.html"
+    model = ArtItem
     context_object_name = "art_items"
+    paginate_by = 6
+    ordering = ['-title']
 
-    def get_queryset(self):
-        return ArtItem.objects.all()
+    # def get_queryset(self):
+    #     return ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
 
     def get_context_data(self, **kwargs):
-        art = ArtItem.objects.all()
+        context = super(ArtListView, self).get_context_data(**kwargs)
+        # art = Paginator(ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved'), self.paginate_by)
+        art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
+        artists = Artist.objects.all()
         portfolios = Portfolio.objects.all()
+        myFilter = ArtFilter(self.request.GET, queryset=art)
+        tagFilter = ArtTagFilter(self.request.GET, queryset=art)
+        mediumArtFilter = ArtMediumFilter(self.request.GET, queryset=art)
+        mediumArtistFilter = ArtMediumFilter(self.request.GET, queryset=artists)
+        art = myFilter.qs
+        art_mediums = ArtMedium.objects.all()
+        final_art = Paginator(art, 2)
         context = {
-            "art": art,
+            "art": final_art,
             "portfolios": portfolios,
+            "myFilter": myFilter,
+            "art_mediums": art_mediums,
+            "mediumArtFilter": mediumArtFilter,
+            "mediumArtistFilter": mediumArtistFilter,
         }
         return context
 
 
-# this one is in use
 def art_list(request):
     art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
     # art_images = ArtImage.objects.filter(art_item=instance)
@@ -314,7 +333,12 @@ def art_list(request):
     mediumArtistFilter = ArtMediumFilter(request.GET, queryset=artists)
     art = myFilter.qs
     art_mediums = ArtMedium.objects.all()
+    paginator = Paginator(art, 12) # how many items per page?
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
+        "page_obj": page_obj,
         "art": art,
         # "art_images": art_images,
         "portfolios": portfolios,
