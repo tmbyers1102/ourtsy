@@ -403,6 +403,34 @@ function landingMediumToggle() {
 
 // Landing search --MEDIUMS-- dropdown END
 
+// Dashboard mobile menu -- dropdown
+
+
+var navDash = document.getElementById('dash-menu');
+var headerDash = document.getElementById('dash-top');
+
+window.addEventListener('scroll', function() {
+  if (window.scrollY >=400) { // adjust this value based on site structure and header image height
+    navSearch.classList.add('nav-sticky');
+    headerSearch.classList.add('pt-scroll');
+  } else {
+    navSearch.classList.remove('nav-sticky');
+    headerSearch.classList.remove('pt-scroll');
+  }
+});
+
+
+function dashMenuToggle() {
+  var btn = document.getElementById('dashBtn');
+  var nav = document.getElementById('dashMenu');
+
+  btn.classList.toggle('open');
+  nav.classList.toggle('flex');
+  nav.classList.toggle('hidden');
+}
+
+// Dashboard mobile menu END
+
 
 
 // This function sends the search criteria to the art list search page when the filter button is clicked on the home page

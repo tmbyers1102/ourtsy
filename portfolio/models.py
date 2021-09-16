@@ -104,7 +104,7 @@ class Post(models.Model):
     description = models.TextField(max_length=200)
     text = models.TextField()
     published = models.DateField(auto_now_add=True)
-    slug = models.SlugField(max_length=100, primary_key=True, unique=True, blank=True)
+    slug = models.SlugField(max_length=100, primary_key=True, unique=True, blank=True, editable = False)
     post_image = models.ImageField(default='default_post_image.jpg', upload_to='post_images')
     post_status = models.ForeignKey(PostStatus, null=True, default=1, on_delete=models.SET_DEFAULT)
     approval_status = models.ForeignKey(ApprovalStatus, null=True, default=1, on_delete=models.SET_DEFAULT)
@@ -117,7 +117,7 @@ class Post(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = self.slug or slugify(self.title)
         super(Post, self).save(*args, **kwargs)
 
 

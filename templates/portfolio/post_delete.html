@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+{% block content %}
+<div class="max-w-5xl mx-auto rounded p-12">
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <h1 class="text-2xl">
+                Do You really want to <b>DELETE</b> this post?
+            </h1>
+            <div class="w-full md:w-1/3 h-auto my-6 border border-indigo-100 bg-white hover:shadow-2xl">
+                <a href="{% url 'portfolio:post-detail' object.slug %}">
+                    <img class="object-cover w-full h-32" src="{{ object.post_image.url }}" alt="">
+                    <div class="m-2">
+                        <h1>{{ object.title }}</h1>
+                        <small class="text-gray-500">{{ object.published }}</small>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="flex">
+            <button class="bg-red-500 hover:bg-red-600 text-white px-12 py-6 rounded" type="submit">Delete</button>
+            <a class="ml-3 bg-white border border-indigo-100 hover:bg-indigo-50 px-8 py-6 rounded" href="{% url 'portfolio:art-dashboard' %}">Cancel</a>
+        </div>
+    </form>
+
+</div>
+{% endblock content %}

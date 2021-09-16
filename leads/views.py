@@ -10,7 +10,7 @@ from portfolio.mixins import ArtistAndLoginRequiredMixin
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
-    template_name = "user_profile.html"
+    template_name = "dashboard/user_profile.html"
     queryset = UserProfile.objects.all()
     context_object_name = "profile_object"
 
@@ -25,7 +25,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 
 
 class UserAnalyticsView(ArtistAndLoginRequiredMixin, DetailView):
-    template_name = "user_analytics.html"
+    template_name = "dashboard/user_analytics.html"
     queryset = UserProfile.objects.all()
     context_object_name = "analytics_object"
 
@@ -40,7 +40,7 @@ class UserAnalyticsView(ArtistAndLoginRequiredMixin, DetailView):
 
 
 class FinancialSettingsView(LoginRequiredMixin, DetailView):
-    template_name = "financial_settings.html"
+    template_name = "dashboard/financial_settings.html"
     queryset = UserProfile.objects.all()
     context_object_name = "financial_object"
 

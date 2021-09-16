@@ -33,6 +33,7 @@ from portfolio.views import (
     post_detail,
     post_create,
     PostCreateView,
+    PostDeleteView,
 )
 
 app_name = "portfolio"
@@ -63,6 +64,7 @@ urlpatterns = [
     path('posts/create/', PostCreateView.as_view(), name='post-create'),
     path('posts/<slug:slug>/', post_detail, name='post-detail'),
     path('posts/<slug:slug>/update/', PostUpdateView.as_view(), name='post-update'),
+    path('posts/<slug:slug>/delete/', PostDeleteView.as_view(), name='post-delete'),
     
 
 

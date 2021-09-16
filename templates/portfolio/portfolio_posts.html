@@ -17,7 +17,7 @@
                   
                   <div class="md:hidden absolute inset-0 h-full p-3 md:p-6 flex flex-col-reverse justify-start items-start bg-gradient-to-b from-transparent via-transparent to-gray-900">
   
-                    <a href="#" class="flex items-center space-x-4">
+                    <a href="{% url 'portfolio:post-detail' post.slug %}" class="flex items-center space-x-4">
                       <h1 class="text-xs text-white font-bold">{{ post.title }}</h1>
                     </a>
                       

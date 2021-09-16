@@ -56,7 +56,7 @@ def index(request):
 
 
 class ReviewTableView(LoginRequiredMixin, generic.ListView):
-    template_name = "review_table.html"
+    template_name = "dashboard/review_table.html"
     context_object_name = "art"
     queryset = ArtItem.objects.all()
 
@@ -127,6 +127,7 @@ class ReviewTableView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+# this is not being used
 def art_review(request, slug):
     art = ArtItem.objects.get(slug=slug)
     form = ArtReviewModelForm(instance=art)
@@ -142,7 +143,7 @@ def art_review(request, slug):
         "art": art,
         "tagsList": tagsList,
     }
-    return render(request, "art_review.html", context)
+    return render(request, "dashboard/art_review.html", context)
 
 
 def artist_list(request):
@@ -252,7 +253,7 @@ def landing_page(request):
 
 
 class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
-    template_name = "art_dashboard.html"
+    template_name = "dashboard/art_dashboard.html"
     context_object_name = "art_items"
 
     def get_queryset(self):
@@ -269,7 +270,7 @@ class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
             avg_price_per_piece = str('NA')
         else:
             avg_price_per_piece = float(user_art_price_total/artist_items_count)
-        artist_posts = Post.objects.filter(author=self.request.user)
+        artist_posts = Post.objects.filter(author=self.request.user).order_by('-published')
         artist_posts_count = Post.objects.filter(author=self.request.user).count()
         context = {
             "dashboard_user": dashboard_user,
@@ -413,8 +414,25 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         return False
 
     def get_success_url(self):
-        messages.success(self.request, f'Success! Your post has been submitted for review. Until then, you may view it here in your dashboard.')
+        messages.success(self.request, f'Success! Your post has been updated and re-submitted for review. Until then, you may view it here in your dashboard.')
         return reverse("portfolio:art-dashboard")
+
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Post
+    template_name = "portfolio/post_delete.html"
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.author:
+            return True
+        return False
+
+    def get_success_url(self):
+        messages.success(self.request, f'Success! Your post has been deleted.')
+        return reverse("portfolio:art-dashboard")
+
+
 
 class ArtDetailView(generic.DetailView):
     template_name = "art_detail.html"
