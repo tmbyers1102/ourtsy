@@ -65,7 +65,7 @@
                   <span>{{ request.user.username }}</span>
                 </a>
             {% else %}
-              <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'user-profile' request.user.userprofile.slug %}">{{ request.user.username }}*</a>
+              <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto rounded-lg px-3 py-2 ml-8 pt-2 hover:bg-indigo-100 bg-indigo-50" href="{% url 'user-profile' request.user.userprofile.slug %}">{{ request.user.username }}</a>
             {% endif %}
             <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'logout' %}">Logout</a>
           {% else %}

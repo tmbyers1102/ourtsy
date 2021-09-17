@@ -7,32 +7,44 @@
 <!-- component -->
 <!-- This is an example component -->
 <div class="h-screen font-sans login bg-cover">
+    <div class="absolute text-white m-3">
+        <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-indigo-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span class="ml-3 text-l text-xl text-white">ourtsy</span>
+        </a>
+    </div>
+    <div class="absolute bottom-0 text-xs text-white m-3">
+        <p>
+            Photo by <a href="https://unsplash.com/@barbarafroes?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Bárbara Fróes</a> on <a href="https://unsplash.com/s/photos/painter?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+        </p>
+    </div>
     <div class="container mx-auto h-full flex flex-1 justify-center items-center">
         <div class="w-full max-w-lg">
           <div class="leading-loose">
             <form method="post" class="max-w-sm m-4 p-10 bg-white bg-opacity-70 rounded shadow-xl">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type='submit' class="w-full bg-indigo-500 hover:bg-indio-600 px-3 py-2 text-white rounded-md mb-2">
+                <button type='submit' class="w-full bg-indigo-500 hover:bg-indio-600 px-3 py-2 text-white rounded-md my-2">
                     Login
                 </button>
-                <a>Forgot password? <a href="{% url 'reset-password' %}" class="text-indigo-600">Click Here</a></a>
-    
+                <a class="text-xs">Forgot password? <a href="{% url 'reset-password' %}" class="text-indigo-600 text-xs">Click Here</a></a>
+                <div class="border-b border-indigo-500 "></div>
+                <a class="text-xs">Don't have an account yet? <a href="{% url 'signup' %}" class="text-indigo-600 text-xs">Sign Up</a></a>
             </form>
-    
           </div>
         </div>
       </div>
     </div>
     <style>
-      .login{
-      
-        /* background: url('https://tailwindadmin.netlify.app/dist/images/login-new.jpeg'); */
-        background: url('{% static 'images/artist_looking_at_wall.jpg' %}');
-        /* background: url('http://bit.ly/2gPLxZ4'); */
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+        .login{
+            /* background: url('https://tailwindadmin.netlify.app/dist/images/login-new.jpeg'); */
+            background: url('{% static 'images/artist_looking_at_wall.jpg' %}');
+            /* background: url('http://bit.ly/2gPLxZ4'); */
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
     </style>
 
 {% endblock content %}

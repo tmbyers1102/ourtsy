@@ -4,34 +4,39 @@
 
 {% block content %}
 
-<!-- component -->
-<!-- Create By Joker Banny -->
-<div class="min-h-screen bg-no-repeat bg-contain"
-	style="background-image: url('{% static 'images/artist_painting_theater.jpg' %}')">
-    <div class="absolute bottom-0 text-xs text-white m-3">
-        <p>
-            Photo by <a href="https://unsplash.com/@d3athtroop3r?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Brian Gordillo</a> on <a href="https://unsplash.com/s/photos/painter?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-        </p>
+    <div class="min-h-screen bg-no-repeat bg-contain" style="background-image: url('{% static 'images/artist_painting_theater.jpg' %}')">
+        <div class="absolute text-white m-3">
+            <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-indigo-500">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                </svg>
+                <span class="ml-3 text-l text-xl text-white">ourtsy</span>
+            </a>
+        </div>
+        <div class="absolute bottom-0 text-xs text-white m-3">
+            <p>
+                Photo by <a href="https://unsplash.com/@d3athtroop3r?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Brian Gordillo</a> on <a href="https://unsplash.com/s/photos/painter?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+            </p>
+        </div>
+        <div class="flex justify-end">
+            <div class="bg-white shadow-xl min-h-screen w-full md:w-1/2 flex justify-center items-center">
+                <div class="max-w-md mx-6">
+                    <p>Join ourtsy</p>
+                    <h1 class="text-6xl font-bold text-indigo-600 tracking-tighter leading-none mb-4">
+                        <!-- Welcome to the most powerful community for buying & selling incredible custom art -->
+                        Buy or Sell Custom Art Today
+                    </h1>
+                    <form method="post" autocomplete="off">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type='submit' class="w-full bg-indigo-500 hover:bg-indio-600 px-3 py-3 text-white rounded-md mb-2">
+                            Signup
+                        </button>
+                        <a>Already have an account? <a href="{% url 'login' %}" class="cursor-pointer text-sm text-blue-600">Sign In</a></a>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-	<div class="flex justify-end">
-		<div class="bg-white shadow-xl min-h-screen w-full md:w-1/2 flex justify-center items-center">
-			<div class="max-w-md mx-6">
-                <p>Join ourtsy</p>
-                <h1 class="text-6xl font-bold text-indigo-600 tracking-tighter leading-none mb-4">
-                    <!-- Welcome to the most powerful community for buying & selling incredible custom art -->
-                    Buy or Sell Custom Art Today
-                </h1>
-				<form method="post" autocomplete="off">
-                    {% csrf_token %}
-                    {{ form|crispy }}
-                    <button type='submit' class="w-full bg-indigo-500 hover:bg-indio-600 px-3 py-3 text-white rounded-md mb-2">
-                        Signup
-                    </button>
-                    <a>Already have an account? <a href="{% url 'login' %}" class="cursor-pointer text-sm text-blue-600">Sign In</a></a>
-                </form>
-			</div>
-		</div>
-	</div>
-</div>
 
 {% endblock content %}
