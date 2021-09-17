@@ -431,8 +431,31 @@ function dashMenuToggle() {
 
 // Dashboard mobile menu END
 
+// Art List Desktop Adv Search 
+
+var navArtListDesk = document.getElementById('art-list-desk-menu');
+var headerArtListDesk = document.getElementById('art-list-desk-top');
+
+window.addEventListener('scroll', function() {
+  if (window.scrollY >=400) { // adjust this value based on site structure and header image height
+    navSearch.classList.add('nav-sticky');
+    headerSearch.classList.add('pt-scroll');
+  } else {
+    navSearch.classList.remove('nav-sticky');
+    headerSearch.classList.remove('pt-scroll');
+  }
+});
 
 
-// This function sends the search criteria to the art list search page when the filter button is clicked on the home page
+function artListDeskToggle() {
+  var btn = document.getElementById('artListDeskBtn');
+  var nav = document.getElementById('artListDeskMenu');
 
-// end searchArtList
+  btn.classList.toggle('open');
+  nav.classList.toggle('flex');
+  nav.classList.toggle('hidden');
+}
+
+
+
+// Art List Desktop Adv Search END

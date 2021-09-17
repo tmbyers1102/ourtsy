@@ -196,7 +196,7 @@
             <!-- end of carousel DESKTOP -->
         </div>
         <div class="flex justify-end">
-            <div class="w-full md:w-1/2  flex flex-wrap justify-end">
+            <div class="w-full md:w-1/2 flex flex-wrap justify-end">
                 {% for tag in tagsList %}
                     <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-50 p-1 md:p-3 ml-1 md:ml-2 mt-2 text-indigo-300 rounded font-medium">
                         <span>#{{ tag }}</span>

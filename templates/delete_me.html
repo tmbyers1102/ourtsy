@@ -676,3 +676,20 @@
 
 
 
+
+
+<!-- login -->
+
+<div class="max-w-lg mx-auto">
+  <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type='submit' class="w-full bg-indigo-500 hover:bg-indio-600 px-3 py-3 text-white rounded-md mb-2">
+          Login
+      </button>
+      <a href="{% url 'reset-password' %}">Forgot password?</a>
+  </form>
+</div>
+
+
+<!-- end -->

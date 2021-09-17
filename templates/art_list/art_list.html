@@ -38,7 +38,7 @@
             {% if page_obj %}
                 {% for item in page_obj %}
                     <div class="content-div lg:w-1/4 md:w-1/2 md:px-2 w-full">
-                        <a href="#" class="block relative h-56 md:h-48 md:rounded overflow-hidden">
+                        <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-56 md:h-48 md:rounded overflow-hidden">
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ item.cover_image.url }}">
                             <div class="opacity-0 hover:opacity-40 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold"></div>
                         </a>

@@ -7,7 +7,18 @@ from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.utils.text import slugify
 from django.utils.timesince import timesince
-from .models import ApprovalStatus, ArtItem, ArtStatus, Artist, Portfolio, GenericStringTaggedItem, ArtMedium, ArtImage
+from .models import (
+    ApprovalStatus,
+    ArtGenre,
+    ArtItem,
+    ArtStatus,
+    Artist,
+    Portfolio,
+    GenericStringTaggedItem,
+    ArtMedium,
+    ArtImage,
+    ArtCommunity
+)
 from .forms import (
     ArtForm,
     ArtModelForm,
@@ -333,8 +344,9 @@ def art_list(request):
     mediumArtistFilter = ArtMediumFilter(request.GET, queryset=artists)
     art = myFilter.qs
     art_mediums = ArtMedium.objects.all()
+    art_communities = ArtCommunity.objects.all()
+    art_genres = ArtGenre.objects.all()
     paginator = Paginator(art, 12) # how many items per page?
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
@@ -344,6 +356,8 @@ def art_list(request):
         "portfolios": portfolios,
         "myFilter": myFilter,
         "art_mediums": art_mediums,
+        "art_communities": art_communities,
+        "art_genres": art_genres,
         "mediumArtFilter": mediumArtFilter,
         "mediumArtistFilter": mediumArtistFilter,
     }
