@@ -1,3 +1,4 @@
+from portfolio.models import Artist
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UsernameField
@@ -37,3 +38,39 @@ class AssignAgentForm(forms.Form):
         agents = Agent.objects.filter(organization=request.user.userprofile)
         super(AssignAgentForm, self).__init__(*args, **kwargs)
         self.fields["agent"].queryset = agents
+
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        # when submitted updates ...user
+        model = User
+        # these are the fields we want on our form
+        fields = [
+            'email',
+            'first_name',
+            'last_name',
+            'twitter_name',
+            'twitter_url',
+            'instagram_name',
+            'instagram_url',
+            'facebook_name',
+            'facebook_url',
+        ]
+
+
+class ArtistUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Artist
+        fields = [
+            'bio',
+            'art_mediums',
+            'art_communities',
+            'art_genres',
+        ]
+        widgets = {
+            'art_mediums': forms.CheckboxSelectMultiple,
+            'art_communities': forms.CheckboxSelectMultiple,
+            'art_genres': forms.CheckboxSelectMultiple,
+        }

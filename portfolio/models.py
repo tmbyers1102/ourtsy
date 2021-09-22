@@ -101,6 +101,8 @@ class PostStatus(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=250)
     author = models.ForeignKey(User, related_name="post_author", on_delete=models.CASCADE)
+    mentioned_artists = models.ManyToManyField("Artist", blank=True)
+    focus_artist = models.ForeignKey("Artist", related_name="has_artist", on_delete=models.CASCADE)
     description = models.TextField(max_length=200)
     text = models.TextField()
     published = models.DateField(auto_now_add=True)
@@ -112,6 +114,7 @@ class Post(models.Model):
     reviewed_by = models.ForeignKey(User, related_name="post_reviewer", on_delete=models.DO_NOTHING, blank=True, null=True)
     review_note = models.TextField(max_length=1000, blank=True, null=True)
     urgent_review = models.BooleanField(default=False)
+    showcase = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

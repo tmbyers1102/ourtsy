@@ -17,6 +17,10 @@ from .models import (
 )
 
 
+class PostsInline(admin.StackedInline):
+    model = Post
+ 
+
 class ArtImagesInline(admin.StackedInline):
     model = ArtImage
 
@@ -43,6 +47,7 @@ class ArtItemAdmin(admin.ModelAdmin):
 
 
 class ArtistAdmin(admin.ModelAdmin):
+    inlines = [PostsInline]
     fieldsets = (
         (None, {
             'fields': ('user', 'slug')

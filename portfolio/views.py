@@ -252,7 +252,18 @@ class LandingPageView(generic.TemplateView):
 def landing_page(request):
     artists = Artist.objects.all().order_by('-user_id')
     showcase_art = ArtItem.objects.all().order_by('title')
+    showcase_post = Post.objects.filter(showcase='True').order_by('title')
     art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
+    # run for loop over ArtItems and coolect ones --and eventaully count-- that have focus artist as artitem's artist
+    showcase_post_artists = Post.objects.filter(showcase='True').order_by('title').values('focus_artist')
+    # for i in range(len(showcase_post_artists)):
+    #     the_value = list(showcase_post_artists.values('focus_artist_id'))[i]
+    #     key, value = next((str(k), str(v)) for k, v in the_value.items())
+    #     showcase_post_artists_art_count = ArtItem.objects.filter(artist=value).order_by('title').count()
+    #     print(str('the_value: ') + str(the_value))
+    #     print(str('key: ') + str(key))
+    #     print(str('value: ') + str(value))
+    
     myFilter = ArtFilter(request.GET, queryset=art)
     if request.GET:
         params = request
@@ -260,6 +271,9 @@ def landing_page(request):
     context = {
         "artists": artists[0:6],
         "showcase_art": showcase_art[0:6],
+        "showcase_post_artists": showcase_post_artists,
+        # "showcase_post_artists_art_count": showcase_post_artists_art_count,
+        "showcase_post": showcase_post,
         "myFilter": myFilter,
     }
     return render(request, "home/landing_1.html", context)
@@ -410,6 +424,7 @@ def post_detail(request, slug):
     }
     return render(request, "portfolio/post_detail.html", context)
 
+
 class PostDetailView(generic.DetailView):
     template_name = "portfolio/post_detail.html"
     # queryset = Post.objects.filter(author = 3)
@@ -469,7 +484,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
     def get_success_url(self):
         messages.success(self.request, f'Success! Your post has been deleted.')
         return reverse("portfolio:art-dashboard")
-
 
 
 class ArtDetailView(generic.DetailView):
@@ -874,11 +888,18 @@ def art_update(request, slug):
     return render(request, "art_update.html", context)
 
 
-class ArtDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ArtDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     template_name = "art_delete.html"
     queryset = ArtItem.objects.all()
 
+    def test_func(self):
+        art = self.get_object()
+        if self.request.user == art.artist.user:
+            return True
+        return False
+
     def get_success_url(self):
+        messages.success(self.request, f'Success! This art has been deleted.')
         return reverse("portfolio:art-dashboard")
 
 

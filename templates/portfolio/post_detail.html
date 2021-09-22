@@ -27,7 +27,16 @@
         {% endif %}
         <div class="w-full">
             <div class="mx-6 my-6">
-                <h1 class="text-4xl">{{ post.title }}</h1>
+                <div class="flex">
+                    <h1 class="text-4xl">{{ post.title }}</h1>
+                    {% if post.author == user %}
+                        <a href="{% url 'portfolio:post-delete' post.pk %}" class="flex inline-flex ml-auto text-red-700 bg-red-200 hover:bg-red-300 border-2 border-red-700 p-2 rounded">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </a>
+                    {% endif %}
+                </div>
                 <a href="{% url 'portfolio-detail' post.author.artist.slug %}" class="flex my-2">
                     <img class="object-cover w-10 h-10 rounded-full mr-4" src="{{ post.author.artist.artist_headshot.url }}" alt="Profile image"/>
                     <div>

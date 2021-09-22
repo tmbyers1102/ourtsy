@@ -11,7 +11,7 @@ from django.contrib.auth.views import (
 )
 from django.urls import path, include
 from portfolio.views import SignupView, portfolio_detail, PortfolioDetailView, ReviewTableView
-from leads.views import UserAnalyticsView, UserProfileView, FinancialSettingsView
+from leads.views import UserAnalyticsView, UserProfileView, FinancialSettingsView, user_settings
 
 
 urlpatterns = [
@@ -26,7 +26,7 @@ urlpatterns = [
     path('password-reset-complete/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('user/<str:pk>/', UserProfileView.as_view(), name='user-profile'),
+    path('user/<str:pk>/', user_settings, name='user-profile'),
     path('user/analytics/<str:pk>/', UserAnalyticsView.as_view(), name='user-analytics'),
     path('user/financial/<str:pk>/', FinancialSettingsView.as_view(), name='financial-settings'),
     path('user/reviewtable/<str:pk>/', ReviewTableView.as_view(), name='review-table'),

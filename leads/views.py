@@ -1,10 +1,11 @@
 from django.core.mail import send_mail
 from django.db.models import query
 from django.shortcuts import render, redirect, reverse
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, UpdateView, DeleteView, DetailView, CreateView, FormView
 from .models import Lead, Agent, User, UserProfile
-from .forms import LeadForm, LeadModelForm, CustomUserCreationForm, AssignAgentForm
+from .forms import LeadForm, LeadModelForm, CustomUserCreationForm, AssignAgentForm, UserUpdateForm, ArtistUpdateForm
 from agents.mixins import OrganizerAndLoginRequiredMixin
 from portfolio.mixins import ArtistAndLoginRequiredMixin
 
@@ -22,6 +23,33 @@ class UserProfileView(LoginRequiredMixin, DetailView):
             "dashboard_user_slug": dashboard_user_slug,
         }
         return context
+
+
+def user_settings(request, pk):
+    dashboard_user = request.user.userprofile.slug
+    dashboard_user_slug = str(dashboard_user).lower()
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        a_form = ArtistUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.artist)
+        if u_form.is_valid() and a_form.is_valid():
+            u_form.save()
+            a_form.save()
+            messages.success(request,
+                             f'Hey there,'
+                             f' Your account has been updated!')
+            return redirect('portfolio:art-dashboard')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        a_form = ArtistUpdateForm(instance=request.user.artist)
+    context = {
+        "dashboard_user": dashboard_user,
+        "dashboard_user_slug": dashboard_user_slug,
+        'u_form': u_form,
+        'a_form': a_form
+    }
+    return render(request, "dashboard/user_profile.html", context)
 
 
 class UserAnalyticsView(ArtistAndLoginRequiredMixin, DetailView):

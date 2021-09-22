@@ -1,4 +1,7 @@
 {% extends "base_2.html" %}
+{% load tailwind_filters %}
+{% load widget_tweaks %}
+
 {% block content %}
 
 <body>
@@ -161,189 +164,107 @@
         <!-- Mobile and desktop HEader -->
         {% include 'dashboard/dashboard_mobile_header.html' %}
         <!-- Mobile and desktop HEader END -->
-        <main class="h-full pb-16 overflow-y-auto">
-          <div class="container px-6 mx-auto grid">
-            <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        <main class="h-full overflow-y-auto">
+          <div class="container px-1 md:px-6 md:pt-6 mx-auto grid">
+            <div class="">
+              {% include 'messages.html' %}
+            </div>
+            <h2 class="md:hidden text-lg md:text-2xl font-semibold text-gray-700">
               User Settings
             </h2>
+            <!-- FORMS -->
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                  <!-- header -->
+                  <div class="md:h-80 grid grid-cols-3 place-content-center bg-cover bg-center rounded" style="background-image: url( '{{ request.user.artist.studio_image.url }}' );">
+                      <div class="grid justify-items-end">
+                          <img class="inline object-cover w-20 md:w-48 h-20 md:h-48 rounded-full mr-4 my-2 shadow-2xl" src="{{ request.user.artist.artist_headshot.url }}" alt="Profile image"/>
+                      </div>
+                      <div class="col-span-2 ml-4 space-y-3">
+                          <h1 class="font-bold text-xl md:text-5xl text-white">
+                              {{ request.user.artist.user.first_name }} {{ request.user.artist.user.last_name }}
+                          </h1>
+                          <div class="p-3 bg-opacity-60 hover:bg-opacity-90 duration-100 bg-indigo-600 z-20 w-48 h-12 rounded text-white hidden md:flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span class="flex">Edit Headshot</span>
+                          </div>
+                          <div class="p-3 bg-opacity-60 hover:bg-opacity-90 duration-100 bg-indigo-600 z-20 w-48 h-12 rounded text-white hidden md:flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span class="flex">Edit Studio Image</span>
+                          </div>
+                      </div>
+                     
+                  </div>
+                  <div class="md:hidden grid grid-cols-2 space-x-1 mt-1">
+                    <a href="#" class="flex justify-center bg-gradient-to-r from-indigo-400 via-indigo-500 to-indigo-600 text-white rounded py-3">Edit Headshot</a>
+                    <a href="#" class="flex justify-center bg-gradient-to-r from-white via-indigo-50 to-indigo-100 border border-indigo-600 text-indigo-600 rounded py-3">Edit Studio Image</a>
+
+                  </div>
+                  <!-- header END -->
+                  <!-- <div>
+                    <img src="{{ request.user.artist.studio_image.url }}" class="w-full h-96 object-cover rounded-lg" alt="">
+                  </div> -->
+                  <div class="grid grid-cols-1 md:grid-cols-3 my-1">
+                    <div class="control">
+                        <h1 class="md:text-xl">Email</h1>
+                        {% render_field u_form.email type="email" class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                    <div class="control md:mx-1">
+                        <h1 class="md:text-xl">First Name</h1>
+                        {% render_field u_form.first_name class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                    <div class="control">
+                        <h1 class="md:text-xl">Last Name</h1>
+                        {% render_field u_form.last_name class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                  </div>
+                  <div class="control">
+                      <h1 class="md:text-xl">Artist Bio</h1>
+                      {% render_field a_form.bio class="input w-full h-40 py-2 px-6 border-2 border-indigo-100 rounded" placeholder="test" %}
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3">
+                    <div class="control">
+                        <h1 class="md:text-xl">Art Mediums</h1>
+                        {% render_field a_form.art_mediums type="checkbox" class="w-flex p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                    <div class="control">
+                        <h1 class="md:text-xl">Art Communities</h1>
+                        {% render_field a_form.art_communities type="checkbox" class="w-flex p-3 border-2 md:mx-1 border-indigo-100 rounded" %}
+                    </div>
+                    <div class="control">
+                        <h1 class="md:text-xl">Art Generes</h1>
+                        {% render_field a_form.art_genres type="checkbox" class="w-flex p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 my-2">
+                    <div class="control">
+                        <h1 class="md:text-xl">Twitter</h1>
+                        {% render_field u_form.twitter_name placeholder="Twitter Handle" class="p-3 border-2 border-indigo-100 rounded" %}
+                        {% render_field u_form.twitter_url placeholder="Twitter URL" class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                    <div class="control md:mx-1">
+                        <h1 class="md:text-xl">Instagram</h1>
+                        {% render_field u_form.instagram_name placeholder="Instagram Handle" class="p-3 border-2 border-indigo-100 rounded" %}
+                        {% render_field u_form.instagram_url placeholder="Instagram URL" class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                    <div class="control">
+                        <h1 class="md:text-xl">Facebook</h1>
+                        {% render_field u_form.facebook_name placeholder="Facebook Handle" class="p-3 border-2 border-indigo-100 rounded" %}
+                        {% render_field u_form.facebook_url placeholder="Facebook URL" class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                  </div>
+                <button type='submit' class="w-full bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 px-3 py-3 text-white rounded-md mb-2">
+                    Update
+                </button>
+            </form>
+            <!-- FORMS END -->
+
             
-            <!-- General elements -->
-            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-              Elements
-            </h4>
-            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Name</span>
-                <input class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" placeholder="###">
-              </label>
-
-              <div class="mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Account Type
-                </span>
-                <div class="mt-2">
-                  <label class="inline-flex items-center text-gray-600 dark:text-gray-400">
-                    <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="personal">
-                    <span class="ml-2">Personal</span>
-                  </label>
-                  <label class="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                    <input type="radio" class="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="busines">
-                    <span class="ml-2">Business</span>
-                  </label>
-                </div>
-              </div>
-
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Requested Limit
-                </span>
-                <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                  <option>$1,000</option>
-                  <option>$5,000</option>
-                  <option>$10,000</option>
-                  <option>$25,000</option>
-                </select>
-              </label>
-
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Multiselect
-                </span>
-                <select class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-multiselect focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" multiple="">
-                  <option>Option 1</option>
-                  <option>Option 2</option>
-                  <option>Option 3</option>
-                  <option>Option 4</option>
-                  <option>Option 5</option>
-                </select>
-              </label>
-
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Message</span>
-                <textarea class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content."></textarea>
-              </label>
-
-              <div class="flex mt-6 text-sm">
-                <label class="flex items-center dark:text-gray-400">
-                  <input type="checkbox" class="text-purple-600 form-checkbox focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                  <span class="ml-2">
-                    I agree to the
-                    <span class="underline">privacy policy</span>
-                  </span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Validation inputs -->
-            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-              Validation
-            </h4>
-            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              <!-- Invalid input -->
-              <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Invalid input
-                </span>
-                <input class="block w-full mt-1 text-sm border-red-600 dark:text-gray-300 dark:bg-gray-700 focus:border-red-400 focus:outline-none focus:shadow-outline-red form-input" placeholder="Jane Doe">
-                <span class="text-xs text-red-600 dark:text-red-400">
-                  Your password is too short.
-                </span>
-              </label>
-
-              <!-- Valid input -->
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Valid input
-                </span>
-                <input class="block w-full mt-1 text-sm border-green-600 dark:text-gray-300 dark:bg-gray-700 focus:border-green-400 focus:outline-none focus:shadow-outline-green form-input" placeholder="Jane Doe">
-                <span class="text-xs text-green-600 dark:text-green-400">
-                  Your password is strong.
-                </span>
-              </label>
-
-              <!-- Helper text -->
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Helper text
-                </span>
-                <input class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe">
-                <span class="text-xs text-gray-600 dark:text-gray-400">
-                  Your password must be at least 6 characters long.
-                </span>
-              </label>
-            </div>
-
-            <!-- Inputs with icons -->
-            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-              Icons
-            </h4>
-            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Icon left</span>
-                <!-- focus-within sets the color for the icon when input is focused -->
-                <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                  <input class="block w-full pl-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe">
-                  <div class="absolute inset-y-0 flex items-center ml-3 pointer-events-none">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                      <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                    </svg>
-                  </div>
-                </div>
-              </label>
-
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">Icon right</span>
-                <!-- focus-within sets the color for the icon when input is focused -->
-                <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
-                  <input class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe">
-                  <div class="absolute inset-y-0 right-0 flex items-center mr-3 pointer-events-none">
-                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                      <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                    </svg>
-                  </div>
-                </div>
-              </label>
-            </div>
-
-            <!-- Inputs with buttons -->
-            <h4 class="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-              Buttons
-            </h4>
-            <div class="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-              <label class="block text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Button left
-                </span>
-                <div class="relative">
-                  <input class="block w-full pl-20 mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe">
-                  <button class="absolute inset-y-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-l-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                    Click
-                  </button>
-                </div>
-              </label>
-
-              <label class="block mt-4 text-sm">
-                <span class="text-gray-700 dark:text-gray-400">
-                  Button right
-                </span>
-                <div class="relative text-gray-500 focus-within:text-purple-600">
-                  <input class="block w-full pr-20 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Jane Doe">
-                  <button class="absolute inset-y-0 right-0 px-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-r-md active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                    Click
-                  </button>
-                </div>
-              </label>
-            </div>
-              <!-- CTA -->
-              <a class="flex items-center justify-between p-4 mb-8 text-sm font-semibold text-purple-100 bg-purple-600 rounded-lg shadow-md focus:outline-none focus:shadow-outline-purple" href="https://github.com/estevanmaito/windmill-dashboard">
-                <div class="flex items-center">
-                  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
-                  </svg>
-                  <span>Star this project on GitHub</span>
-                </div>
-                <span>View more →</span>
-              </a>
+            
 
 
 
