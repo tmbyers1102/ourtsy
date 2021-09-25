@@ -42,6 +42,8 @@ class AssignAgentForm(forms.Form):
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
+    # user_image = forms.ImageField(widget=forms.ImageField(attrs={'id': 'user-image'}))
+    # user_bg = forms.ImageField(widget=forms.ImageField(attrs={'id': 'user-image'}))
 
     class Meta:
         # when submitted updates ...user
@@ -57,6 +59,9 @@ class UserUpdateForm(forms.ModelForm):
             'instagram_url',
             'facebook_name',
             'facebook_url',
+            'user_image',
+            'user_bg',
+            'user_bio',
         ]
 
 
@@ -68,6 +73,8 @@ class ArtistUpdateForm(forms.ModelForm):
             'art_mediums',
             'art_communities',
             'art_genres',
+            'artist_headshot',
+            'studio_image',
         ]
         widgets = {
             'art_mediums': forms.CheckboxSelectMultiple,

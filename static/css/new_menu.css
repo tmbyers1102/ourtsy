@@ -266,3 +266,13 @@
 }
 
 /* portfolio-bg END */
+
+
+/* user settings buttons */
+
+#user-image-container {
+  background-color: goldenrod;
+  display: none;
+}
+
+/* user settings buttons END */

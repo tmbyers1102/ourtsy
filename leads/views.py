@@ -28,27 +28,46 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 def user_settings(request, pk):
     dashboard_user = request.user.userprofile.slug
     dashboard_user_slug = str(dashboard_user).lower()
-    if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-        a_form = ArtistUpdateForm(request.POST,
-                                   request.FILES,
-                                   instance=request.user.artist)
-        if u_form.is_valid() and a_form.is_valid():
-            u_form.save()
-            a_form.save()
-            messages.success(request,
-                             f'Hey there,'
-                             f' Your account has been updated!')
-            return redirect('portfolio:art-dashboard')
+    if request.user.is_artist:
+        if request.method == 'POST':
+            u_form = UserUpdateForm(request.POST, instance=request.user)
+            a_form = ArtistUpdateForm(request.POST,
+                                    request.FILES,
+                                    instance=request.user.artist)
+            if u_form.is_valid() and a_form.is_valid():
+                u_form.save()
+                a_form.save()
+                messages.success(request,
+                                f'Hey there,'
+                                f' your account has been updated!')
+                return redirect('portfolio:art-dashboard')
+        else:
+            u_form = UserUpdateForm(instance=request.user)
+            a_form = ArtistUpdateForm(instance=request.user.artist)
+
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+            'u_form': u_form,
+            'a_form': a_form
+        }
     else:
-        u_form = UserUpdateForm(instance=request.user)
-        a_form = ArtistUpdateForm(instance=request.user.artist)
-    context = {
-        "dashboard_user": dashboard_user,
-        "dashboard_user_slug": dashboard_user_slug,
-        'u_form': u_form,
-        'a_form': a_form
-    }
+        if request.method == 'POST':
+            u_form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
+            if u_form.is_valid():
+                u_form.save()
+                messages.success(request,
+                                f'Hey there,'
+                                f' your account has been updated!')
+                return redirect('user-profile', pk)
+        else:
+            u_form = UserUpdateForm(instance=request.user)
+
+        context = {
+            "dashboard_user": dashboard_user,
+            "dashboard_user_slug": dashboard_user_slug,
+            'u_form': u_form,
+        }
     return render(request, "dashboard/user_profile.html", context)
 
 

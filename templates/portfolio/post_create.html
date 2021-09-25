@@ -1,11 +1,48 @@
 {% extends "base.html" %}
 {% load tailwind_filters %}
+{% load widget_tweaks %}
 {% block content %}
     <div class="max-w-4xl mx-auto">
-        <h1 class="text-4xl mb-2">Create a new Post</h1>
-        <form method="post">
+        <div class="md:hidden">
+            <br>
+            <br>
+        </div>
+        <h1 class="text-xl md:text-4xl text-center md:text-left md:mb-2">Create a new Post</h1>
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form|crispy }}
+            <div class="grid md:grid-cols-2 md:space-x-1">
+                <div class="grid space-y-1">
+                    <div class="control">
+                        <h1 class="md:text-xl">Title</h1>
+                        {% render_field form.title class="w-full p-3 border-2 border-indigo-100 rounded" placeholder="Write a unique title for your post" %}
+                    </div>
+                    <div class="control">
+                        <h1 class="md:text-xl">Who are you writing about?</h1>
+                        {% render_field form.focus_artist class="w-full p-3 border-2 border-indigo-100 rounded" %}
+                    </div>
+                    <div>
+                        <label for="post-image" class="flex justify-center bg-gradient-to-r from-white via-indigo-50 to-indigo-100 border border-indigo-600 text-indigo-600 rounded py-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            <span class="flex">Upload Image</span>
+                        </label>
+                        <div id="user-image-container">
+                            {% render_field form.post_image class="py-2 px-6 border-2 border-indigo-100 rounded" id="post-image" %}
+                        </div>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="control">
+                        <h1 class="md:text-xl">Description</h1>
+                        {% render_field form.description class="w-full h-24 md:h-48 p-3 border-2 border-indigo-100 rounded" placeholder="Describe this post in one sentence" %}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h1 class="md:text-xl">Post Text</h1>
+                {% render_field form.text class="w-full h-48 md:h-96 p-3 border-2 border-indigo-100 rounded" placeholder="Here is where you write your post" %}
+            </div>
             <button class="w-full h-12 px-6 text-white transition-colors duration-150 bg-indigo-600 rounded-lg focus:shadow-outline hover:bg-indigo-700" type="submit">Submit</button>
         </form>
     </div>

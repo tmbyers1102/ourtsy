@@ -115,6 +115,7 @@ class PostForm(forms.ModelForm):
             'title',
             'description',
             'text',
+            'focus_artist',
             'post_image',
         ]
 
@@ -124,6 +125,33 @@ class PostForm(forms.ModelForm):
         title = cleaned_data.get('title')
         if Post.objects.filter(title=self.cleaned_data['title']).exists():
             raise forms.ValidationError('This title is already taken. Please adjust!')
+        if len(text) < 1500:
+            self.add_error(
+                'text', 'Posts must be 1500 characters or longer. Please add more text!'
+            )
+        if len(title) < 5:
+            self.add_error(
+                'text', 'The title must be 5 characters or longer. Please add more text!'
+            )
+        
+        return self.cleaned_data
+
+
+class PostUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = [
+            'title',
+            'description',
+            'text',
+            'post_image',
+            'focus_artist',
+        ]
+
+    def clean(self):
+        cleaned_data = super(PostUpdateForm, self).clean()
+        text = cleaned_data.get('text')
+        title = cleaned_data.get('title')
         if len(text) < 1500:
             self.add_error(
                 'text', 'Posts must be 1500 characters or longer. Please add more text!'

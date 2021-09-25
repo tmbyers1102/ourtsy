@@ -16,6 +16,9 @@ class User(AbstractUser):
     instagram_url = models.URLField(blank=True)
     facebook_name = models.CharField(max_length=100, blank=True)
     facebook_url = models.URLField(blank=True)
+    user_image = models.ImageField(default='default_user_image.jpg', upload_to='user_images')
+    user_bg = models.ImageField(default='default_user_bg.jpg', upload_to='user_bgs')
+    user_bio = models.TextField(max_length=500, blank=True, null=True)
 
 
 class UserProfile(models.Model):

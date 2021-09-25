@@ -24,6 +24,7 @@ from .forms import (
     ArtModelForm,
     CustomUserCreationForm,
     PostForm,
+    PostUpdateForm,
     ArtistForm,
     ArtUpdateModelForm,
     ArtReviewModelForm,
@@ -279,7 +280,7 @@ def landing_page(request):
     return render(request, "home/landing_1.html", context)
 
 
-class ArtDashboardView(ArtistAndLoginRequiredMixin, generic.ListView):
+class ArtDashboardView(LoginRequiredMixin, generic.ListView):
     template_name = "dashboard/art_dashboard.html"
     context_object_name = "art_items"
 
@@ -454,7 +455,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     template_name = "portfolio/post_update.html"
     model = Post
-    form_class = PostForm
+    form_class = PostUpdateForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
