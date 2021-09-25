@@ -141,6 +141,22 @@ class ReviewTableView(LoginRequiredMixin, generic.ListView):
         return context
 
 
+class PostReviewTableView(LoginRequiredMixin, generic.ListView):
+    template_name = "dashboard/post_review_table.html"
+    context_object_name = "post_item"
+    queryset = Post.objects.all()
+
+    def get_context_data(self, **kwargs):
+        dashboard_user = self.request.user.userprofile.slug
+        dashboard_user_slug = str(dashboard_user).lower()
+
+        context = {
+            'dashboard_user': dashboard_user,
+            'dashboard_user_slug': dashboard_user_slug,
+        }
+        return context
+
+
 # this is not being used
 def art_review(request, slug):
     art = ArtItem.objects.get(slug=slug)
