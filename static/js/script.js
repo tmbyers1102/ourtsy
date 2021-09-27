@@ -460,3 +460,15 @@ function artListDeskToggle() {
 
 // Art List Desktop Adv Search END
 
+// Share Button on Posts
+
+var shareBtn = document.querySelector('.share-btn');
+var shareOptions = document.querySelector('.share-options');
+
+shareBtn.addEventListener('click', () => {
+    shareOptions.classList.toggle('active');
+})
+
+
+
+// Share Button on Posts END

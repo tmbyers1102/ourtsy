@@ -1,4 +1,19 @@
 console.log("Main.js here")
+console.log('share button connected to JS');
+
+// Share Button on Posts
+
+const shareBtn = document.querySelector('.share-btn');
+const shareOptions = document.querySelector('.share-options');
+
+
+shareBtn.addEventListener('click', () => {
+    shareOptions.classList.toggle('active');
+})
+
+
+
+// Share Button on Posts END
 
 
 
@@ -20,3 +35,11 @@ function createTag(label) {
 }
 
 tagContainer.appendChild(createTag('testingJava'))
+
+
+// share button copied animation
+
+// const linkButton = document.querySelector('linkButton');
+
+
+// share button copied animation END

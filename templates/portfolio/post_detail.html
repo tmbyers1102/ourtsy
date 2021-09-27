@@ -25,16 +25,103 @@
         {% else %}
             <img src="{{ post.post_image.url }}" class="object-cover h-96 w-full block" alt="{{ post.title }}-Image">
         {% endif %}
+            <div class="md:hidden bg-opacity-0 absolute right-0 mt-8 px-4 rounded-lg w-auto text-lg text-white bg-indigo-600 flex justify-center content-center">
+                <div class="share-container relative mr-1">
+                    <div class="svg hide" id="svg"></div>
+
+                    <play id="copy-btn" class="float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">Copy Post Link</play>
+
+                </div>
+                {% if post.author == user %}
+                    <a href="{% url 'portfolio:post-delete' post.pk %}" class="flex inline-flex ml-auto text-red-700 bg-red-200 hover:bg-red-300 border-2 border-red-700 p-2 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </a>
+                {% endif %}
+            </div>
+
         <div class="w-full">
             <div class="mx-6 my-6">
+                <div>
+                    
+                </div>
                 <div class="flex justify-between">
                     <h1 class="text-xl md:text-4xl">{{ post.title }}</h1>
-                    <div class="">
-                        <a href="#" class="flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                              </svg>
-                        </a>
+                    <div class="hidden md:flex">
+                        <!-- New animated copy link Desktop -->
+                        <div class="share-container relative mr-1">
+                            <div class="svg hide" id="svg"></div>
+    
+                            <play id="copy-btn" class="float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">Copy Post Link</play>
+    
+                        </div>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.13/lottie.min.js" integrity="sha512-srGxQe2w7s50+5/nNgEVKYtBm15zRylJwdjxYnGEZr3mmHFJKFjA/ImA2OKizVzoIDX8XISMHDI1+az9pnumbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                        
+                        <script>
+                            const play = document.querySelector('play');
+    
+                            const svgContainer = document.getElementById('svg');
+                            const animItem = bodymovin.loadAnimation({
+                                wrapper: svgContainer,
+                                animType: 'svg',
+                                loop: false,
+                                autoplay: false,
+                                path: 'https://assets4.lottiefiles.com/packages/lf20_gcwCZ3.json'
+                            });
+    
+                            play.addEventListener('click', () =>{
+                                animItem.goToAndPlay(0,true);
+                            })
+    
+    
+                        </script>
+                        <!-- New animated copy link Desktop END -->
+                        <!-- Share Button Desktop OLD dropdown -->
+                        <div class="w-72 bg-green-500 mr-1 hidden">
+                            <button class="share-btn float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                  </svg>
+                            </button>
+                        </div>
+                        <!-- Share button Desktop END -->
+                        <!-- Share Button Options Desktop -->
+                        <div class="share-options">
+                            <p class="title">share</p>
+                            <div class="social-media">
+                                <button class="social-media-btn"><i class="far fa-folder-open"></i></button>
+                                <button class="social-media-btn"><i class="fab fa-whatsapp"></i></button>
+                                <button class="social-media-btn"><i class="fab fa-instagram"></i></button>
+                                <button class="social-media-btn"><i class="fab fa-twitter"></i></button>
+                                <button class="social-media-btn"><i class="fab fa-facebook-f"></i></button>
+                                <button class="social-media-btn"><i class="fab fa-linkedin-in"></i></button>
+                            </div>
+                            <div class="relative">
+
+                                <button class="copy-btn">Copy Post URL</button>
+
+                            </div>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+                            <script>
+                                const shareBtn = document.querySelector('.share-btn');
+                                const shareOptions = document.querySelector('.share-options');
+
+                                shareBtn.addEventListener('click', () => {
+                                    shareOptions.classList.toggle('active');
+                                })
+
+                                var url = document.location.href;
+
+                                new Clipboard('#copy-btn', {
+                                    text: function() {
+                                        return url;
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <!-- Share Button Options Desktop END -->
                         {% if post.author == user %}
                             <a href="{% url 'portfolio:post-delete' post.pk %}" class="flex inline-flex ml-auto text-red-700 bg-red-200 hover:bg-red-300 border-2 border-red-700 p-2 rounded">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
