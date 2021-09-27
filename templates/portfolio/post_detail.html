@@ -25,13 +25,45 @@
         {% else %}
             <img src="{{ post.post_image.url }}" class="object-cover h-96 w-full block" alt="{{ post.title }}-Image">
         {% endif %}
+            <!-- Mobile share and delete buttons -->
             <div class="md:hidden bg-opacity-0 absolute right-0 mt-8 px-4 rounded-lg w-auto text-lg text-white bg-indigo-600 flex justify-center content-center">
                 <div class="share-container relative mr-1">
-                    <div class="svg hide" id="svg"></div>
+                    <div class="svgMobile hide" id="svgb"></div>
 
-                    <play id="copy-btn" class="float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">Copy Post Link</play>
+                    <div id="copy-btn" class="float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                        </svg>
+                    </div>
 
                 </div>
+                
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.13/lottie.min.js" integrity="sha512-srGxQe2w7s50+5/nNgEVKYtBm15zRylJwdjxYnGEZr3mmHFJKFjA/ImA2OKizVzoIDX8XISMHDI1+az9pnumbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                
+                <script>
+                    const copied = document.getElementById('copy-btn');
+
+                    const svgContainerb = document.getElementById('svgb');
+                    const animItemb = bodymovin.loadAnimation({
+                        wrapper: svgContainerb,
+                        animType: 'svg',
+                        loop: false,
+                        autoplay: false,
+                        path: 'https://assets7.lottiefiles.com/private_files/lf30_z1sghrbu.json'
+                    });
+
+                    copied.addEventListener('click', () =>{
+                        svgContainerb.classList.remove('hide');
+                        animItemb.goToAndPlay(0,true);
+                    })
+
+                    animItemb.addEventListener('complete', () =>{
+                        svgContainerb.classList.add('hide');
+                    })
+
+
+                </script>
+                
                 {% if post.author == user %}
                     <a href="{% url 'portfolio:post-delete' post.pk %}" class="flex inline-flex ml-auto text-red-700 bg-red-200 hover:bg-red-300 border-2 border-red-700 p-2 rounded">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,7 +72,7 @@
                     </a>
                 {% endif %}
             </div>
-
+            <!-- Mobile share and delete buttons END -->
         <div class="w-full">
             <div class="mx-6 my-6">
                 <div>
@@ -53,9 +85,12 @@
                         <div class="share-container relative mr-1">
                             <div class="svg hide" id="svg"></div>
     
-                            <play id="copy-btn" class="float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">Copy Post Link</play>
+                            <play id="copy-btn" class="float-right flex inline-flex ml-auto text-indigo-700 bg-indigo-50 hover:bg-indigo-300 border-2 border-indigo-700 p-2 rounded">
+                                Copy Post Link
+                            </play>
     
                         </div>
+                        
                         <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.13/lottie.min.js" integrity="sha512-srGxQe2w7s50+5/nNgEVKYtBm15zRylJwdjxYnGEZr3mmHFJKFjA/ImA2OKizVzoIDX8XISMHDI1+az9pnumbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                         
                         <script>
@@ -67,11 +102,16 @@
                                 animType: 'svg',
                                 loop: false,
                                 autoplay: false,
-                                path: 'https://assets4.lottiefiles.com/packages/lf20_gcwCZ3.json'
+                                path: 'https://assets7.lottiefiles.com/private_files/lf30_z1sghrbu.json'
                             });
     
                             play.addEventListener('click', () =>{
+                                svgContainer.classList.remove('hide');
                                 animItem.goToAndPlay(0,true);
+                            })
+
+                            animItem.addEventListener('complete', () =>{
+                                svgContainer.classList.add('hide');
                             })
     
     
