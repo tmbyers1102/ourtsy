@@ -35,32 +35,36 @@
                         </div>
                         <!-- Budget -->
                         <div class="mx-3">
-                            <div class="flex items-center justify-between border-t border-indigo-300">
-                                <h1 class="text-black font-bold text-xl">Budget</h1>
-                                <!-- Button -->
-                                <div class="mx-3 mt-3">
-                                    <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
+                            <form method="GET">
+                                <div class="flex items-center justify-between border-t border-indigo-300">
+                                    <h1 class="text-black font-bold text-xl">Budget</h1>
+                                    <!-- Button -->
+                                    <div class="mx-3 mt-3">
+                                        <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
+                                    </div>
                                 </div>
-                            </div>
-                            {% include 'home/budget.html' %}
+                                {% include 'home/budget.html' %}
+                            </form>
                         </div>
                         <!-- Key Terms -->
                         <div class="mx-3">
-                            <div class="flex items-center justify-between border-t border-indigo-300 mb-2">
-                                <h1 class="text-black font-bold text-xl">Search by Terms</h1>
-                                <!-- Button -->
-                                <div class="mx-3 mt-3">
-                                    <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
+                            <form method="POST" action="{% url 'portfolio:search-art' %}">
+                                {% csrf_token %}
+                                <div class="flex items-center justify-between border-t border-indigo-300 mb-2">
+                                    <h1 class="text-black font-bold text-xl">Search by Terms</h1>
+                                    <!-- Button -->
+                                    <div class="mx-3 mt-3">
+                                        <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
+                                    </div>
                                 </div>
-                            </div>
-                            {% include 'home/term_search.html' %}
+                                {% include 'home/term_search.html' %}
+                            </form>
                         </div>
-                        
                     </div>
                 </div>
                 <!-- <div class="grid col-span-1 w-full">
                     <div class="bg-black bg-opacity-25 w-1/2 h-48 rounded-lg flex mx-auto justify-center items-center text-green-50">
-                        >{{ random_item }}
+                        test
                     </div>
                 </div> -->
             </div>

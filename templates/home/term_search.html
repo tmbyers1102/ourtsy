@@ -1,4 +1,4 @@
-<div x-data="{tags: ['green', 'pointalism', 'cactus'], newTag: '', inputName: 'foo' }" class="bg-grey-lighter">
+<div x-data="{tags: [], newTag: '', inputName: 'searched' }" class="bg-grey-lighter">
     <template x-for="tag in tags">
       <input type="hidden" x-bind:name="inputName + '[]'" x-bind:value="tag">
     </template>
@@ -14,7 +14,7 @@
                 </span>
             </template>
             
-            <input class="tags-input-text" placeholder="Add tag..."
+            <input class="tags-input-text" placeholder="Add term and press enter..."
                 @keydown.enter.prevent="if (newTag.trim() !== '') tags.push(newTag.trim()); newTag = ''"
                 x-model="newTag"
             >

@@ -55,16 +55,12 @@ class ArtFilter(django_filters.FilterSet):
         queryset=ArtGenre.objects.all(),
         widget=CheckboxSelectMultiple,
     )
-    price = django_filters.ModelMultipleChoiceFilter(
-        queryset=ArtItem.objects.values_list('price', flat=True).distinct(),
-        widget=CheckboxSelectMultiple,
-    )
-
+    price = RangeFilter()
     class Meta:
         model = ArtItem
         # for drop down fields --such as pre-set genres or mediums-- just add here
         fields = [
-            # 'art_mediums',
+            'price',
         ]
 
 

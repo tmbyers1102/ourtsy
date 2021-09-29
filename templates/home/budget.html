@@ -1,16 +1,16 @@
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 
-<div class="flex flex-col items-center" x-data="rangeSlider(0, 8000, 0, 8000)">
+<div class="flex flex-col items-center" x-data="rangeSlider({{ minMaxPrice.price__min }}, {{ minMaxPrice.price__max }}, {{ minMaxPrice.price__min }}, {{ minMaxPrice.price__max }})">
     <input class="absolute opacity-0 pointer-events-none" 
-        type="range" name="age_min" min="0" max="8000" :value="min">
+        type="range" name="price_min" min="{{ minMaxPrice.price__min }}" max="{{ minMaxPrice.price__max }}" :value="min">
     <input class="absolute opacity-0 pointer-events-none" 
-        type="range" name="age_max" min="0" max="8000" :value="max">
+        type="range" name="price_max" min="{{ minMaxPrice.price__min }}" max="{{ minMaxPrice.price__max }}" :value="max">
 
     <div class="flex">
         <span class="flex inline-flex" x-text="`$${min} to $${max}`"></span>
     </div>
 
-    <div class="flex items-center relative rounded bg-gray-300 w-11/12 mx-2 h-1 mt-4" 
+    <div class="flex items-center relative rounded bg-gray-300 w-5/6 mx-2 h-1 mt-4" 
         x-ref="sliderEl" 
         @mouseup.window="dragLeft = dragRight = false" 
         @mousemove.window="handleThumbMouseMove($event)" 

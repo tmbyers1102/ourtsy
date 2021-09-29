@@ -3,9 +3,9 @@
 {% block content %}
 
 {% if searched %}
-    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+    <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-2xl md:text-4xl">
         <span class="block xl:inline">Your search for </span>
-        <span class="block text-indigo-600 xl:inline">"{{ searched }}"</span>
+        <span class="block text-indigo-500 xl:inline">"{% for x in search_list %}{{ x }}, {% endfor %}"</span>
     </h1>
 {% else %}
     <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
@@ -27,17 +27,17 @@
             </div>
             <div class="flex flex-wrap -m-4">
                 {% if results %}
-                    {% for item in results %}
-                        <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
-                        <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
-                            <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ item.cover_image.url }}">
-                        </a>
-                        <div class="mt-4">
-                            <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
-                            <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
-                            <p class="mt-1">$16.00</p>
-                        </div>
-                        </div>
+                    {% for item in results|dictsort:"title" %}
+                            <div class="lg:w-1/4 md:w-1/2 p-4 w-full">
+                                <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-48 rounded overflow-hidden">
+                                    <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ item.cover_image.url }}">
+                                </a>
+                                <div class="mt-4">
+                                    <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
+                                    <h3 class="text-gray-500 text-xs tracking-widest title-font mb-1">{{ item.artist }}</h3>
+                                    <p class="mt-1">$16.00</p>
+                                </div>
+                            </div>
                     {% endfor %}
                 {% else %}
                     <h2 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-3xl md:text-3xl">
