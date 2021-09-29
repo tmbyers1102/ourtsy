@@ -13,6 +13,7 @@ from .models import (
     ArtItem,
     ArtStatus,
     Artist,
+    HeroImage,
     Portfolio,
     GenericStringTaggedItem,
     ArtMedium,
@@ -42,9 +43,32 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 import string
 from urlparams.redirect import param_redirect
+import random
 
 
 User = get_user_model()
+
+
+def home_page(request):
+    items = list(HeroImage.objects.all())
+    random_item = random.choice(items)
+    art_mediums = ArtMedium.objects.all()
+    art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
+    myFilter = ArtFilter(request.GET, queryset=art)
+    mediumArtFilter = ArtMediumFilter(request.GET, queryset=art)
+    if request.GET:
+        params = request
+        return param_redirect(request, 'portfolio:art-list')
+
+    context = {
+        "art_mediums": art_mediums,
+        "art": art,
+        "myFilter": myFilter,
+        "mediumArtFilter": mediumArtFilter,
+        "random_item": random_item,
+        
+    }
+    return render(request, "home/home_page.html", context)
 
 
 def submitted(request):

@@ -34,12 +34,13 @@ from portfolio.views import (
     post_create,
     PostCreateView,
     PostDeleteView,
+    home_page
 )
 
 app_name = "portfolio"
 
 urlpatterns = [
-    path('', landing_page, name='landing-page'),
+    path('', home_page, name='landing-page'),
     path('art/', art_list, name='art-list'),
     path('artists/', landing_page, name='artist-list'),
     path('post_list/', post_list, name='post-list'),

@@ -1,3 +1,5 @@
+<!-- This is exactly like base_2 but without a footer -->
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -6,17 +8,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ourtsy</title>
-    <link href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="/static/css/new_menu.css" />
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-    
 </head>
 
     <body>
             {% block content %}
             {% endblock content %}
-            {% include 'footer.html' %}
-        {% include "scripts.html" %}
-        <script src="/static/js/script.js"></script>
+            {% include "scripts.html" %}
+            
+            <script src="/static/js/script.js"></script>
     </body>
 
 

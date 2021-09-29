@@ -12,6 +12,14 @@ import random
 import os
 
 
+class HeroImage(models.Model):
+    image = models.ImageField(upload_to='hero_images')
+    file_name_text = models.CharField(max_length=100)
+    unsplash_credit = models.TextField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return self.file_name_text
+
 class GenericStringTaggedItem(CommonGenericTaggedItemBase, TaggedItemBase):
     object_id = models.CharField(max_length=50, verbose_name=('Object id'), db_index=True)
 

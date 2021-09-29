@@ -1,0 +1,15 @@
+{% load tailwind_filters %}
+{% load widget_tweaks %}
+
+
+    <!-- {{ myFilter.form.art_mediums }} -->
+    <!-- {% render_field myFilter.form.art_mediums type="checkbox" class="w-full flex inline-flex" %} -->
+    {% for value in myFilter.form.art_mediums %}
+        <div class="mx-3 flex inline-flex">{{ value }}</div>
+    {% endfor %}
+    <!-- Button -->
+    <!-- <div class="mx-3 mt-3 flex mx-auto items-center justify-center">
+        <button class="py-1 w-1/4 bg-indigo-500 flex justify-center items-center rounded-lg text-white hover:bg-indigo-600">search</button>
+    </div> -->
+
+</form>

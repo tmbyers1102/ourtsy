@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ArtCommunity, ArtItem, ArtStatus, Artist, Portfolio, Post, GenericStringTaggedItem, ArtMedium, ArtGenre, ApprovalStatus
+from .models import ArtCommunity, ArtItem, ArtStatus, Artist, HeroImage, Portfolio, Post, GenericStringTaggedItem, ArtMedium, ArtGenre, ApprovalStatus
 from .models import (
     ArtCommunity,
     ArtItem,
@@ -79,4 +79,5 @@ admin.site.register(ArtStatus)
 admin.site.register(ApprovalStatus)
 admin.site.register(ArtImage)
 admin.site.register(PostStatus)
+admin.site.register(HeroImage)
 

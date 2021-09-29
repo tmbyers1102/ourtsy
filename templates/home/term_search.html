@@ -1,0 +1,26 @@
+<div x-data="{tags: ['green', 'pointalism', 'cactus'], newTag: '', inputName: 'foo' }" class="bg-grey-lighter">
+    <template x-for="tag in tags">
+      <input type="hidden" x-bind:name="inputName + '[]'" x-bind:value="tag">
+    </template>
+
+    <div class="w-full mx-auto">
+        <div class="tags-input">
+            <template x-for="tag in tags" :key="tag">
+                <span class="tags-input-tag">
+                    <span x-text="tag"></span>
+                    <button type="button" class="tags-input-remove" @click="tags = tags.filter(i => i !== tag)">
+                        &times;
+                    </button>
+                </span>
+            </template>
+            
+            <input class="tags-input-text" placeholder="Add tag..."
+                @keydown.enter.prevent="if (newTag.trim() !== '') tags.push(newTag.trim()); newTag = ''"
+                x-model="newTag"
+            >
+        </div>
+    </div>
+</div>
+<!-- <div class="mx-3 my-3 flex mx-auto items-center justify-center">
+    <button class="py-1 w-1/4 bg-indigo-500 flex justify-center items-center rounded-lg text-white hover:bg-indigo-600">search</button>
+</div> -->
