@@ -1,0 +1,64 @@
+<!-- mobile menu -->
+<header id="top" class="z-40 sm:hidden w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l">
+    <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center px-4 sm:px-6 py-1 bg-white shadow sm:shadow-none">
+      <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
+        <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-indigo-500">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="ml-2 text-l text-lg">ourtsy</span>
+        </a>
+        {% if request.user.is_authenticated %}
+          <a class="inline-flex text-white text-sm text-white w-24 items-center no-underline bg-indigo-500 rounded sm:w-auto px-2 py-2" href="{% url 'portfolio:art-dashboard' %}">
+            <svg xmlns="inline http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>{{ request.user.username }}</span>
+          </a>                  
+        {% endif %}
+
+        <button id="menuBtn" class="hamburger block sm:hidden focus:outline-none text-white" type="button" onclick="navToggle();">
+          <span class="hamburger__top-bun"></span><span class="hamburger__bottom-bun"></span>
+        </button>
+      </div>
+      <form method="POST" class="w-screen px-2 py-1 flex justify-left" action="{% url 'portfolio:search-art' %}">
+        {% csrf_token %}
+            <input
+                class="text-sm flex w-full rounded-l border border-indigo-100 pl-2 text-white focus-within focus:bg-indigo-500 focus:outline-none"
+                type="text"
+                placeholder="Search a term or choose category filters"
+                name="searched"
+                autocomplete="off"
+            >
+            <div class="inline-flex">
+              <button class="border border-indigo-100 bg-indigo-50 font-bold px-1 py-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 p-1 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </button>
+              <button id="landingSearchMenuBtn" class="border border-indigo-100 rounded-r font-bold px-1" type="button" onclick="landingSearchToggle();">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+                </svg>
+              </button>
+            </div>
+      </form>
+      <!-- regular mobile menu dropdown -->
+      <div id="menu" class="w-full sm:w-auto self-end text-indigo-500 sm:self-center sm:flex flex-col sm:flex-row items-center h-full py-1 pb-4 sm:py-0 sm:pb-0 hidden divide-y divide-indigo-50">
+        {% if not request.user.is_authenticated %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'signup' %}">Signup</a>                  
+        {% endif %}
+        <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'portfolio:art-list' %}">Art</a>
+        <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'portfolio:artist-list' %}">Artists</a>
+        {% if request.user.is_authenticated %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+          <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto sm:pr-4 py-2 sm:py-1 sm:pt-2" href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </div>
+      <!-- regular mobile menu dropdown end -->
+      <!-- home filter search menu -->
+      {% include "home/art_search_mobile_accordion.html" %}
+      <!-- home filter search menu END -->
+    </nav>
+  </header>

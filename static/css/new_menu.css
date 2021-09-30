@@ -661,3 +661,66 @@
 
 
 /* Home page search by terms END */
+
+
+/* typing home animation */
+
+.wrapper {
+  display: inline-flex;
+}
+
+.wrapper .static-txt {
+  color: #000;
+  font-size: 60px;
+  font-weight: 400;
+}
+
+.wrapper .dynamic-txts {
+  margin-left: 15px;
+  height: 90px;
+  line-height: 90px;
+  overflow: hidden;
+}
+
+.dynamic-txts li{
+  color: #6366F1;
+  list-style: none;
+  font-size: 60px;
+  font-weight: 500;
+  position: relative;
+  top: 0;
+  /* Because there are 4 slides of text */
+  animation: slide 15s steps(5) infinite;
+}
+@keyframes slide {
+  100%{
+    top: -450px;
+  }
+}
+.dynamic-txts li span {
+  position: relative;
+  margin: 5px 0;
+  line-height: 90px;
+}
+.dynamic-txts li span::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 120%;
+  width: 100%;
+  background: #fff;
+  border-left: 2px solid #6366F1;
+  /* Steps is the num of characters in the longest slide */
+  animation: typing 3s steps(9) infinite;
+}
+@keyframes typing {
+  40%, 60%{
+    left: calc(100% + 30px);
+  }
+  100%{
+    left: 0;
+  }
+}
+
+
+/* typing home animation END */
