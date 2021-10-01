@@ -23,13 +23,9 @@
       </div>
       <form method="POST" class="w-screen px-2 py-1 flex justify-left" action="{% url 'portfolio:search-art' %}">
         {% csrf_token %}
-            <input
-                class="text-sm flex w-full rounded-l border border-indigo-100 pl-2 text-white focus-within focus:bg-indigo-500 focus:outline-none"
-                type="text"
-                placeholder="Search a term or choose category filters"
-                name="searched"
-                autocomplete="off"
-            >
+            <div class="w-full">
+              {% include 'home/term_search.html' %}
+            </div>
             <div class="inline-flex">
               <button class="border border-indigo-100 bg-indigo-50 font-bold px-1 py-1">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 p-1 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

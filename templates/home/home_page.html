@@ -73,68 +73,29 @@
     </div>
     <!-- Hero DESKTOP end -->
     <!-- Hero Mobile -->
-    <section class="h-screen w-full bg-red-400 md:hidden">
+    <section class="h-72 w-full bg-red-400 md:hidden">
         {% include "menus/home_mobile_menu.html" %}
-        <div class="absolute inset-0 w-full h-3/4 object-cover object-none object-top bg-cover" style="background-image: url( '{{ random_item.image.url }}' ); background-blend-mode: multiply;">
-         
-            <div class="w-full mt-36">
-                <div class="bg-indigo-50 bg-opacity-60 w-full h-96 rounded-lg flex mx-auto items-center grid grid-rows-3 bg-clip-padding" style="backdrop-filter: blur(5px);">
-                    <!-- Art Mediums -->
-                    <div class="mx-3">
-                        <form method="GET">
-                            <div class="flex items-center justify-between">
-                                <h1 class="text-black font-bold text-xl">Art Mediums</h1>
-                                <!-- Button -->
-                                <div class="mx-3 mt-3">
-                                    <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
-                                </div>
-                            </div>
-                            {% include 'home/home_medium_search.html' %}
-                        </form>
-                    </div>
-                    <!-- Budget -->
-                    <div class="mx-3">
-                        <form method="GET">
-                            <div class="flex items-center justify-between border-t border-indigo-300">
-                                <h1 class="text-black font-bold text-xl">Budget</h1>
-                                <!-- Button -->
-                                <div class="mx-3 mt-3">
-                                    <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
-                                </div>
-                            </div>
-                            {% include 'home/budget.html' %}
-                        </form>
-                    </div>
-                    <!-- Key Terms -->
-                    <div class="mx-3">
-                        <form method="POST" action="{% url 'portfolio:search-art' %}">
-                            {% csrf_token %}
-                            <div class="flex items-center justify-between border-t border-indigo-300 mb-2">
-                                <h1 class="text-black font-bold text-xl">Search by Terms</h1>
-                                <!-- Button -->
-                                <div class="mx-3 mt-3">
-                                    <button class="py-1 w-24 bg-indigo-50 flex justify-center items-center rounded hover:bg-indigo-100 text-indigo-600">search</button>
-                                </div>
-                            </div>
-                            {% include 'home/term_search.html' %}
-                        </form>
-                    </div>
-                </div>
+        <div class="absolute inset-0 w-full h-72 object-cover object-none object-top bg-cover mt-28" style="background-image: url( '{{ random_item.image.url }}' ); background-blend-mode: multiply;">
+            <div class="m-3">
+                <span class="relative text-5xl font-bold justify-center text-center text-white">
+                    Let's Find Some Fantastic Custom Art!
+                </span>
             </div>
         </div>
 
     </section>
     <!-- Hero Mobile end -->
     <!-- Explore Art -->
-    <div class="relative h-96 bg-gradient-to-br from-white to-indigo-100">
-        <div class="max-w-7xl mx-auto pt-6 flex justify-left items-center">
+    <div class="relative h-72 sm:h-96 bg-gradient-to-br from-white to-indigo-100">
+        <div class="max-w-7xl mx-auto pt-2 pl-3 sm:pt-6 flex justify-left items-center">
             <h1 class="text-3xl font-bold flex inline-flex">Explore Art</h1>
             <div class="flex inline-flex">
                 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
                 <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_osnykse9.json"  background="transparent"  speed="1"  style="width: 50px; height: 50px;"  loop  autoplay></lottie-player>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-6 flex flex-wrap">
+        <!-- desktop Explore -->
+        <div class="hidden md:flex max-w-7xl mx-auto pt-6 flex flex-wrap">
             <!-- first Row -->
                 <div class="grid grid-cols-3 w-1/4">
                     <div class="grid col-span-1">
@@ -211,6 +172,80 @@
             <!-- second Row END -->
 
         </div>
+        <!-- Desktop explore END -->
+        <!-- Mobile explore -->
+        <div class="sm:hidden w-full flex flex-wrap">
+            <div class="w-44 h-14 rounded m-1">
+                <div class="grid grid-cols-3">
+                    <div class="grid col-span-1">
+                        <img src="{% static 'images/beach.jpg' %}" alt="" class="h-14 w-14 rounded flex inline-flex mr-3">
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="text-lg font-semibold flex items-end">Term</h1>
+                        <h1 class="text-xs text-gray-500">3,892 pieces</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="w-44 h-14 rounded m-1">
+                <div class="grid grid-cols-3">
+                    <div class="grid col-span-1">
+                        <img src="{% static 'images/beach.jpg' %}" alt="" class="h-14 w-14 rounded flex inline-flex mr-3">
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="text-lg font-semibold flex items-end">Term</h1>
+                        <h1 class="text-xs text-gray-500">3,892 pieces</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="w-44 h-14 rounded m-1">
+                <div class="grid grid-cols-3">
+                    <div class="grid col-span-1">
+                        <img src="{% static 'images/beach.jpg' %}" alt="" class="h-14 w-14 rounded flex inline-flex mr-3">
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="text-lg font-semibold flex items-end">Term</h1>
+                        <h1 class="text-xs text-gray-500">3,892 pieces</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="w-44 h-14 rounded m-1">
+                <div class="grid grid-cols-3">
+                    <div class="grid col-span-1">
+                        <img src="{% static 'images/beach.jpg' %}" alt="" class="h-14 w-14 rounded flex inline-flex mr-3">
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="text-lg font-semibold flex items-end">Term</h1>
+                        <h1 class="text-xs text-gray-500">3,892 pieces</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="w-44 h-14 rounded m-1">
+                <div class="grid grid-cols-3">
+                    <div class="grid col-span-1">
+                        <img src="{% static 'images/beach.jpg' %}" alt="" class="h-14 w-14 rounded flex inline-flex mr-3">
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="text-lg font-semibold flex items-end">Term</h1>
+                        <h1 class="text-xs text-gray-500">3,892 pieces</h1>
+                    </div>
+                </div>
+            </div>
+            <div class="w-44 h-14 rounded m-1">
+                <div class="grid grid-cols-3">
+                    <div class="grid col-span-1">
+                        <img src="{% static 'images/beach.jpg' %}" alt="" class="h-14 w-14 rounded flex inline-flex mr-3">
+                    </div>
+                    <div class="grid col-span-2">
+                        <h1 class="text-lg font-semibold flex items-end">Term</h1>
+                        <h1 class="text-xs text-gray-500">3,892 pieces</h1>
+                    </div>
+                </div>
+            </div>
+            
+
+
+        </div>
+        <!-- Mobile explore END -->
     </div>
     <!-- How it works -->
     <section class="text-white bg-indigo-500 body-font">
