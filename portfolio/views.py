@@ -591,6 +591,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
         return reverse("portfolio:art-dashboard")
 
 
+# not in use
 class ArtDetailView(generic.DetailView):
     template_name = "art_detail.html"
     queryset = ArtItem.objects.all()
@@ -606,9 +607,10 @@ class ArtDetailView(generic.DetailView):
         return context
 
 
+# in use
 def art_detail(request, slug):
     art = ArtItem.objects.get(slug=slug)
-    art_images = ArtImage.objects.filter(art_item=slug)
+    art_images = ArtImage.objects.filter(art_item=slug).order_by('image')
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
     # for tag in ArtItem.tags.get_query_set():
     #     tagsList.append(tag.name)
@@ -656,26 +658,6 @@ class ArtCreateView(LoginRequiredMixin, generic.CreateView):
     #         ArtImage.save()
     #         print('New image Saved')
     #     return
-
-
-
-# def art_create(request):
-#     form = ArtForm()
-#     if request.method == "POST":
-#         print('Receiving post request')
-#         form = ArtForm(request.POST)
-#         if form.is_valid():
-#             title = form.cleaned_data['title']
-#             artist = Artist.objects.first()
-#             ArtItem.objects.create(
-#                 title=title,
-#                 artist=artist
-#             )
-#             return redirect("/")
-#     context = {
-#         "form": form
-#     }
-#     return render(request, "art_create.html", context)
 
 
 def art_create(request):
@@ -815,7 +797,7 @@ def artist_more(request, slug):
     artist = art.artist.user
     artList = [x for x in ArtItem.objects.filter(artist__user=artist).filter(art_status__name='For Sale')]
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
-    art_images = ArtImage.objects.filter(art_item=slug)
+    art_images = ArtImage.objects.filter(art_item=slug).order_by('image')
 
     context = {
         "art": art,

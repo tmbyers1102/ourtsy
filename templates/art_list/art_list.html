@@ -7,7 +7,7 @@
 <section class="text-gray-600 body-font">
     <br class="md:hidden">
     <br class="md:hidden">
-    <div class="container"></div>
+    <div class="container">
             <!-- Mobile search -->
             {% include "art_list/art_list_mobile_search.html" %}
         <!-- END Mobile search -->
@@ -37,15 +37,17 @@
 
             {% if page_obj %}
                 {% for item in page_obj %}
-                    <div class="content-div lg:w-1/4 md:w-1/2 md:px-2 w-full">
-                        <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-56 md:h-48 md:rounded overflow-hidden">
+                    <div class="content-div lg:w-1/4 md:w-1/2 md:px-3 w-full">
+                        <a href="{% url 'portfolio:art-detail' item.pk %}" class="block relative h-56 md:h-64 md:rounded-xl overflow-hidden">
                             <img alt="ecommerce" class="object-cover object-center w-full h-full block" src="{{ item.cover_image.url }}">
                             <div class="opacity-0 hover:opacity-40 duration-300 absolute inset-0 z-10 flex justify-center items-center text-6xl text-white bg-indigo-600 font-semibold"></div>
                         </a>
-                        <div class="mb-3 ml-2 md:ml-0">
-                            <h2 class="text-gray-900 title-font text-lg font-medium">{{ item.title }}</h2>
-                            <h3 class="text-gray-500 text-xs tracking-widest title-font">{{ item.artist }}</h3>
-                            <p class="">${{ item.price }}</p>
+                        <div class="mb-6 md:mt-2 mx-2 md:ml-0 flex justify-between">
+                            <div>
+                                <h2 class="text-gray-900 text-sm">{{ item.title }}</h2>
+                                <h3 class="text-gray-500 text-xs title-font">{{ item.artist.user.first_name }} {{ item.artist.user.last_name }}</h3>
+                            </div>
+                            <p class="text-xs font-light">${{ item.price }}</p>
                         </div>
                     </div>
                 {% endfor %}

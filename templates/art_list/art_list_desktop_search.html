@@ -77,18 +77,4 @@
             </a>
         </div>
     {% endfor %}
-    {% for community in art_communities %}
-        <div class="inline-flex">
-            <a href="http://127.0.0.1:8000/art/?art_communities={{ community.pk }}" class="self-auto bg-indigo-500 mb-1 p-2 text-white w-full text-center text-sm rounded hover:bg-indigo-600">
-                <span>{{ community }}</span>
-            </a>
-        </div>
-    {% endfor %}
-    {% for genre in art_genres %}
-        <div class="inline-flex">
-            <a href="http://127.0.0.1:8000/art/?art_communities={{ genre.pk }}" class="self-auto bg-indigo-500 mb-1 p-2 text-white w-full text-center text-sm rounded hover:bg-indigo-600">
-                <span>{{ genre }}</span>
-            </a>
-        </div>
-    {% endfor %}
 </div>

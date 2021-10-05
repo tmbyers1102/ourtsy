@@ -298,6 +298,15 @@ function navToggle() {
         nav.classList.toggle('hidden');
     }
 
+function navToggleHome() {
+        var btn = document.getElementById('menuHomeBtn');
+        var nav = document.getElementById('menuHome');
+
+        btn.classList.toggle('open');
+        nav.classList.toggle('flex');
+        nav.classList.toggle('hidden');
+    }
+
 
 // end of new menu --Home and submitted
 

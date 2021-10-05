@@ -1,17 +1,13 @@
 <div>
     <!-- mobile menu -->
-    <header id="search-top" class="z-20 md:hidden w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l px-2">
+    <header id="search-top" class="z-20 md:hidden w-full flex flex-col fixed sm:relative bg-white pin-t pin-r pin-l">
       <nav id="search-menu" class="flex flex-col sm:flex-row w-full justify-between items-right">
         <div class="w-auto flex flex-row sm:flex-none flex-no-wrap justify-between items-right">
           <form method="POST" class="w-full flex justify-left" action="{% url 'portfolio:search-art' %}">
             {% csrf_token %}
-                <input
-                    class="flex w-full rounded-l border border-indigo-100 py-1 pl-2 text-white focus-within focus:bg-indigo-500 focus:outline-none"
-                    type="text"
-                    placeholder="Search ..."
-                    name="searched"
-                    autocomplete="off"
-                >
+                <div class="w-full">
+                  {% include 'home/term_search.html' %}
+                </div>
                 <div class="inline-flex">
                   <button class="border border-indigo-100 bg-indigo-50 font-bold py-2 px-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">

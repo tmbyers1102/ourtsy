@@ -117,12 +117,12 @@
 
 </style>
 
-<section class="text-gray-600 body-font overflow-hidden">
+<section class="text-gray-600 body-font overflow-hidden h-auto">
     <br class="md:hidden">
     <br class="md:hidden">
     
-    <div class="container px-2 md:px-5 py-2 mx-auto">
-        <div class="lg:w-full mx-auto flex flex-wrap">
+    <div class="container px-2 md:px-5 py-2 mx-auto h-full">
+        <div class="lg:w-full mx-auto flex flex-wrap h-2/3 md:pt-12">
             <!-- carousel MOBILE -->
             {% include "art_detail/mobile_carousel.html" %}
             <!-- end of carousel MOBILE -->
@@ -142,26 +142,29 @@
                         </a>
                     {% endif %}
                 </div>
-                <div class="flex">
+                <div class="flex w-full">
                     <a href="{% url 'portfolio-detail' art.artist %}" class="relative hidden w-16 h-16 mr-3 mb-3 rounded-full md:block">
                         <img class="object-cover w-16 h-16 rounded-full" src="{{ art.artist.artist_headshot.url }}" alt="" loading="lazy">
                         <div class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true"></div>
                     </a>
-                    <p class="leading-relaxed text-sm w-full pl-4 mb-4">{{ art.art_story }}</p>
+                    <div class="w-10/12 pl-4 mb-4">
+                        <span class="font-semibold">From the artist:</span>
+                        <p class="leading-relaxed text-sm">{{ art.art_story }}</p>
+                    </div>
                 </div>
                 <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Artist</span>
                     <span class="ml-auto text-gray-900">{{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</span>
                 </div>
-                <div class="flex border-t border-gray-200 py-2">
-                    <span class="text-gray-500">Height:</span>
-                    <span class="ml-3 mr-6 text-gray-900">###</span>
-                    <span class="text-gray-500 border-l border-gray-200 pl-2">Width:</span>
-                    <span class="ml-3 mr-6 text-gray-900">###</span>
-                    <span class="text-gray-500 border-l border-gray-200 pl-2">Depth:</span>
-                    <span class="ml-3 mr-6 text-gray-900">###</span>
-                    <span class="text-gray-500 border-l border-gray-200 pl-2">Weight:</span>
-                    <span class="ml-3 mr-6 text-gray-900">###</span>
+                <div class="flex border-t border-gray-200 py-2 justify-between">
+                    <span class="text-gray-500">Height:<span class="ml-3 mr-6 text-gray-900">###</span></span>
+                    
+                    <span class="text-gray-500 border-l border-gray-200 pl-2">Width:<span class="ml-3 mr-6 text-gray-900">###</span></span>
+                    
+                    <span class="text-gray-500 border-l border-gray-200 pl-2">Depth:<span class="ml-3 mr-6 text-gray-900">###</span></span>
+                    
+                    <span class="text-gray-500 border-l border-gray-200 pl-2">Weight:<span class="ml-3 mr-6 text-gray-900">###</span></span>
+                    
                 </div>
                 <div class="flex border-t border-gray-200 py-2">
                     <span class="text-gray-500">Medium(s)</span>
@@ -255,7 +258,7 @@
             <!-- end of carousel DESKTOP -->
         </div>
         <div class="flex justify-end">
-            <div class="w-full md:w-1/2 flex flex-wrap justify-end">
+            <div class="w-full md:w-1/2 flex flex-wrap justify-end pb-3 md:pb-12">
                 {% for tag in tagsList %}
                     <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-50 p-1 md:p-3 ml-1 md:ml-2 mt-2 text-indigo-300 rounded font-medium">
                         <span>#{{ tag }}</span>
@@ -263,12 +266,10 @@
                 {% endfor %}
             </div>
         </div>
+
     </div>
-
-
-    <!-- artist BIO Begin -->
-    {% include "art_detail/artist_bio.html" %}
-    <!-- artist BIO END -->
-
 </section>
+<!-- artist BIO Begin -->
+{% include "art_detail/artist_bio.html" %}
+<!-- artist BIO END -->
 {% endblock content %}
