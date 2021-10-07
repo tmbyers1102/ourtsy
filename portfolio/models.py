@@ -67,7 +67,7 @@ class ArtItem(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = str(slugify(self.artist) + "_" + slugify(self.title))
         super(ArtItem, self).save(*args, **kwargs)
 
 

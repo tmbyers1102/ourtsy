@@ -6,13 +6,9 @@
     </span>
     <form method="POST" class="w-full flex justify-left" action="{% url 'portfolio:search-art' %}">
         {% csrf_token %}
-            <input
-                style="height: auto; width: full;"
-                class="flex w-full rounded outline-none py-2 pl-4 text-indigo-500 mr-2"
-                type="text"
-                placeholder="Try 'southwest' or 'green' or 'horse' or 'pop art' etc... "
-                name="searched"
-            >
+            <div class="w-full">
+                    {% include 'home/term_search.html' %}
+            </div>
             <button class="bg-indigo-500 hover:bg-indigo-600 rounded-l text-white px-4" type="submit">
                     <p class="font-semibold text-sm">Search</p>
             </button >

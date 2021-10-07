@@ -10,7 +10,7 @@
             {% include 'home/navbar_home.html' %}
         </div>
         <!-- <div class="absolute inset-0 w-full object-fill object-top bg-cover" style="background-image: url( '{% static 'images/home_hero_chisel.jpg' %}' ); background-blend-mode: multiply;"> -->
-        <div class="absolute inset-0 w-full object-fill object-top bg-cover" style="background-image: url( '{{ random_item.image.url }}' ); background-blend-mode: multiply;">
+        <div class="absolute inset-0 w-full object-fill object-top bg-cover" style="background-image: url( '{{ random_showcase.post_image.url }}' ); background-blend-mode: multiply;">
             <div class="w-full md:h-36 xl:h-48 2xl:h-64 bg-gradient-to-b from-black flex justify-center items-center">
                 <div class="w-full pt-12">
                     <div class="w-1/2 h-48 bg-black bg-opacity-0 rounded-lg flex mx-auto justify-center items-center text-green-50">
@@ -20,9 +20,9 @@
                     </div>
                 </div>
             </div>
-            <div class="absolute bottom-0 text-xs text-gray-600">
+            <!-- <div class="absolute bottom-0 text-xs text-gray-600">
                 {{ random_item.unsplash_credit|safe }}
-            </div>
+            </div> -->
             <div class="grid grid-cols-1 lg:grid-cols-2">
                 <div class="grid col-span-1 w-full">
                     <div class="bg-indigo-50 bg-opacity-60 w-3/4 h-96 rounded-lg flex mx-auto items-center grid grid-rows-3 bg-clip-padding" style="backdrop-filter: blur(5px);">
@@ -71,16 +71,27 @@
 
                 <div class="grid col-span-1 w-full">
                     <div class="flex items-end justify-items-end">
-                        <div class="w-1/2 h-18 bg-black hover:bg-indigo-500 bg-opacity-60 hover:bg-opacity-50 rounded-lg flex mx-auto">
-                            <div class="flex w-full items-center justify-between text-white">
-                                <div class="flex inline-flex items-center">
-                                    <h1 class="text-lg tracking-tight m-3 text-center pr-3 border-r">Joe Smith</h1>
-                                    <span class="text-sm">Philly Graffiti</span>
+                        <div class="w-2/3 h-auto bg-black bg-opacity-60 rounded-lg flex flex-wrap mx-auto">
+                            <div class="flex w-full items-center text-white">
+                                <div class="flex inline-flex items-center m-3 w-full">
+                                    <img class="h-14 w-14 rounded-full border-2 border-white" src="{{ random_showcase.focus_artist.artist_headshot.url }}" alt="" />
+                                    <h1 class="text-md tracking-tight text-center px-3 border-r">{{ random_showcase.focus_artist.user.first_name }} {{ random_showcase.focus_artist.user.last_name }}</h1>
+                                    <span class="text-sm pl-3">
+                                        {% for com in random_showcase.focus_artist.art_communities.all|slice:":1" %}{{ com }}, {% endfor %}
+                                        {% for genre in random_showcase.focus_artist.art_genres.all|slice:":1" %}{{ genre }}, {% endfor %}
+                                        {% for medium in random_showcase.focus_artist.art_mediums.all|slice:":1" %}{{ medium }}{% endfor %}
+                                    </span>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white m-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
-                                </svg>
                             </div>
+                            <div class="flex m-3">
+                                <p class="text-sm leading-none text-white">{{ random_showcase.focus_artist.bio|truncatechars:100 }}</p>
+                            </div>
+                            <div class="flex m-3 text-white w-full">
+                                <a class="flex-1 border border-white px-6 py-2 rounded-lg hover:bg-indigo-400 hover:bg-opacity-25 mr-2 text-center" href="{% url 'portfolio:post-detail' random_showcase.slug %}">Read Our Interview</a>
+                                <a class="flex-1 bg-indigo-500 px-6 py-2 rounded-lg hover:bg-indigo-600 text-center" href="{% url 'portfolio-detail' random_showcase.focus_artist.slug %}">View {{ random_showcase.focus_artist.user.first_name }}'s Work</a>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -387,7 +398,7 @@
                     <span class="block text-white xl:inline">Not your soul</span>
                 </h1>
                 <div class="flex relative  ">
-                    <a href="{% url 'signup' %}" class="border border-white rounded-lg px-6 py-2 my-3 hover:bg-indigo-400">
+                    <a href="{% url 'signup' %}" class="border border-white rounded-lg px-6 py-2 my-3 hover:bg-indigo-600">
                         Become an ourtsy Artist
                     </a>
                 </div>
@@ -477,7 +488,7 @@
             <div class="lg:max-w-lg w-full md:w-1/2 mb-10 md:mb-0">
                 <img class="object-cover object-center rounded-lg shadow-2xl" alt="hero" src="{% static 'images/artist_on_bucket.jpg' %}">
                 <div class="flex w-full relative items-justify-center">
-                    <a href="{% url 'signup' %}" class="border w-full text-center border-white rounded-lg px-6 py-2 my-3 hover:bg-indigo-400">
+                    <a href="{% url 'signup' %}" class="border w-full text-center border-white rounded-lg px-6 py-2 my-3 hover:bg-indigo-600">
                         Become an ourtsy Artist
                     </a>
                 </div>

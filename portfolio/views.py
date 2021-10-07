@@ -56,7 +56,8 @@ def home_page(request):
     art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
     myFilter = ArtFilter(request.GET, queryset=art)
     minMaxPrice = ArtItem.objects.aggregate(Min('price'), Max('price'))
-
+    showcase_post = Post.objects.filter(showcase='True').order_by('title')
+    random_showcase = random.choice(showcase_post)
     if request.GET:
         params = request
         return param_redirect(request, 'portfolio:art-list')
@@ -67,7 +68,7 @@ def home_page(request):
         "myFilter": myFilter,
         "random_item": random_item,
         "minMaxPrice": minMaxPrice,
-        
+        "random_showcase": random_showcase,
     }
     return render(request, "home/home_page.html", context)
 
@@ -210,132 +211,124 @@ def artist_list(request):
 
 
 def search_art(request):
-    # print('request.POST:')
-    # print(request.POST)
-    # print('request.POST.getlist:')
-    # print(request.POST.getlist('searched[]'))
-    # # How to we iterate through the items in searched[]?
-    # post_list = []
-    # for value in request.POST.getlist('searched[]'):
-    #     post_list.extend(value)
-    # print('post_list')
-    # print(post_list)
-    fake_list = ['cat', 'horse', 'Filipino', 'green']
     search_list = request.POST.getlist('searched[]')
+    print(str('search_list: ' + str(search_list)))
+    print(len(search_list))
     for term in search_list:
         print(str('looped_term: ' + str(term)))
+
     if request.method == "POST":
-        results = []
-        artists_results= []
-        for term in search_list:
-            # searched = request.POST['searched']
-            searched = term
-            print(str('live_term: ' + str(term)))
-            # results = []
-            # artists_results= []
-            # queries based on item's tags
-            art_items = ArtItem.objects.filter(tags__name__icontains=searched)
-            print('ART_ITEMS:')
-            print(art_items)
-            for x in art_items:
-                if x in results:
-                    pass
-                else:
-                    results.extend(art_items)
-            # Queries based on title
-            titles = ArtItem.objects.filter(title__icontains=searched)
-            print('TITLES:')
-            print(titles)
-            for x in titles:
-                if x in results:
-                    pass
-                else:
-                    results.extend(titles)
-            # Queries based on art_genres
-            art_genres = ArtItem.objects.filter(art_genres__name__contains=searched)
-            print('art_genres:')
-            print(art_genres)
-            for x in art_genres:
-                if x in results:
-                    pass
-                else:
-                    results.extend(art_genres)
-            # Queries based on art_communities
-            art_communities = ArtItem.objects.filter(art_communities__name__contains=searched)
-            print('art_communities:')
-            print(art_communities)
-            for x in art_communities:
-                if x in results:
-                    pass
-                else:
-                    results.extend(art_communities)
-            # Queries based on art_mediums
-            art_mediums = ArtItem.objects.filter(art_mediums__name__contains=searched)
-            print('art_mediums:')
-            print(art_mediums)
-            for x in art_mediums:
-                if x in results:
-                    pass
-                else:
-                    results.extend(art_mediums)
-            # queries based on art_story of ArtItems
-            art_stories = ArtItem.objects.filter(art_story__contains=searched)
-            print('art_stories:')
-            print(art_stories)
-            for x in art_stories:
-                if x in results:
-                    pass
-                else:
-                    results.extend(art_stories)
-            # queries based on item's related artist
-            artists_items = \
-                ArtItem.objects.filter(artist__user__username__icontains=searched) or \
-                ArtItem.objects.filter(artist__slug__icontains=searched) or \
-                ArtItem.objects.filter(artist__user__first_name__icontains=searched) or \
-                ArtItem.objects.filter(artist__user__last_name__icontains=searched)
-            print('ARTISTS_ITEMS:')
-            print(artists_items)
-            for x in artists_items:
-                if x in results:
-                    pass
-                else:
-                    results.extend(artists_items)
-            if not searched:
-                results = ArtItem.objects.all()
-            artist_list = \
-                Artist.objects.filter(user__username__icontains=searched) or \
-                Artist.objects.filter(user__first_name__icontains=searched) or \
-                Artist.objects.filter(user__last_name__icontains=searched)
-                # Artist.objects.filter(user__slug__icontains=searched)
-            print('ARTIST_LIST:')
-            print(artist_list)
-            artists_results.extend(artist_list)
-            artist_genre_list = \
-                Artist.objects.filter(art_genres__name__icontains=searched)
-            print('ARTIST_GENRE_LIST:')
-            print(artist_genre_list)
-            for y in artist_genre_list:
-                if y in artists_results:
-                    pass
-                else:
-                    artists_results.extend(artist_genre_list)
-            # query the art_items that will be showm and show all their respective artists
-            artists_from_items_list = []
-            for x in results:
-                get_the_artist = Artist.objects.filter(slug=x.artist)
-                if get_the_artist[0] in artists_results:
-                    pass
-                else:
-                    artists_results.extend(get_the_artist)
-        context = {
-            'search_list': search_list,
-            'searched': searched,
-            'art_items': art_items,
-            'results': results,
-            'artists_results': artists_results,
-            'artists_from_items_list': artists_from_items_list,
-        }
-        return render(request, 'search_art.html', context)
+            results = []
+            artists_results= []
+            for term in search_list:
+                # searched = request.POST['searched']
+                searched = term
+                print(str('live_term: ' + str(term)))
+                # results = []
+                # artists_results= []
+                # queries based on item's tags
+                art_items = ArtItem.objects.filter(tags__name__icontains=searched)
+                print('ART_ITEMS:')
+                print(art_items)
+                for x in art_items:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(art_items)
+                # Queries based on title
+                titles = ArtItem.objects.filter(title__icontains=searched)
+                print('TITLES:')
+                print(titles)
+                for x in titles:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(titles)
+                # Queries based on art_genres
+                art_genres = ArtItem.objects.filter(art_genres__name__contains=searched)
+                print('art_genres:')
+                print(art_genres)
+                for x in art_genres:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(art_genres)
+                # Queries based on art_communities
+                art_communities = ArtItem.objects.filter(art_communities__name__contains=searched)
+                print('art_communities:')
+                print(art_communities)
+                for x in art_communities:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(art_communities)
+                # Queries based on art_mediums
+                art_mediums = ArtItem.objects.filter(art_mediums__name__contains=searched)
+                print('art_mediums:')
+                print(art_mediums)
+                for x in art_mediums:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(art_mediums)
+                # queries based on art_story of ArtItems
+                art_stories = ArtItem.objects.filter(art_story__contains=searched)
+                print('art_stories:')
+                print(art_stories)
+                for x in art_stories:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(art_stories)
+                # queries based on item's related artist
+                artists_items = \
+                    ArtItem.objects.filter(artist__user__username__icontains=searched) or \
+                    ArtItem.objects.filter(artist__slug__icontains=searched) or \
+                    ArtItem.objects.filter(artist__user__first_name__icontains=searched) or \
+                    ArtItem.objects.filter(artist__user__last_name__icontains=searched)
+                print('ARTISTS_ITEMS:')
+                print(artists_items)
+                for x in artists_items:
+                    if x in results:
+                        pass
+                    else:
+                        results.extend(artists_items)
+                if not searched:
+                    results = ArtItem.objects.all()
+                artist_list = \
+                    Artist.objects.filter(user__username__icontains=searched) or \
+                    Artist.objects.filter(user__first_name__icontains=searched) or \
+                    Artist.objects.filter(user__last_name__icontains=searched)
+                    # Artist.objects.filter(user__slug__icontains=searched)
+                print('ARTIST_LIST:')
+                print(artist_list)
+                artists_results.extend(artist_list)
+                artist_genre_list = \
+                    Artist.objects.filter(art_genres__name__icontains=searched)
+                print('ARTIST_GENRE_LIST:')
+                print(artist_genre_list)
+                for y in artist_genre_list:
+                    if y in artists_results:
+                        pass
+                    else:
+                        artists_results.extend(artist_genre_list)
+                # query the art_items that will be showm and show all their respective artists
+                artists_from_items_list = []
+                for x in results:
+                    get_the_artist = Artist.objects.filter(slug=x.artist)
+                    if get_the_artist[0] in artists_results:
+                        pass
+                    else:
+                        artists_results.extend(get_the_artist)
+            context = {
+                'search_list': search_list,
+                'searched': searched,
+                'art_items': art_items,
+                'results': results,
+                'artists_results': artists_results,
+                'artists_from_items_list': artists_from_items_list,
+            }
+            return render(request, 'search_art.html', context)
     else:
         return reverse(request, 'portfolio:art-list')
 
@@ -415,13 +408,13 @@ class ArtDashboardView(LoginRequiredMixin, generic.ListView):
         return context
 
 
-# this one is in use
+# this one is NOT in use
 class ArtListView(generic.ListView):
     template_name = "art_list/art_list.html"
     model = ArtItem
     context_object_name = "art_items"
     paginate_by = 6
-    ordering = ['-title']
+    ordering = ['date_submitted']
 
     # def get_queryset(self):
     #     return ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
@@ -450,8 +443,9 @@ class ArtListView(generic.ListView):
         return context
 
 
+# This on IS in use
 def art_list(request):
-    art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved')
+    art = ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved').order_by('-date_submitted')
     # art_images = ArtImage.objects.filter(art_item=instance)
     artists = Artist.objects.all()
     portfolios = Portfolio.objects.all()
@@ -610,7 +604,7 @@ class ArtDetailView(generic.DetailView):
 # in use
 def art_detail(request, slug):
     art = ArtItem.objects.get(slug=slug)
-    art_images = ArtImage.objects.filter(art_item=slug).order_by('image')
+    art_images = ArtImage.objects.filter(art_item=slug).order_by('-image')
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
     # for tag in ArtItem.tags.get_query_set():
     #     tagsList.append(tag.name)
