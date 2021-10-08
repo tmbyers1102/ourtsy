@@ -115,7 +115,7 @@
     <!-- Hero Mobile end -->
     <!-- Three big squares showcase -->
     <section class="max-w-7xl mx-auto mt-24 md:my-6 flex flex-wrap justify-between">
-        <a href="#" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
+        <a href="{% url 'portfolio:art-list' %}?art_communities=korean" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
             <div class="absolute w-full h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
                 <div class="m-6 w-full text-white">
                     <span class="text-sm">Art Community:</span>
@@ -129,7 +129,7 @@
             </div>
             <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/suzy_kim.jpg' %}">
         </a>
-        <a href="#" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
+        <a href="{% url 'portfolio:art-list' %}?art_genres=sports-art" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
             <div class="absolute w-full h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
                 <div class="m-6 w-full text-white">
                     <span class="text-sm">Art Genre:</span>

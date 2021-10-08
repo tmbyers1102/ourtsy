@@ -67,7 +67,7 @@ class ArtItem(models.Model):
         return self.title
     
     def save(self, *args, **kwargs):
-        self.slug = str(slugify(self.artist) + "_" + slugify(self.title))
+        self.slug = str(slugify(self.artist) + "-" + slugify(self.title))
         super(ArtItem, self).save(*args, **kwargs)
 
 
@@ -77,7 +77,7 @@ def rename_image_file(instance, filename):
     # set path
     path = "art_images/"
     # get filename and strip off the .jpg part
-    extension = str(instance.art_item)+str("_")
+    extension = str(instance.art_item.artist.user.first_name)+str("-")+str(instance.art_item.artist.user.last_name)+str("-")+str(instance.art_item)+str("-")
     # make a random int and make it a string
     randInt = get_random_string(8,'0123456789')
     print(str('new random int: ') + randInt )

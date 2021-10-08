@@ -78,7 +78,7 @@
                         </div>
                         <p class="text-gray-600 text-sm mt-3">{{ art.artist.bio }}</p>
                         <div class="flex m-3 w-10/12">
-                            <a class="flex-1 text-indigo-600 border border-indigo-600 px-6 py-2 rounded-lg hover:bg-indigo-400 hover:bg-opacity-25 mr-2 text-center" href="#">Read Our Interview</a>
+                            <a class="flex-1 text-indigo-600 border border-indigo-600 px-6 py-2 rounded-lg hover:bg-indigo-400 hover:bg-opacity-25 mr-2 text-center" href="{% url 'portfolio:post-detail'  artists_featured_post.first.slug %}">Read Our Interview</a>
                             <a class="flex-1 text-white bg-indigo-500 px-6 py-2 rounded-lg hover:bg-indigo-600 text-center" href="{% url 'portfolio-detail' art.artist.slug %}">View {{ art.artist.user.first_name }}'s Work</a>
                         </div>
                   </div>
@@ -86,7 +86,7 @@
             </div>
         <div class="md:hidden">
             <p class="text-gray-600 text-sm m-3">{{ art.artist.bio }}</p>
-            <a class="flex justify-between w-full items-baseline mt-3 text-white bg-indigo-500 hover:bg-indigo-600 py-3 px-6" href="#####">
+            <a class="flex justify-between w-full items-baseline mt-3 text-white bg-indigo-500 hover:bg-indigo-600 py-3 px-6" href="{% url 'portfolio:post-detail'  artists_featured_post.first.slug %}">
                 <span>Read our profile of {{ art.artist.user.first_name }} {{ art.artist.user.last_name }}</span>
                 <span class="text-xs ml-1">&#x279c;</span>
             </a>

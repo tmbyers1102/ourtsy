@@ -45,17 +45,17 @@
         <p>{{ artist.bio }}</p>
         <div>
             {% for tag in artist.art_mediums.all %}
-                <a href="{% url 'portfolio:art-search' tag.name %}" class="bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                <a href="{% url 'portfolio:art-list' %}?art_mediums={{tag.slug}}" class="bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
                     <span>{{ tag }}</span>
                 </a>
             {% endfor %}
             {% for tag in art_communities.all %}
-                <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                <a href="{% url 'portfolio:art-list' %}?art_communities={{tag.slug}}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
                     <span>{{ tag }}</span>
                 </a>
             {% endfor %}
             {% for tag in artist.art_genres.all %}
-                <a href="{% url 'portfolio:art-search' tag.name %}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
+                <a href="{% url 'portfolio:art-list' %}?art_genres={{tag.slug}}" class="whitespace-nowrap bg-indigo-600 bg-opacity-40 px-2 py-1 text-white rounded font-small mr-1 leading-loose">
                     <span>{{ tag }}</span>
                 </a>
             {% endfor %}

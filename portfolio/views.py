@@ -217,7 +217,7 @@ def search_art(request):
     for term in search_list:
         print(str('looped_term: ' + str(term)))
 
-    if request.method == "POST":
+    if request.method == "POST" and len(search_list) != 0:
             results = []
             artists_results= []
             for term in search_list:
@@ -327,10 +327,15 @@ def search_art(request):
                 'results': results,
                 'artists_results': artists_results,
                 'artists_from_items_list': artists_from_items_list,
+                'all_artists': Artist.objects.filter(user__is_artist='True').order_by('user')
             }
             return render(request, 'search_art.html', context)
     else:
-        return reverse(request, 'portfolio:art-list')
+        context = {
+            'results': ArtItem.objects.filter(art_status__name='For Sale').filter(approval_status__name='Approved').order_by('-date_submitted'),
+            'all_artists': Artist.objects.filter(user__is_artist='True').order_by('user')
+        }
+        return render(request, 'search_art.html', context)
 
 
 class SignupView(generic.CreateView):
@@ -606,13 +611,14 @@ def art_detail(request, slug):
     art = ArtItem.objects.get(slug=slug)
     art_images = ArtImage.objects.filter(art_item=slug).order_by('-image')
     tagsList = [x.tag for x in GenericStringTaggedItem.objects.filter(object_id=slug)]
+    artists_featured_post = Post.objects.filter(focus_artist=art.artist).order_by('published')
     # for tag in ArtItem.tags.get_query_set():
     #     tagsList.append(tag.name)
     context = {
         "art": art,
         "tagsList": tagsList,
         "art_images": art_images,
-
+        "artists_featured_post": artists_featured_post,
     }
     return render(request, "art_detail/art_detail.html", context)
 

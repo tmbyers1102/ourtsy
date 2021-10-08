@@ -17,9 +17,6 @@
             <input class="tags-input-text" placeholder="Add term and press enter..."
                 @keydown.enter.prevent="if (newTag.trim() !== '') tags.push(newTag.trim()); newTag = ''"
                 x-model="newTag"
-                required
-                oninvalid="this.setCustomValidity('You have to type in at least one term, press ENTER on your keyboard, and then click the SEARCH button')"
-                oninput="this.setCustomValidity('')"
             >
         </div>
     </div>
