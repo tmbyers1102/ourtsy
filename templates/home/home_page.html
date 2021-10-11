@@ -1,15 +1,11 @@
-{% extends 'base_3.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block content %}
 
 
 <main class="h-screen">
     <!-- Hero DESKTOP -->
-    <section class="hidden md:block relative sm:h-full md:h-5/6 lg:3/4">
-        <div class="max-w-7xl mx-auto">
-            {% include 'home/navbar_home.html' %}
-        </div>
-        <!-- <div class="absolute inset-0 w-full object-fill object-top bg-cover" style="background-image: url( '{% static 'images/home_hero_chisel.jpg' %}' ); background-blend-mode: multiply;"> -->
+    <section class="hidden relative sm:h-full md:h-5/6 lg:3/4">
         <div class="absolute inset-0 w-full object-fill object-top bg-cover" style="background-image: url( '{{ random_showcase.post_image.url }}' ); background-blend-mode: multiply;">
             <div class="w-full md:h-36 xl:h-48 2xl:h-64 bg-gradient-to-b from-black flex justify-center items-center">
                 <div class="w-full pt-12">
@@ -20,9 +16,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="absolute bottom-0 text-xs text-gray-600">
-                {{ random_item.unsplash_credit|safe }}
-            </div> -->
             <div class="grid grid-cols-1 lg:grid-cols-2">
                 <div class="grid col-span-1 w-full">
                     <div class="bg-indigo-50 bg-opacity-60 w-3/4 h-96 rounded-lg flex mx-auto items-center grid grid-rows-3 bg-clip-padding" style="backdrop-filter: blur(5px);">
@@ -101,8 +94,11 @@
     </section>
     <!-- Hero DESKTOP end -->
     <!-- Hero Mobile -->
-    <section class="h-72 w-full bg-red-400 md:hidden">
-        {% include "menus/home_mobile_menu.html" %}
+    <section class="h-72 w-full md:hidden">
+        <br class="md:hidden">
+        <br class="md:hidden">
+        <!-- Mobile search -->
+        {% include "art_list/art_list_mobile_search.html" %}
         <div class="absolute inset-0 w-full h-72 object-cover object-none object-top bg-cover mt-28 bg-black bg-opacity-25 flex items-center" style="background-image: url( '{{ random_item.image.url }}' ); background-blend-mode: multiply;">
             <div class="m-3">
                 <span class="relative text-5xl font-bold text-white">
@@ -167,7 +163,6 @@
             <img class="object-cover object-center rounded-lg shadow-2xl" alt="hero" src="{% static 'images/person_hanging_art.jpg' %}">
           </div>
           <div class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center">
-            <!-- <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">Knausgaard typewriter readymade marfa</h1> -->
             <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl mb-3">
               <span class="block xl:inline">It's all about your walls</span>
             </h1>

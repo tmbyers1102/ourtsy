@@ -38,7 +38,7 @@
   <div class="relative pt-3 px-3 z-20">
     <!-- full screen menu -->
     <header id="top" class="hidden md:block w-full flex flex-col fixed sm:relative pin-t pin-r pin-l">
-      <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center bg-white shadow sm:shadow-none">
+      <nav id="site-menu" class="flex flex-col sm:flex-row w-full justify-between items-center shadow sm:shadow-none">
         <div class="w-full sm:w-auto self-start sm:self-center flex flex-row sm:flex-none flex-no-wrap justify-between items-center">
           <a href="{% url 'portfolio:landing-page' %}" class="flex title-font font-medium items-center text-indigo-500">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10 text-white p-2 bg-indigo-500 rounded-full" viewBox="0 0 24 24">
@@ -58,7 +58,7 @@
           <a class="text-indigo-500 text-lg w-full no-underline sm:w-auto py-2 ml-8 pt-2 hover:text-indigo-300" href="{% url 'portfolio:artist-list' %}">Artists</a>
           {% if request.user.is_authenticated %}
             {% if request.user.is_artist %}                        
-                <a class="inline-flex text-white w-full items-center no-underline bg-indigo-500 rounded sm:w-auto px-3 py-2 ml-8 pt-2 hover:bg-indigo-700" href="{% url 'portfolio:art-dashboard' %}">
+                <a class="inline-flex text-white w-full items-center no-underline bg-indigo-700 rounded sm:w-auto px-3 py-2 ml-8 pt-2 hover:bg-indigo-800" href="{% url 'portfolio:art-dashboard' %}">
                   <svg xmlns="inline http://www.w3.org/2000/svg" class="h-6 w-6 text-white mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
