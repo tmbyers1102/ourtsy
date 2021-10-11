@@ -1,11 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base_3.html' %}
 {% load static %}
 {% block content %}
 
 
 <main class="h-screen">
+    <!-- mobile navbar (for some reason has to be up here or it wont work) -->
+    <div class="md:hidden">
+        {% include 'navbar.html' %}
+    </div>
+    <!-- mobile navbar END -->
     <!-- Hero DESKTOP -->
-    <section class="hidden relative sm:h-full md:h-5/6 lg:3/4">
+    <section class="hidden md:block relative sm:h-full md:h-5/6 lg:3/4">
+        {% include 'navbar.html' %}
         <div class="absolute inset-0 w-full object-fill object-top bg-cover" style="background-image: url( '{{ random_showcase.post_image.url }}' ); background-blend-mode: multiply;">
             <div class="w-full md:h-36 xl:h-48 2xl:h-64 bg-gradient-to-b from-black flex justify-center items-center">
                 <div class="w-full pt-12">
@@ -99,7 +105,7 @@
         <br class="md:hidden">
         <!-- Mobile search -->
         {% include "art_list/art_list_mobile_search.html" %}
-        <div class="absolute inset-0 w-full h-72 object-cover object-none object-top bg-cover mt-28 bg-black bg-opacity-25 flex items-center" style="background-image: url( '{{ random_item.image.url }}' ); background-blend-mode: multiply;">
+        <div class="absolute inset-0 w-full h-72 object-cover object-none object-top bg-cover mt-28 bg-black bg-opacity-25 flex items-center" style="background-image: url( '{{ random_showcase.post_image.url }}' ); background-blend-mode: multiply;">
             <div class="m-3">
                 <span class="relative text-5xl font-bold text-white">
                     Buy custom art from <span class="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-indigo-600">real artists</span>.
@@ -109,53 +115,53 @@
 
     </section>
     <!-- Hero Mobile end -->
-    <!-- Three big squares showcase -->
-    <section class="max-w-7xl mx-auto mt-24 md:my-6 flex flex-wrap justify-between">
-        <a href="{% url 'portfolio:art-list' %}?art_communities=korean" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
-            <div class="absolute w-full h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
-                <div class="m-6 w-full text-white">
-                    <span class="text-sm">Art Community:</span>
-                    <div class="w-full flex justify-between">
-                        <h1 class="text-2xl">Korean Artists of Los Angeles</h1>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
+<!-- Three big squares showcase -->
+<section class="max-w-7xl mx-auto mt-24 md:my-6 flex md:flex-wrap justify-between">
+    <a href="{% url 'portfolio:art-list' %}?art_communities=korean" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
+        <div class="absolute w-full h-3/4 md:h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
+            <div class="m-6 w-full text-white">
+                <span class="text-sm">Art Community:</span>
+                <div class="w-full flex justify-between">
+                    <h1 class="text-2xl">Korean Artists of Los Angeles</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="hidden md:flex h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
+                    </svg>
                 </div>
             </div>
-            <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/suzy_kim.jpg' %}">
-        </a>
-        <a href="{% url 'portfolio:art-list' %}?art_genres=sports-art" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
-            <div class="absolute w-full h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
-                <div class="m-6 w-full text-white">
-                    <span class="text-sm">Art Genre:</span>
-                    <div class="w-full flex justify-between">
-                        <h1 class="text-2xl">Sports Sketches</h1>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
+        </div>
+        <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/suzy_kim.jpg' %}">
+    </a>
+    <a href="{% url 'portfolio:art-list' %}?art_genres=sports-art" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
+        <div class="absolute w-full h-3/4 md:h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
+            <div class="m-6 w-full text-white">
+                <span class="text-sm">Art Genre:</span>
+                <div class="w-full flex justify-between">
+                    <h1 class="text-2xl">Sports Sketches</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="hidden md:flex h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
+                    </svg>
                 </div>
             </div>
-            <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/king_james.jpg' %}">
-        </a>
-        <a href="#" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
-            <div class="absolute w-full h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
-                <div class="m-6 w-full text-white">
-                    <span class="text-sm">Art Community:</span>
-                    <div class="w-full flex justify-between">
-                        <h1 class="text-2xl">Philly Graffiti</h1>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </div>
+        </div>
+        <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/king_james.jpg' %}">
+    </a>
+    <a href="#" class="relative h-96 w-96 md:h-64 md:w-64 lg:h-80 lg:w-80 xl:h-96 xl:w-96 rounded-2xl overflow-hidden flex flex-wrap items-end justify-left">
+        <div class="absolute w-full h-3/4 md:h-1/2 bg-gradient-to-t from-black hover:from-indigo-500 flex flex-wrap items-end justify-left rounded-b-xl">
+            <div class="m-6 w-full text-white">
+                <span class="text-sm">Art Community:</span>
+                <div class="w-full flex justify-between">
+                    <h1 class="text-2xl">Philly Graffiti</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="hidden md:flex h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
+                    </svg>
                 </div>
             </div>
-            <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/graffiti_philly.jpg' %}">
-        </a>
+        </div>
+        <img alt="ecommerce" class="object-cover object-center w-full h-full" src="{% static 'images/graffiti_philly.jpg' %}">
+    </a>
 
-    </section>
-    <!-- Three big squares showcase END -->
+</section>
+<!-- Three big squares showcase END -->
     <!-- How it works -->
     <section class="text-white bg-indigo-500 body-font">
         <div class="mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -493,6 +499,9 @@
 
     </section>
   <!-- end of STEPS -->
+  <!-- footer -->
+    {% include 'footer.html' %}
+  <!-- footer END -->
 </main>
 
 {% endblock content %}
